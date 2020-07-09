@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].[Teatros]
+(
+	[Id] INT NOT NULL PRIMARY KEY
+)

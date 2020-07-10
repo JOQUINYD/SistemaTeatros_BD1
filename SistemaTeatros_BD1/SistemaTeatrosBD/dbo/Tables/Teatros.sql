@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Teatros]
 (
-	[Id] INT NOT NULL IDENTITY(1, 1), 
+	[Id] INT NOT NULL IDENTITY(0, 1), 
     [Nombre] VARCHAR(50) NOT NULL, 
     [Boleteria] INT NOT NULL, 
     [Email] NVARCHAR(320) NOT NULL, 

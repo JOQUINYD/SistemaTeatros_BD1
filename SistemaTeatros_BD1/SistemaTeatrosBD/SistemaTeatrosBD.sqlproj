@@ -65,5 +65,15 @@
     <Build Include="dbo\Tables\Presentaciones.sql" />
     <Build Include="dbo\Tables\Bloques.sql" />
     <Build Include="dbo\Tables\Filas.sql" />
+    <Build Include="dbo\Tables\Accesos.sql" />
+    <Build Include="dbo\Tables\Personas.sql" />
+    <Build Include="dbo\Tables\Usuarios.sql" />
+    <Build Include="dbo\Tables\Precios.sql" />
+    <Build Include="dbo\Tables\BoletoCompras.sql" />
+    <Build Include="dbo\Tables\BoletoComprasFilas.sql" />
+    <Build Include="dbo\Tables\ProduccionesTipos.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SistemaTeatrosBD.refactorlog" />
   </ItemGroup>
 </Project>

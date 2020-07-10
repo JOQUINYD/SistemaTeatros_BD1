@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Presentaciones]
 (
-	[Id] INT NOT NULL IDENTITY, 
+	[Id] INT NOT NULL IDENTITY (0, 1), 
     [Fecha] DATE NOT NULL, 
     [Hora] TIME NOT NULL, 
     [IdProduccion] INT NOT NULL, 

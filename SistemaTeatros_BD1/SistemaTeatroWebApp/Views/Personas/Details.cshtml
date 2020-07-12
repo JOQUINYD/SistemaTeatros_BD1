@@ -1,0 +1,82 @@
+﻿@model SistemaTeatroWebApp.Models.Personas
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Personas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaNac)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaNac)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion_)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direccion_)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TelefonoCelular)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TelefonoCelular)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TelefonoCasa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TelefonoCasa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TelefonoOtro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TelefonoOtro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Teatros.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Teatros.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Cedula }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

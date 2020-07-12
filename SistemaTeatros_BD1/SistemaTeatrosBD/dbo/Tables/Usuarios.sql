@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [dbo].[Usuarios]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY (0, 1), 
-    [Usuario] VARCHAR(150) NOT NULL, 
-    [Password] VARCHAR(100) NOT NULL, 
+    [Usuario] VARCHAR(50) NOT NULL, 
+    [Password] VARCHAR(150) NOT NULL, 
  
-    [IdAcceso] INT NULL, 
-    CONSTRAINT [AK_Usuario] UNIQUE (Usuario), 
-    CONSTRAINT [FK_Usuarios_ToAccesos] FOREIGN KEY ([IdAcceso]) REFERENCES [Accesos]([id])
-)
+    [IdAcceso] INT NOT NULL, 
+    [CedulaPersona] BIGINT NOT NULL, 
+    CONSTRAINT [FK_Usuarios_ToAccesos] FOREIGN KEY ([IdAcceso]) REFERENCES [Accesos]([Id]), 
+    CONSTRAINT [PK_Usuarios] PRIMARY KEY ([Usuario]), 
+    CONSTRAINT [FK_Usuarios_Personas] FOREIGN KEY ([CedulaPersona]) REFERENCES [Personas]([Cedula]), )

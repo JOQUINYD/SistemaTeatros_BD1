@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SistemaTeatroWebApp.Models.Personas>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaNac)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion_)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TelefonoCelular)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TelefonoCasa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TelefonoOtro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Teatros.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaNac)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Direccion_)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelefonoCelular)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelefonoCasa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelefonoOtro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Teatros.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Cedula }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Cedula }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Cedula })
+        </td>
+    </tr>
+}
+
+</table>

@@ -6,5 +6,5 @@
     [NumeroAsiento] INT NULL, 
     [IdBloqueFila] INT NULL, 
     CONSTRAINT [FK_BoletoComprasFilas_ToBoletoCompras] FOREIGN KEY ([LetraFila],[IdBloqueFila]) REFERENCES [Filas]([Letra],[IdBloque]), 
-    CONSTRAINT [FK_BoletoComprasFilas_ToFilas] FOREIGN KEY ([IdBoletoCompra]) REFERENCES [BoletoCompras]([id])
+    CONSTRAINT [FK_BoletoComprasFilas_ToFilas] FOREIGN KEY ([IdBoletoCompra]) REFERENCES [BoletoCompras]([Id])
 )

@@ -4,6 +4,6 @@
     [NombreCliente] VARCHAR(50) NULL, 
     [IdProduccion] INT NULL, 
     [IdPresentacion] INT NULL, 
-    CONSTRAINT [FK_BoletoCompras_ToProducciones] FOREIGN KEY ([IdProduccion]) REFERENCES [Producciones]([id]), 
-    CONSTRAINT [FK_BoletoCompras_ToPresentaciones] FOREIGN KEY ([IdPresentacion]) REFERENCES [Presentaciones]([id])
+    CONSTRAINT [FK_BoletoCompras_ToProducciones] FOREIGN KEY ([IdProduccion]) REFERENCES [Producciones]([Id]), 
+    CONSTRAINT [FK_BoletoCompras_ToPresentaciones] FOREIGN KEY ([IdPresentacion]) REFERENCES [Presentaciones]([Id])
 )

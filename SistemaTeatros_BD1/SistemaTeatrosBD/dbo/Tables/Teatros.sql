@@ -6,5 +6,7 @@
     [Email] NVARCHAR(320) NOT NULL, 
     [SitioWeb] NVARCHAR(500) NOT NULL, 
     [Telefono] INT NOT NULL, 
-    CONSTRAINT [PK_Teatros] PRIMARY KEY ([Id])
+    [CedulaPersona] BIGINT NOT NULL, 
+    CONSTRAINT [PK_Teatros] PRIMARY KEY ([Id]), 
+    CONSTRAINT [FK_Teatros_Personas] FOREIGN KEY ([CedulaPersona]) REFERENCES [Personas]([Cedula])
 )

@@ -72,6 +72,7 @@
     <Build Include="dbo\Tables\BoletoCompras.sql" />
     <Build Include="dbo\Tables\BoletoComprasFilas.sql" />
     <Build Include="dbo\Tables\ProduccionesTipos.sql" />
+    <Build Include="dbo\Tables\ProduccionEstados.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SistemaTeatrosBD.refactorlog" />

@@ -11,7 +11,6 @@ namespace SistemaTeatroWebApp.Models.AppModels
         //Atributos Persona
 
         [Display(Name = "Cédula")]
-        [Range(10000000, 99999999, ErrorMessage = "Número inválido")]
         [Required(ErrorMessage = "Tiene que ingresar su cédula")]
         public long Cedula { get; set; }
 

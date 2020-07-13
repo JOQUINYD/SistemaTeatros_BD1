@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Security.Policy;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -62,7 +65,7 @@ namespace SistemaTeatroWebApp.Controllers
                 Usuarios usuario = new Usuarios
                 {
                     Usuario = usuarioCompleto.Usuario,
-                    Password = usuarioCompleto.Password, // aqui se debe hacer el hash y salt
+                    Password = HashController.ComputeHash(usuarioCompleto.Password, null), // aqui se debe hacer el hash y salt
                     IdAcceso = usuarioCompleto.IdAcceso,
                     CedulaPersona = usuarioCompleto.Cedula
                 };

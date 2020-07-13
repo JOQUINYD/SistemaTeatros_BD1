@@ -22,7 +22,7 @@ namespace SistemaTeatroWebApp.Controllers
         {
             try
             {
-                var oUser = db.spGetMatchingUser(User, Pass).FirstOrDefault();
+                var oUser = db.Usuarios.Where(u => u.Usuario == User).FirstOrDefault();
 
                 //var oUser = (from d in db.Usuarios
                 //             where d.Usuario == User.Trim()
@@ -31,24 +31,36 @@ namespace SistemaTeatroWebApp.Controllers
 
                 if (oUser == null)
                 {
-                    ViewBag.Error = "Usuario o contraseña invalida";
+                    ViewBag.Error = "Usuario invalido";
                     return View();
                 }
-
-                Usuarios uUser = new Usuarios
+                else
                 {
-                    Usuario = oUser.Usuario,
-                    Password = oUser.Password,
-                    IdAcceso = oUser.IdAcceso,
-                    CedulaPersona = oUser.CedulaPersona
-                };
+                    Usuarios uUser = new Usuarios
+                    {
+                        Usuario = oUser.Usuario,
+                        Password = oUser.Password,
+                        IdAcceso = oUser.IdAcceso,
+                        CedulaPersona = oUser.CedulaPersona
+                    };
 
-                Session["User"] = uUser;
-                if(uUser.IdAcceso == 0)
-                {
-                    return RedirectToAction("Index", "SystemAdmin");
+                    if (HashController.ConfirmPassword(Pass, uUser.Password))
+                    {
+                        Session["User"] = uUser;
+                        if (uUser.IdAcceso == 0)
+                        {
+                            return RedirectToAction("Index", "SystemAdmin");
+                        }
+                        return View();
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Contraseña invalida";
+                        return View();
+                    }
                 }
-                return View();
+                    
+
             }
             catch (Exception ex)
             {

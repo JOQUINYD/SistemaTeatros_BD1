@@ -24,7 +24,7 @@ namespace SistemaTeatroWebApp.Models
         public string Nombre { get; set; }
         public System.DateTime FechaNac { get; set; }
         public long Cedula { get; set; }
-        public string Direccion_ { get; set; }
+        public string Direccion { get; set; }
         public Nullable<long> TelefonoCelular { get; set; }
         public Nullable<long> TelefonoCasa { get; set; }
         public Nullable<long> TelefonoOtro { get; set; }

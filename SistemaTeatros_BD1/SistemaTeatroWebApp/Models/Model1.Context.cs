@@ -27,33 +27,26 @@ namespace SistemaTeatroWebApp.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
         public virtual DbSet<Accesos> Accesos { get; set; }
         public virtual DbSet<Bloques> Bloques { get; set; }
         public virtual DbSet<BoletoCompras> BoletoCompras { get; set; }
         public virtual DbSet<BoletoComprasFilas> BoletoComprasFilas { get; set; }
         public virtual DbSet<Filas> Filas { get; set; }
-        public virtual DbSet<Personas> Personas { get; set; }
         public virtual DbSet<Precios> Precios { get; set; }
         public virtual DbSet<Presentaciones> Presentaciones { get; set; }
         public virtual DbSet<Producciones> Producciones { get; set; }
         public virtual DbSet<ProduccionEstados> ProduccionEstados { get; set; }
-        public virtual DbSet<ProduccionesTipos> ProduccionesTipos { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Teatros> Teatros { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<Personas> Personas { get; set; }
     
-        public virtual ObjectResult<spGetMatchingUser_Result> spGetMatchingUser(string usuario, string password)
+        public virtual ObjectResult<spGetMatchingUser_Result> spGetMatchingUser(string usuario)
         {
             var usuarioParameter = usuario != null ?
                 new ObjectParameter("Usuario", usuario) :
                 new ObjectParameter("Usuario", typeof(string));
     
-            var passwordParameter = password != null ?
-                new ObjectParameter("Password", password) :
-                new ObjectParameter("Password", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetMatchingUser_Result>("spGetMatchingUser", usuarioParameter, passwordParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetMatchingUser_Result>("spGetMatchingUser", usuarioParameter);
         }
     }
 }

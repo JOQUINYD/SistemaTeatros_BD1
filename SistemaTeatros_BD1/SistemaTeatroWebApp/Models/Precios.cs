@@ -15,9 +15,9 @@ namespace SistemaTeatroWebApp.Models
     public partial class Precios
     {
         public int Id { get; set; }
-        public Nullable<decimal> Precio { get; set; }
-        public Nullable<int> IdProducciones { get; set; }
-        public Nullable<int> IdBloques { get; set; }
+        public decimal Precio { get; set; }
+        public int IdProduccion { get; set; }
+        public int IdBloque { get; set; }
     
         public virtual Bloques Bloques { get; set; }
         public virtual Producciones Producciones { get; set; }

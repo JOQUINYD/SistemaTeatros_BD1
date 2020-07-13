@@ -18,6 +18,7 @@ namespace SistemaTeatroWebApp.Controllers
         private SistemaTeatros_BD1Entities db = new SistemaTeatros_BD1Entities();
 
         // GET: SystemAdmin
+        [AuthorizeUser(IdAcceso: 0)]
         public ActionResult Index()
         {
             return View();
@@ -47,7 +48,7 @@ namespace SistemaTeatroWebApp.Controllers
                     Cedula = usuarioCompleto.Cedula,
                     Nombre = usuarioCompleto.Nombre,
                     Sexo = usuarioCompleto.Sexo,
-                    Direccion_ = usuarioCompleto.Direccion,
+                    Direccion = usuarioCompleto.Direccion,
                     TelefonoCelular = usuarioCompleto.TelefonoCelular,
                     TelefonoCasa = usuarioCompleto.TelefonoCasa,
                     TelefonoOtro = usuarioCompleto.TelefonoOtro,

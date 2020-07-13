@@ -22,11 +22,9 @@ namespace SistemaTeatroWebApp.Models
     
         public int Id { get; set; }
         public string NombreCliente { get; set; }
-        public Nullable<int> IdProduccion { get; set; }
-        public Nullable<int> IdPresentacion { get; set; }
+        public int IdPresentacion { get; set; }
     
         public virtual Presentaciones Presentaciones { get; set; }
-        public virtual Producciones Producciones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoletoComprasFilas> BoletoComprasFilas { get; set; }
     }

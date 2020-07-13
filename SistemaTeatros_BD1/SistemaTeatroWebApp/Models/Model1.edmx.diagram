@@ -4,38 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9785726eb0304bbb9b3817ae07f5463a" Name="Diagram1" ZoomLevel="77">
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.C__RefactorLog" Width="1.5" PointX="5.75" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Accesos" Width="1.5" PointX="7.75" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Bloques" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.BoletoCompras" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.BoletoComprasFilas" Width="1.5" PointX="7.5" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Filas" Width="1.5" PointX="5.25" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Personas" Width="1.5" PointX="1.5" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Precios" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Presentaciones" Width="1.5" PointX="3.5" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Producciones" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.ProduccionEstados" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.ProduccionesTipos" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.sysdiagrams" Width="1.5" PointX="9.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Teatros" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Usuarios" Width="1.5" PointX="10" PointY="9.875" IsExpanded="true" />
+      <Diagram DiagramId="62e7b0dfe2f747bb8622b12f2149162c" Name="Diagram1">
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Accesos" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Bloques" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.BoletoCompras" Width="1.5" PointX="10.5" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.BoletoComprasFilas" Width="1.5" PointX="7.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Filas" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Precios" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Presentaciones" Width="1.5" PointX="8.25" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Producciones" Width="1.5" PointX="6" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.ProduccionEstados" Width="1.5" PointX="3.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Teatros" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Usuarios" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Usuarios_ToAccesos" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Bloques_Teatros" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Filas_Bloques" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Precios_Bloques" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_BoletoCompras_ToPresentaciones" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_BoletoCompras_ToProducciones" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_BoletoComprasFilas_ToFilas" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_BoletoComprasFilas_ToBoletoCompras" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Personas_Teatros" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Teatros_Personas" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Usuarios_Personas" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Precios_Producciones" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Presentaciones_Producciones" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Producciones_ProduccionEstados" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Producciones_ProduccionesTipos" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Producciones_Teatros" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Presentaciones_Producciones" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Personas" Width="1.5" PointX="3.125" PointY="7.75" />
+        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Personas_Teatros" />
+        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Teatros_Personas" />
+        <AssociationConnector Association="SistemaTeatros_BD1Model.FK_Usuarios_Personas" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

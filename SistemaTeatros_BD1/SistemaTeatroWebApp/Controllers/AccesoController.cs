@@ -59,8 +59,6 @@ namespace SistemaTeatroWebApp.Controllers
                         return View();
                     }
                 }
-                    
-
             }
             catch (Exception ex)
             {

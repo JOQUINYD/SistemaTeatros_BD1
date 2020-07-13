@@ -17,6 +17,7 @@ namespace SistemaTeatroWebApp.Controllers
         private SistemaTeatros_BD1Entities db = new SistemaTeatros_BD1Entities();
 
         // GET: Usuarios
+        [AuthorizeUser(IdAcceso: 10)]
         public ActionResult Index()
         {
             var usuarios = db.Usuarios.Include(u => u.Accesos).Include(u => u.Personas);
@@ -62,7 +63,7 @@ namespace SistemaTeatroWebApp.Controllers
                     Cedula = usuarioCompleto.Cedula,
                     Nombre = usuarioCompleto.Nombre,
                     Sexo = usuarioCompleto.Sexo,
-                    Direccion_ = usuarioCompleto.Direccion,
+                    Direccion = usuarioCompleto.Direccion,
                     TelefonoCelular = usuarioCompleto.TelefonoCelular,
                     TelefonoCasa = usuarioCompleto.TelefonoCasa,
                     TelefonoOtro = usuarioCompleto.TelefonoOtro,

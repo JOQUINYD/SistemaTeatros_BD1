@@ -17,7 +17,6 @@ namespace SistemaTeatroWebApp.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Producciones()
         {
-            this.BoletoCompras = new HashSet<BoletoCompras>();
             this.Precios = new HashSet<Precios>();
             this.Presentaciones = new HashSet<Presentaciones>();
         }
@@ -29,17 +28,13 @@ namespace SistemaTeatroWebApp.Models
         public string Tipo { get; set; }
         public int IdTeatro { get; set; }
         public string Descripcion { get; set; }
-        public Nullable<int> IdTipo_ { get; set; }
         public int IdProduccionEstado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoletoCompras> BoletoCompras { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Precios> Precios { get; set; }
-        public virtual ProduccionEstados ProduccionEstados { get; set; }
-        public virtual ProduccionesTipos ProduccionesTipos { get; set; }
-        public virtual Teatros Teatros { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Presentaciones> Presentaciones { get; set; }
+        public virtual ProduccionEstados ProduccionEstados { get; set; }
+        public virtual Teatros Teatros { get; set; }
     }
 }

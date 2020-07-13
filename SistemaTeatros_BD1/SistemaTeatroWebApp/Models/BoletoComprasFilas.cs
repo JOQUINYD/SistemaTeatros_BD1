@@ -16,9 +16,9 @@ namespace SistemaTeatroWebApp.Models
     {
         public int Id { get; set; }
         public string LetraFila { get; set; }
-        public Nullable<int> IdBoletoCompra { get; set; }
-        public Nullable<int> NumeroAsiento { get; set; }
-        public Nullable<int> IdBloqueFila { get; set; }
+        public int IdBoletoCompra { get; set; }
+        public int NumeroAsiento { get; set; }
+        public int IdBloqueFila { get; set; }
     
         public virtual BoletoCompras BoletoCompras { get; set; }
         public virtual Filas Filas { get; set; }

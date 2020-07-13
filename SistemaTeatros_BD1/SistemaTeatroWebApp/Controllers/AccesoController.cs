@@ -44,7 +44,11 @@ namespace SistemaTeatroWebApp.Controllers
                 };
 
                 Session["User"] = uUser;
-                return RedirectToAction("Index", "Home");
+                if(uUser.IdAcceso == 0)
+                {
+                    return RedirectToAction("Index", "SystemAdmin");
+                }
+                return View();
             }
             catch (Exception ex)
             {

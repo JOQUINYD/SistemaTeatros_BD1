@@ -98,4 +98,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="IdBloqueFila" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="57566084-843c-4cb9-b20c-cddc86ceea1d" ChangeDateTime="07/13/2020 00:22:53">
+    <Property Name="ElementName" Value="[dbo].[Personas].[Direccion ]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Personas]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Direccion" />
+  </Operation>
 </Operations>

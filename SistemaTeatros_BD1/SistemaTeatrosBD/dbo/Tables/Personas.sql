@@ -3,7 +3,7 @@
     [Nombre] VARCHAR(50) NOT NULL, 
     [FechaNac] DATE NOT NULL, 
     [Cedula] BIGINT NOT NULL, 
-    [Direccion ] NVARCHAR(150) NOT NULL, 
+    [Direccion] NVARCHAR(150) NOT NULL, 
     [TelefonoCelular] BIGINT NULL, 
     [TelefonoCasa] BIGINT NULL, 
     [TelefonoOtro] BIGINT NULL, 

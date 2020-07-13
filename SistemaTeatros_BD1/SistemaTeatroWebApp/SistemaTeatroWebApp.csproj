@@ -131,6 +131,8 @@
     <Compile Include="Controllers\AccesoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
+    <Compile Include="Controllers\SystemAdminController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Filters\AuthorizeUser.cs" />
     <Compile Include="Filters\VerificaSession.cs" />
     <Compile Include="Global.asax.cs">
@@ -139,6 +141,7 @@
     <Compile Include="Models\Accesos.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppModels\UsuarioCompleto.cs" />
     <Compile Include="Models\Bloques.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -261,6 +264,14 @@
     <Content Include="Views\Personas\Edit.cshtml" />
     <Content Include="Views\Personas\Index.cshtml" />
     <Content Include="Views\Acceso\Login.cshtml" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Usuarios\Delete.cshtml" />
+    <Content Include="Views\Usuarios\Details.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutSystemAdmin.cshtml" />
+    <Content Include="Views\SystemAdmin\Index.cshtml" />
+    <Content Include="Views\SystemAdmin\CreateUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

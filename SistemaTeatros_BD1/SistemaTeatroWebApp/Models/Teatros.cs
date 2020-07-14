@@ -18,8 +18,8 @@ namespace SistemaTeatroWebApp.Models
         public Teatros()
         {
             this.Bloques = new HashSet<Bloques>();
-            this.Producciones = new HashSet<Producciones>();
             this.Personas = new HashSet<Personas>();
+            this.Producciones = new HashSet<Producciones>();
         }
     
         public int Id { get; set; }
@@ -28,14 +28,14 @@ namespace SistemaTeatroWebApp.Models
         public string Email { get; set; }
         public string SitioWeb { get; set; }
         public int Telefono { get; set; }
-        public long CedulaPersona { get; set; }
+        public Nullable<long> CedulaPersona { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bloques> Bloques { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Producciones> Producciones { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Personas> Personas { get; set; }
         public virtual Personas Personas1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Producciones> Producciones { get; set; }
     }
 }

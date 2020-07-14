@@ -10,6 +10,15 @@ namespace SistemaTeatroWebApp.Models.AppModels
     {
         //Atributos Persona
 
+        [Display(Name = "Telefono Celular")]
+        public long? TelefonoCelular { get; set; }
+
+        [Display(Name = "Telefono Casa")]
+        public long? TelefonoCasa { get; set; }
+
+        [Display(Name = "Telefono Otro")]
+        public long? TelefonoOtro { get; set; }
+
         [Display(Name = "Cédula")]
         [Required(ErrorMessage = "Tiene que ingresar su cédula")]
         public long Cedula { get; set; }
@@ -27,22 +36,13 @@ namespace SistemaTeatroWebApp.Models.AppModels
         [Required(ErrorMessage = "Ingresar direccion")]
         public string Direccion { get; set; }
 
-        [Display(Name = "Telefono Celular")]
-        public long TelefonoCelular { get; set; }
-
-        [Display(Name = "Telefono Casa")]
-        public long TelefonoCasa { get; set; }
-
-        [Display(Name = "Telefono Otro")]
-        public long TelefonoOtro { get; set; }
-
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Ingresar su Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Display(Name = "Teatro a trabajar")]
-        public int IdTeatro { get; set; }
+        public int? IdTeatro { get; set; }
 
         // Atributos usuario
 

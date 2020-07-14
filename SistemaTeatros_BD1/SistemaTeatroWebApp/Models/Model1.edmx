@@ -4,7 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SistemaTeatros_BD1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SistemaTeatros_BD1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="Accesos">
           <Key>
             <PropertyRef Name="Id" />
@@ -97,8 +103,18 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Estado" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Teatros">
           <Key>
@@ -110,7 +126,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="320" Nullable="false" />
           <Property Name="SitioWeb" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="Telefono" Type="int" Nullable="false" />
-          <Property Name="CedulaPersona" Type="bigint" Nullable="false" />
+          <Property Name="CedulaPersona" Type="bigint" />
         </EntityType>
         <EntityType Name="Usuarios">
           <Key>
@@ -256,7 +272,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Teatros_Personas">
-          <End Role="Personas" Type="Self.Personas" Multiplicity="1" />
+          <End Role="Personas" Type="Self.Personas" Multiplicity="0..1" />
           <End Role="Teatros" Type="Self.Teatros" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personas">
@@ -295,6 +311,7 @@
           <Parameter Name="Usuario" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="SistemaTeatros_BD1ModelStoreContainer">
+          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Accesos" EntityType="Self.Accesos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bloques" EntityType="Self.Bloques" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BoletoCompras" EntityType="Self.BoletoCompras" Schema="dbo" store:Type="Tables" />
@@ -305,6 +322,7 @@
           <EntitySet Name="Presentaciones" EntityType="Self.Presentaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Producciones" EntityType="Self.Producciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProduccionEstados" EntityType="Self.ProduccionEstados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teatros" EntityType="Self.Teatros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Bloques_Teatros" Association="Self.FK_Bloques_Teatros">
@@ -364,10 +382,17 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SistemaTeatros_BD1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="Guid" Nullable="false" />
+        </EntityType>
         <EntityType Name="Accesos">
           <Key>
             <PropertyRef Name="Id" />
@@ -420,6 +445,24 @@
           <NavigationProperty Name="Bloques" Relationship="Self.FK_Filas_Bloques" FromRole="Filas" ToRole="Bloques" />
           <NavigationProperty Name="BoletoComprasFilas" Relationship="Self.FK_BoletoComprasFilas_ToBoletoCompras" FromRole="Filas" ToRole="BoletoComprasFilas" />
         </EntityType>
+        <EntityType Name="Personas">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaNac" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Cedula" Type="Int64" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TelefonoCelular" Type="Int64" />
+          <Property Name="TelefonoCasa" Type="Int64" />
+          <Property Name="TelefonoOtro" Type="Int64" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdTeatro" Type="Int32" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Teatros" Relationship="Self.FK_Personas_Teatros" FromRole="Personas" ToRole="Teatros" />
+          <NavigationProperty Name="Teatros1" Relationship="Self.FK_Teatros_Personas" FromRole="Personas" ToRole="Teatros" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK_Usuarios_Personas" FromRole="Personas" ToRole="Usuarios" />
+        </EntityType>
         <EntityType Name="Precios">
           <Key>
             <PropertyRef Name="Id" />
@@ -463,9 +506,19 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Producciones" Relationship="Self.FK_Producciones_ProduccionEstados" FromRole="ProduccionEstados" ToRole="Producciones" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Teatros">
           <Key>
@@ -477,11 +530,11 @@
           <Property Name="Email" Type="String" MaxLength="320" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="SitioWeb" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Telefono" Type="Int32" Nullable="false" />
-          <Property Name="CedulaPersona" Type="Int64" Nullable="false" />
+          <Property Name="CedulaPersona" Type="Int64" />
           <NavigationProperty Name="Bloques" Relationship="Self.FK_Bloques_Teatros" FromRole="Teatros" ToRole="Bloques" />
+          <NavigationProperty Name="Personas" Relationship="Self.FK_Personas_Teatros" FromRole="Teatros" ToRole="Personas" />
+          <NavigationProperty Name="Personas1" Relationship="Self.FK_Teatros_Personas" FromRole="Teatros" ToRole="Personas" />
           <NavigationProperty Name="Producciones" Relationship="Self.FK_Producciones_Teatros" FromRole="Teatros" ToRole="Producciones" />
-          <NavigationProperty Name="Personas" Relationship="SistemaTeatros_BD1Model.FK_Personas_Teatros" FromRole="Teatros" ToRole="Personas" />
-          <NavigationProperty Name="Personas1" Relationship="SistemaTeatros_BD1Model.FK_Teatros_Personas" FromRole="Teatros" ToRole="Personas" />
         </EntityType>
         <EntityType Name="Usuarios">
           <Key>
@@ -492,7 +545,7 @@
           <Property Name="IdAcceso" Type="Int32" Nullable="false" />
           <Property Name="CedulaPersona" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Accesos" Relationship="Self.FK_Usuarios_ToAccesos" FromRole="Usuarios" ToRole="Accesos" />
-          <NavigationProperty Name="Personas" Relationship="SistemaTeatros_BD1Model.FK_Usuarios_Personas" FromRole="Usuarios" ToRole="Personas" />
+          <NavigationProperty Name="Personas" Relationship="Self.FK_Usuarios_Personas" FromRole="Usuarios" ToRole="Personas" />
         </EntityType>
         <Association Name="FK_Usuarios_ToAccesos">
           <End Role="Accesos" Type="Self.Accesos" Multiplicity="1" />
@@ -580,6 +633,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Personas_Teatros">
+          <End Role="Teatros" Type="Self.Teatros" Multiplicity="0..1" />
+          <End Role="Personas" Type="Self.Personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teatros">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Personas">
+              <PropertyRef Name="IdTeatro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teatros_Personas">
+          <End Role="Personas" Type="Self.Personas" Multiplicity="0..1" />
+          <End Role="Teatros" Type="Self.Teatros" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personas">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="Teatros">
+              <PropertyRef Name="CedulaPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Personas">
+          <End Role="Personas" Type="Self.Personas" Multiplicity="1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personas">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="CedulaPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Precios_Producciones">
           <End Role="Producciones" Type="Self.Producciones" Multiplicity="1" />
           <End Role="Precios" Type="Self.Precios" Multiplicity="*" />
@@ -629,15 +718,18 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SistemaTeatros_BD1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
           <EntitySet Name="Accesos" EntityType="Self.Accesos" />
           <EntitySet Name="Bloques" EntityType="Self.Bloques" />
           <EntitySet Name="BoletoCompras" EntityType="Self.BoletoCompras" />
           <EntitySet Name="BoletoComprasFilas" EntityType="Self.BoletoComprasFilas" />
           <EntitySet Name="Filas" EntityType="Self.Filas" />
+          <EntitySet Name="Personas" EntityType="Self.Personas" />
           <EntitySet Name="Precios" EntityType="Self.Precios" />
           <EntitySet Name="Presentaciones" EntityType="Self.Presentaciones" />
           <EntitySet Name="Producciones" EntityType="Self.Producciones" />
           <EntitySet Name="ProduccionEstados" EntityType="Self.ProduccionEstados" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Teatros" EntityType="Self.Teatros" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
           <AssociationSet Name="FK_Usuarios_ToAccesos" Association="Self.FK_Usuarios_ToAccesos">
@@ -668,6 +760,18 @@
             <End Role="Filas" EntitySet="Filas" />
             <End Role="BoletoComprasFilas" EntitySet="BoletoComprasFilas" />
           </AssociationSet>
+          <AssociationSet Name="FK_Personas_Teatros" Association="Self.FK_Personas_Teatros">
+            <End Role="Teatros" EntitySet="Teatros" />
+            <End Role="Personas" EntitySet="Personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teatros_Personas" Association="Self.FK_Teatros_Personas">
+            <End Role="Personas" EntitySet="Personas" />
+            <End Role="Teatros" EntitySet="Teatros" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Personas" Association="Self.FK_Usuarios_Personas">
+            <End Role="Personas" EntitySet="Personas" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
           <AssociationSet Name="FK_Precios_Producciones" Association="Self.FK_Precios_Producciones">
             <End Role="Producciones" EntitySet="Producciones" />
             <End Role="Precios" EntitySet="Precios" />
@@ -685,21 +789,8 @@
             <End Role="Producciones" EntitySet="Producciones" />
           </AssociationSet>
           <FunctionImport Name="spGetMatchingUser" ReturnType="Collection(SistemaTeatros_BD1Model.spGetMatchingUser_Result)">
-          <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Personas" EntityType="SistemaTeatros_BD1Model.Personas" />
-          <AssociationSet Name="FK_Personas_Teatros" Association="SistemaTeatros_BD1Model.FK_Personas_Teatros">
-            <End Role="Teatros" EntitySet="Teatros" />
-            <End Role="Personas" EntitySet="Personas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Teatros_Personas" Association="SistemaTeatros_BD1Model.FK_Teatros_Personas">
-            <End Role="Personas" EntitySet="Personas" />
-            <End Role="Teatros" EntitySet="Teatros" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Usuarios_Personas" Association="SistemaTeatros_BD1Model.FK_Usuarios_Personas">
-            <End Role="Personas" EntitySet="Personas" />
-            <End Role="Usuarios" EntitySet="Usuarios" />
-          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="spGetMatchingUser_Result">
           <Property Type="String" Name="Usuario" Nullable="false" MaxLength="50" />
@@ -707,66 +798,19 @@
           <Property Type="Int32" Name="IdAcceso" Nullable="false" />
           <Property Type="Int64" Name="CedulaPersona" Nullable="false" />
         </ComplexType>
-        <EntityType Name="Personas">
-          <Key>
-            <PropertyRef Name="Cedula" />
-          </Key>
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaNac" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Cedula" Type="Int64" Nullable="false" />
-          <Property Name="Direccion" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="TelefonoCelular" Type="Int64" />
-          <Property Name="TelefonoCasa" Type="Int64" />
-          <Property Name="TelefonoOtro" Type="Int64" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="IdTeatro" Type="Int32" />
-          <Property Name="Sexo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="Teatros" Relationship="SistemaTeatros_BD1Model.FK_Personas_Teatros" FromRole="Personas" ToRole="Teatros" />
-          <NavigationProperty Name="Teatros1" Relationship="SistemaTeatros_BD1Model.FK_Teatros_Personas" FromRole="Personas" ToRole="Teatros" />
-          <NavigationProperty Name="Usuarios" Relationship="SistemaTeatros_BD1Model.FK_Usuarios_Personas" FromRole="Personas" ToRole="Usuarios" />
-        </EntityType>
-        <Association Name="FK_Personas_Teatros">
-          <End Type="SistemaTeatros_BD1Model.Teatros" Role="Teatros" Multiplicity="0..1" />
-          <End Type="SistemaTeatros_BD1Model.Personas" Role="Personas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teatros">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Personas">
-              <PropertyRef Name="IdTeatro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Teatros_Personas">
-          <End Type="SistemaTeatros_BD1Model.Personas" Role="Personas" Multiplicity="1" />
-          <End Type="SistemaTeatros_BD1Model.Teatros" Role="Teatros" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personas">
-              <PropertyRef Name="Cedula" />
-            </Principal>
-            <Dependent Role="Teatros">
-              <PropertyRef Name="CedulaPersona" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Usuarios_Personas">
-          <End Type="SistemaTeatros_BD1Model.Personas" Role="Personas" Multiplicity="1" />
-          <End Type="SistemaTeatros_BD1Model.Usuarios" Role="Usuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personas">
-              <PropertyRef Name="Cedula" />
-            </Principal>
-            <Dependent Role="Usuarios">
-              <PropertyRef Name="CedulaPersona" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SistemaTeatros_BD1ModelStoreContainer" CdmEntityContainer="SistemaTeatros_BD1Entities">
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Accesos">
             <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.Accesos">
               <MappingFragment StoreEntitySet="Accesos">
@@ -813,6 +857,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Personas">
+            <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.Personas">
+              <MappingFragment StoreEntitySet="Personas">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaNac" ColumnName="FechaNac" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="TelefonoCelular" ColumnName="TelefonoCelular" />
+                <ScalarProperty Name="TelefonoCasa" ColumnName="TelefonoCasa" />
+                <ScalarProperty Name="TelefonoOtro" ColumnName="TelefonoOtro" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IdTeatro" ColumnName="IdTeatro" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Precios">
             <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.Precios">
               <MappingFragment StoreEntitySet="Precios">
@@ -855,6 +915,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Teatros">
             <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.Teatros">
               <MappingFragment StoreEntitySet="Teatros">
@@ -888,22 +959,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Personas">
-            <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.Personas">
-              <MappingFragment StoreEntitySet="Personas">
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-                <ScalarProperty Name="IdTeatro" ColumnName="IdTeatro" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="TelefonoOtro" ColumnName="TelefonoOtro" />
-                <ScalarProperty Name="TelefonoCasa" ColumnName="TelefonoCasa" />
-                <ScalarProperty Name="TelefonoCelular" ColumnName="TelefonoCelular" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="FechaNac" ColumnName="FechaNac" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

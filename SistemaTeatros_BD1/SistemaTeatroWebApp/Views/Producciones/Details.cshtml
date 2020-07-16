@@ -1,0 +1,74 @@
+﻿@model SistemaTeatroWebApp.Models.Producciones
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Producciones</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreObra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreObra)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaInit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaInit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProduccionEstados.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProduccionEstados.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Teatros.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Teatros.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

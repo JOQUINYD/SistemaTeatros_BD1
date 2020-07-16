@@ -17,7 +17,6 @@ namespace SistemaTeatroWebApp.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Personas()
         {
-            this.Teatros1 = new HashSet<Teatros>();
             this.Usuarios = new HashSet<Usuarios>();
         }
     
@@ -33,8 +32,6 @@ namespace SistemaTeatroWebApp.Models
         public string Sexo { get; set; }
     
         public virtual Teatros Teatros { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Teatros> Teatros1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Usuarios> Usuarios { get; set; }
     }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SistemaTeatros_BD1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SistemaTeatros_BD1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__RefactorLog">
           <Key>
             <PropertyRef Name="OperationKey" />
@@ -126,7 +126,6 @@
           <Property Name="Email" Type="nvarchar" MaxLength="320" Nullable="false" />
           <Property Name="SitioWeb" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="Telefono" Type="int" Nullable="false" />
-          <Property Name="CedulaPersona" Type="bigint" />
         </EntityType>
         <EntityType Name="Usuarios">
           <Key>
@@ -271,18 +270,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Teatros_Personas">
-          <End Role="Personas" Type="Self.Personas" Multiplicity="0..1" />
-          <End Role="Teatros" Type="Self.Teatros" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personas">
-              <PropertyRef Name="Cedula" />
-            </Principal>
-            <Dependent Role="Teatros">
-              <PropertyRef Name="CedulaPersona" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Usuarios_Personas">
           <End Role="Personas" Type="Self.Personas" Multiplicity="1" />
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
@@ -307,6 +294,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="spAddPersonaAndUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="FechaNac" Type="date" Mode="In" />
+          <Parameter Name="Cedula" Type="bigint" Mode="In" />
+          <Parameter Name="Direccion" Type="nvarchar" Mode="In" />
+          <Parameter Name="TelefonoCelular" Type="bigint" Mode="In" />
+          <Parameter Name="TelefonoCasa" Type="bigint" Mode="In" />
+          <Parameter Name="TelefonoOtro" Type="bigint" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="IdTeatro" Type="int" Mode="In" />
+          <Parameter Name="Sexo" Type="char" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="IdAcceso" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spAddPresentacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+          <Parameter Name="Hora" Type="time" Mode="In" />
+          <Parameter Name="IdProduccion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spAddProduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Tipo" Type="varchar" Mode="In" />
+          <Parameter Name="Fecha_Init" Type="date" Mode="In" />
+          <Parameter Name="Feccha_Fin" Type="date" Mode="In" />
+          <Parameter Name="ID_Teatro" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spAddTeatro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Boleteria" Type="int" Mode="In" />
+          <Parameter Name="Email" Type="nvarchar" Mode="In" />
+          <Parameter Name="SitioWeb" Type="nvarchar" Mode="In" />
+          <Parameter Name="Telefono" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spCambiarEstadoProduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_Estado" Type="int" Mode="In" />
+          <Parameter Name="Id_Produccion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spDefinirPrecioBloqueParaProduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_Bloque" Type="int" Mode="In" />
+          <Parameter Name="Id_Produccion" Type="int" Mode="In" />
+          <Parameter Name="Precio" Type="decimal" Mode="In" />
+        </Function>
         <Function Name="spGetMatchingUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Usuario" Type="varchar" Mode="In" />
         </Function>
@@ -369,10 +400,6 @@
             <End Role="Teatros" EntitySet="Teatros" />
             <End Role="Producciones" EntitySet="Producciones" />
           </AssociationSet>
-          <AssociationSet Name="FK_Teatros_Personas" Association="Self.FK_Teatros_Personas">
-            <End Role="Personas" EntitySet="Personas" />
-            <End Role="Teatros" EntitySet="Teatros" />
-          </AssociationSet>
           <AssociationSet Name="FK_Usuarios_Personas" Association="Self.FK_Usuarios_Personas">
             <End Role="Personas" EntitySet="Personas" />
             <End Role="Usuarios" EntitySet="Usuarios" />
@@ -382,8 +409,7 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SistemaTeatros_BD1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -460,7 +486,6 @@
           <Property Name="IdTeatro" Type="Int32" />
           <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Teatros" Relationship="Self.FK_Personas_Teatros" FromRole="Personas" ToRole="Teatros" />
-          <NavigationProperty Name="Teatros1" Relationship="Self.FK_Teatros_Personas" FromRole="Personas" ToRole="Teatros" />
           <NavigationProperty Name="Usuarios" Relationship="Self.FK_Usuarios_Personas" FromRole="Personas" ToRole="Usuarios" />
         </EntityType>
         <EntityType Name="Precios">
@@ -530,10 +555,8 @@
           <Property Name="Email" Type="String" MaxLength="320" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="SitioWeb" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Telefono" Type="Int32" Nullable="false" />
-          <Property Name="CedulaPersona" Type="Int64" />
           <NavigationProperty Name="Bloques" Relationship="Self.FK_Bloques_Teatros" FromRole="Teatros" ToRole="Bloques" />
           <NavigationProperty Name="Personas" Relationship="Self.FK_Personas_Teatros" FromRole="Teatros" ToRole="Personas" />
-          <NavigationProperty Name="Personas1" Relationship="Self.FK_Teatros_Personas" FromRole="Teatros" ToRole="Personas" />
           <NavigationProperty Name="Producciones" Relationship="Self.FK_Producciones_Teatros" FromRole="Teatros" ToRole="Producciones" />
         </EntityType>
         <EntityType Name="Usuarios">
@@ -645,18 +668,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Teatros_Personas">
-          <End Role="Personas" Type="Self.Personas" Multiplicity="0..1" />
-          <End Role="Teatros" Type="Self.Teatros" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personas">
-              <PropertyRef Name="Cedula" />
-            </Principal>
-            <Dependent Role="Teatros">
-              <PropertyRef Name="CedulaPersona" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Usuarios_Personas">
           <End Role="Personas" Type="Self.Personas" Multiplicity="1" />
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
@@ -764,10 +775,6 @@
             <End Role="Teatros" EntitySet="Teatros" />
             <End Role="Personas" EntitySet="Personas" />
           </AssociationSet>
-          <AssociationSet Name="FK_Teatros_Personas" Association="Self.FK_Teatros_Personas">
-            <End Role="Personas" EntitySet="Personas" />
-            <End Role="Teatros" EntitySet="Teatros" />
-          </AssociationSet>
           <AssociationSet Name="FK_Usuarios_Personas" Association="Self.FK_Usuarios_Personas">
             <End Role="Personas" EntitySet="Personas" />
             <End Role="Usuarios" EntitySet="Usuarios" />
@@ -788,8 +795,52 @@
             <End Role="Teatros" EntitySet="Teatros" />
             <End Role="Producciones" EntitySet="Producciones" />
           </AssociationSet>
-          <FunctionImport Name="spGetMatchingUser" ReturnType="Collection(SistemaTeatros_BD1Model.spGetMatchingUser_Result)">
+          <FunctionImport Name="spAddPersonaAndUsuario">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="FechaNac" Mode="In" Type="DateTime" />
+            <Parameter Name="Cedula" Mode="In" Type="Int64" />
+            <Parameter Name="Direccion" Mode="In" Type="String" />
+            <Parameter Name="TelefonoCelular" Mode="In" Type="Int64" />
+            <Parameter Name="TelefonoCasa" Mode="In" Type="Int64" />
+            <Parameter Name="TelefonoOtro" Mode="In" Type="Int64" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
+            <Parameter Name="Sexo" Mode="In" Type="String" />
             <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="IdAcceso" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetMatchingUser" ReturnType="Collection(SistemaTeatros_BD1Model.spGetMatchingUser_Result)">
+          <Parameter Name="Usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spAddPresentacion">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Hora" Mode="In" Type="Time" />
+            <Parameter Name="IdProduccion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAddProduccion">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
+            <Parameter Name="Fecha_Init" Mode="In" Type="DateTime" />
+            <Parameter Name="Feccha_Fin" Mode="In" Type="DateTime" />
+            <Parameter Name="ID_Teatro" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAddTeatro">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Boleteria" Mode="In" Type="Int32" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="SitioWeb" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spCambiarEstadoProduccion">
+            <Parameter Name="Id_Estado" Mode="In" Type="Int32" />
+            <Parameter Name="Id_Produccion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spDefinirPrecioBloqueParaProduccion">
+            <Parameter Name="Id_Bloque" Mode="In" Type="Int32" />
+            <Parameter Name="Id_Produccion" Mode="In" Type="Int32" />
+            <Parameter Name="Precio" Mode="In" Type="Decimal" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spGetMatchingUser_Result">
@@ -935,7 +986,6 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="SitioWeb" ColumnName="SitioWeb" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="CedulaPersona" ColumnName="CedulaPersona" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -949,6 +999,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spAddPersonaAndUsuario" FunctionName="SistemaTeatros_BD1Model.Store.spAddPersonaAndUsuario" />
           <FunctionImportMapping FunctionImportName="spGetMatchingUser" FunctionName="SistemaTeatros_BD1Model.Store.spGetMatchingUser">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetMatchingUser_Result">
@@ -959,6 +1010,11 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAddPresentacion" FunctionName="SistemaTeatros_BD1Model.Store.spAddPresentacion" />
+          <FunctionImportMapping FunctionImportName="spAddProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spAddProduccion" />
+          <FunctionImportMapping FunctionImportName="spAddTeatro" FunctionName="SistemaTeatros_BD1Model.Store.spAddTeatro" />
+          <FunctionImportMapping FunctionImportName="spCambiarEstadoProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spCambiarEstadoProduccion" />
+          <FunctionImportMapping FunctionImportName="spDefinirPrecioBloqueParaProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spDefinirPrecioBloqueParaProduccion" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

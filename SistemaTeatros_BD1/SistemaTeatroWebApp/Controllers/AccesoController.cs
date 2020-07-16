@@ -47,11 +47,16 @@ namespace SistemaTeatroWebApp.Controllers
                     if (HashController.ConfirmPassword(Pass, uUser.Password))
                     {
                         Session["User"] = uUser;
-                        if (uUser.IdAcceso == 0)
+
+                        switch (uUser.IdAcceso)
                         {
-                            return RedirectToAction("Index", "SystemAdmin");
+                            case 0:
+                                return RedirectToAction("Index", "SystemAdmin");
+                            case 1:
+                                return RedirectToAction("Index", "TeatroAdmin");
+                            default:
+                                return RedirectToAction("Index", "TeatroAdmin"); // Direccionar a Index Cliente 
                         }
-                        return View();
                     }
                     else
                     {

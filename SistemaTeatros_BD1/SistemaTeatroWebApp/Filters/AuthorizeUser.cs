@@ -28,12 +28,23 @@ namespace SistemaTeatroWebApp.Filters
 
                 if(oUsuario.IdAcceso != this.IdAcceso)
                 {
-                    filterContext.Result = new RedirectResult("~/Home/Index");
+                    switch (oUsuario.IdAcceso)
+                    {
+                        case 0:
+                            filterContext.Result = new RedirectResult("~/SystemAdmin/Index");
+                            break;
+                        case 1:
+                            filterContext.Result = new RedirectResult("~/TeatroAdmin/Index");
+                            break;
+                        default:
+                            filterContext.Result = new RedirectResult("~/Home/Index"); // Direccion a Home de Cliente
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                filterContext.Result = new RedirectResult("~/Home/Index");
+                filterContext.Result = new RedirectResult("~/Home/Index"); // Direccion a Home de Cliente
             }
         }
 

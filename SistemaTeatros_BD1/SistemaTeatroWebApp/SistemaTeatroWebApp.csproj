@@ -134,6 +134,7 @@
     <Compile Include="Controllers\ProduccionesController.cs" />
     <Compile Include="Controllers\SystemAdminController.cs" />
     <Compile Include="Controllers\TeatroAdminController.cs" />
+    <Compile Include="Controllers\TeatrosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Filters\AuthorizeUser.cs" />
     <Compile Include="Filters\VerificaSession.cs" />
@@ -276,6 +277,11 @@
     <Content Include="Views\Producciones\Edit.cshtml" />
     <Content Include="Views\Producciones\Index.cshtml" />
     <Content Include="Views\TeatroAdmin\CreateProduccion.cshtml" />
+    <Content Include="Views\Teatros\Create.cshtml" />
+    <Content Include="Views\Teatros\Delete.cshtml" />
+    <Content Include="Views\Teatros\Details.cshtml" />
+    <Content Include="Views\Teatros\Edit.cshtml" />
+    <Content Include="Views\Teatros\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

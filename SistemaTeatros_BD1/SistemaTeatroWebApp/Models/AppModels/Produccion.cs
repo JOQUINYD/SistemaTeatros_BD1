@@ -14,10 +14,12 @@ namespace SistemaTeatroWebApp.Models.AppModels
 
         [Display(Name = "Fecha de inicio")]
         [Required(ErrorMessage = "Ingrese la fecha de inicio")]
+        [DataType(DataType.Date)]
         public DateTime FechaInit { get; set; }
 
         [Display(Name = "Fecha final")]
         [Required(ErrorMessage = "Ingrese la fecha final")]
+        [DataType(DataType.Date)]
         public DateTime FechaFin { get; set; }
 
         [Display(Name = "Tipo")]
@@ -34,5 +36,10 @@ namespace SistemaTeatroWebApp.Models.AppModels
         [Display(Name = "Estado")]
         [Required(ErrorMessage = "Ingrese Estado")]
         public int IdProduccionEstado { get; set; }
+
+        public string Teatro { get; set; }
+
+        public string Estado { get; set; }
+
     }
 }

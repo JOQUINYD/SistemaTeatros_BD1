@@ -81,5 +81,34 @@ namespace SistemaTeatroWebApp.Controllers
             ViewBag.IdTeatro = new SelectList(db.Teatros, "Id", "Nombre");
             return View(usuarioCompleto);
         }
+
+
+
+        // GET: Teatros/Create
+        [AuthorizeUser(IdAcceso: 0)]
+        public ActionResult CreateTeatro()
+        {
+            return View();
+        }
+
+        // POST: Teatros/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeUser(IdAcceso: 0)]
+        public ActionResult CreateTeatro( Teatro teatro)
+        {
+            if (ModelState.IsValid)
+            {
+
+                db.spAddTeatro(teatro.Nombre, teatro.Boleteria, teatro.Email, teatro.SitioWeb, teatro.Telefono);
+
+                return RedirectToAction("Index");
+            }
+
+            return View(teatro);
+        }
+
     }
 }

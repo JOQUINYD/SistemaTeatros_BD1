@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
+using WebGrease;
 
 namespace SistemaTeatroWebApp.Controllers
 {
@@ -113,5 +114,65 @@ namespace SistemaTeatroWebApp.Controllers
             ViewBag.IdTeatro = new SelectList(db.Teatros.Where(t => t.Id == oUsuario.Personas.IdTeatro), "Id", "Nombre");
             return View(produccion);
         }
+
+
+
+        // GET: Presentaciones/Create
+        [AuthorizeUser(IdAcceso: 1)]
+        public ActionResult CreatePresentacion()
+        {
+            ViewBag.IdProduccion = new SelectList(db.Producciones, "Id", "NombreObra");
+            return View();
+        }
+
+        // POST: Presentaciones/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeUser(IdAcceso: 1)]
+        public ActionResult CreatePresentacion([Bind(Include = "Id,Fecha,Hora,IdProduccion")] Presentaciones presentaciones)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Presentaciones.Add(presentaciones);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.IdProduccion = new SelectList(db.Producciones, "Id", "NombreObra", presentaciones.IdProduccion);
+            return View(presentaciones);
+        }
+
+        [AuthorizeUser(IdAcceso: 1)]
+        public ActionResult IndexProduccion()
+        {
+            var oUsuario = (Usuarios)System.Web.HttpContext.Current.Session["User"];
+            int? idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
+
+            var producciones = db.spGetProduccionesByTeatro(idTeatro);
+            var produccionList = new List<Produccion>();
+            foreach (var item in producciones)
+            {
+                Produccion prod = new Produccion
+                {
+                    Descripcion = item.Descripcion,
+                    NombreObra = item.NombreObra,
+                    FechaInit = item.FechaInit.Date,
+                    FechaFin = item.FechaFin.Date,
+                    Tipo = item.Tipo,
+                    Estado = item.Estado,
+                    Teatro = item.Nombre
+
+                };
+                produccionList.Add(prod);
+            }
+
+            return View(produccionList);
+        }
+
+
+
     }
+
 }

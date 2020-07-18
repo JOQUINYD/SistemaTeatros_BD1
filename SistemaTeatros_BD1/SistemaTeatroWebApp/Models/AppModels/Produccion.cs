@@ -8,6 +8,8 @@ namespace SistemaTeatroWebApp.Models.AppModels
 {
     public class Produccion
     {
+        public int? Id { get; set; }
+
         [Display(Name = "Nombre de la obra")]
         [Required(ErrorMessage = "Ingrese nombre de la obra")]
         public string NombreObra { get; set; }
@@ -29,7 +31,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
         [Display(Name = "Teatro")]
         public int IdTeatro { get; set; }
 
-        [Display(Name = "Descripción (Max 300 char)")]
+        [Display(Name = "Descripción")]
         [Required(ErrorMessage = "Ingrese una descripción")]
         public string Descripcion { get; set; }
 
@@ -40,6 +42,8 @@ namespace SistemaTeatroWebApp.Models.AppModels
         public string Teatro { get; set; }
 
         public string Estado { get; set; }
+
+        public List<Presentacion> presentaciones { get; set; }
 
     }
 }

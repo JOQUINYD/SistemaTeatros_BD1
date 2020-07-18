@@ -99,15 +99,6 @@ namespace SistemaTeatroWebApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddPersonaAndUsuario", nombreParameter, fechaNacParameter, cedulaParameter, direccionParameter, telefonoCelularParameter, telefonoCasaParameter, telefonoOtroParameter, emailParameter, idTeatroParameter, sexoParameter, usuarioParameter, passwordParameter, idAccesoParameter);
         }
     
-        public virtual ObjectResult<spGetMatchingUser_Result> spGetMatchingUser(string usuario)
-        {
-            var usuarioParameter = usuario != null ?
-                new ObjectParameter("Usuario", usuario) :
-                new ObjectParameter("Usuario", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetMatchingUser_Result>("spGetMatchingUser", usuarioParameter);
-        }
-    
         public virtual int spAddPresentacion(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, Nullable<int> idProduccion)
         {
             var fechaParameter = fecha.HasValue ?
@@ -207,6 +198,64 @@ namespace SistemaTeatroWebApp.Models
                 new ObjectParameter("Precio", typeof(decimal));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spDefinirPrecioBloqueParaProduccion", id_BloqueParameter, id_ProduccionParameter, precioParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> spGetIdTeatroFromUsuario(string usuario)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spGetIdTeatroFromUsuario", usuarioParameter);
+        }
+    
+        public virtual ObjectResult<spGetMatchingUser_Result> spGetMatchingUser(string usuario)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetMatchingUser_Result>("spGetMatchingUser", usuarioParameter);
+        }
+    
+        public virtual ObjectResult<spGetPresentacionesByProduccion_Result> spGetPresentacionesByProduccion(Nullable<int> idProduccion)
+        {
+            var idProduccionParameter = idProduccion.HasValue ?
+                new ObjectParameter("IdProduccion", idProduccion) :
+                new ObjectParameter("IdProduccion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetPresentacionesByProduccion_Result>("spGetPresentacionesByProduccion", idProduccionParameter);
+        }
+    
+        public virtual ObjectResult<spGetPresentacionesRangoFechas_Result> spGetPresentacionesRangoFechas(Nullable<System.DateTime> fecha_Inicio, Nullable<System.DateTime> fecha_Final)
+        {
+            var fecha_InicioParameter = fecha_Inicio.HasValue ?
+                new ObjectParameter("Fecha_Inicio", fecha_Inicio) :
+                new ObjectParameter("Fecha_Inicio", typeof(System.DateTime));
+    
+            var fecha_FinalParameter = fecha_Final.HasValue ?
+                new ObjectParameter("Fecha_Final", fecha_Final) :
+                new ObjectParameter("Fecha_Final", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetPresentacionesRangoFechas_Result>("spGetPresentacionesRangoFechas", fecha_InicioParameter, fecha_FinalParameter);
+        }
+    
+        public virtual ObjectResult<spGetProduccionById_Result> spGetProduccionById(Nullable<int> idProduccion)
+        {
+            var idProduccionParameter = idProduccion.HasValue ?
+                new ObjectParameter("IdProduccion", idProduccion) :
+                new ObjectParameter("IdProduccion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetProduccionById_Result>("spGetProduccionById", idProduccionParameter);
+        }
+    
+        public virtual ObjectResult<spGetProduccionesByTeatro_Result> spGetProduccionesByTeatro(Nullable<int> idTeatro)
+        {
+            var idTeatroParameter = idTeatro.HasValue ?
+                new ObjectParameter("IdTeatro", idTeatro) :
+                new ObjectParameter("IdTeatro", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetProduccionesByTeatro_Result>("spGetProduccionesByTeatro", idTeatroParameter);
         }
     }
 }

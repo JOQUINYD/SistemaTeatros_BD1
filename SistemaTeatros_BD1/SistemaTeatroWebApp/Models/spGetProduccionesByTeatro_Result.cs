@@ -13,6 +13,7 @@ namespace SistemaTeatroWebApp.Models
     
     public partial class spGetProduccionesByTeatro_Result
     {
+        public int Id { get; set; }
         public string NombreObra { get; set; }
         public System.DateTime FechaInit { get; set; }
         public System.DateTime FechaFin { get; set; }

@@ -4,6 +4,7 @@ using SistemaTeatroWebApp.Models.AppModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
@@ -119,10 +120,18 @@ namespace SistemaTeatroWebApp.Controllers
 
         // GET: Presentaciones/Create
         [AuthorizeUser(IdAcceso: 1)]
-        public ActionResult CreatePresentacion()
+        public ActionResult CreatePresentacion(int? IdProduccion, string NombreProduccion, DateTime FechaInit, DateTime FechaFin)
         {
-            ViewBag.IdProduccion = new SelectList(db.Producciones, "Id", "NombreObra");
-            return View();
+            Presentacion presentacion = new Presentacion
+            {
+                IdProduccion = IdProduccion,
+                Produccion = NombreProduccion,
+                FechaInit = FechaInit,
+                FechaFin = FechaFin,
+                Fecha = FechaInit,
+                Hora = DateTime.Now.TimeOfDay
+            };
+            return View(presentacion);
         }
 
         // POST: Presentaciones/Create
@@ -131,17 +140,15 @@ namespace SistemaTeatroWebApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeUser(IdAcceso: 1)]
-        public ActionResult CreatePresentacion([Bind(Include = "Id,Fecha,Hora,IdProduccion")] Presentaciones presentaciones)
+        public ActionResult CreatePresentacion(Presentacion presentacion)
         {
             if (ModelState.IsValid)
             {
-                db.Presentaciones.Add(presentaciones);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                db.spAddPresentacion(presentacion.Fecha, presentacion.Hora, presentacion.IdProduccion);
+                return RedirectToAction("IndexProduccion");
             }
 
-            ViewBag.IdProduccion = new SelectList(db.Producciones, "Id", "NombreObra", presentaciones.IdProduccion);
-            return View(presentaciones);
+            return View(presentacion);
         }
 
         [AuthorizeUser(IdAcceso: 1)]
@@ -156,6 +163,7 @@ namespace SistemaTeatroWebApp.Controllers
             {
                 Produccion prod = new Produccion
                 {
+                    Id = item.Id,
                     Descripcion = item.Descripcion,
                     NombreObra = item.NombreObra,
                     FechaInit = item.FechaInit.Date,
@@ -171,6 +179,46 @@ namespace SistemaTeatroWebApp.Controllers
             return View(produccionList);
         }
 
+        // GET: Producciones/Details/5
+        [AuthorizeUser(IdAcceso: 1)]
+        public ActionResult DetailsProduccion(int? IdProduccion)
+        {
+            if (IdProduccion == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var pro = db.spGetProduccionById(IdProduccion).FirstOrDefault();
+            var presentacionesDB = db.spGetPresentacionesByProduccion(IdProduccion);
+
+            List<Presentacion> presentaciones = new List<Presentacion>();
+            foreach (var item in presentacionesDB)
+            {
+                presentaciones.Add(new Presentacion
+                {
+                    Fecha = item.Fecha,
+                    Hora = item.Hora
+                });
+            }
+
+            Produccion produccion = new Produccion
+            {
+                Id = IdProduccion,
+                NombreObra = pro.NombreObra,
+                FechaInit = pro.FechaInit,
+                FechaFin = pro.FechaFin,
+                Tipo = pro.Tipo,
+                Descripcion = pro.Descripcion,
+                Teatro = pro.Nombre,
+                Estado = pro.Estado,
+                presentaciones = presentaciones
+            };
+
+            if (pro == null)
+            {
+                return HttpNotFound();
+            }
+            return View(produccion);
+        }
 
 
     }

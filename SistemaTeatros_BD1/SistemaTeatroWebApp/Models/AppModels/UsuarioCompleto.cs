@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SistemaTeatroWebApp.Models.AppModels
 {
@@ -21,6 +22,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
 
         [Display(Name = "Cédula")]
         [Required(ErrorMessage = "Tiene que ingresar su cédula")]
+        [Remote("doesCedulaExist", "SystemAdmin", HttpMethod = "POST", ErrorMessage = "Este usuario ya ha sido registrado")]
         public long Cedula { get; set; }
 
         [Required(ErrorMessage = "Ingrese su nombre completo")]
@@ -49,6 +51,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
         [Display(Name = "Nombre de usuario unico")]
         [MaxLength(50, ErrorMessage = "Nombre de usuario debe ser menor a 50 caracteres")]
         [Required(ErrorMessage = "Tiene que ingresar su usuario")]
+        [Remote("doesUsuarioExist", "SystemAdmin", HttpMethod = "POST", ErrorMessage = "Este usuario ya ha sido registrado")]
         public string Usuario { get; set; }
 
         [Display(Name = "Contraseña")]
@@ -61,7 +64,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
         [MaxLength(25, ErrorMessage = "Contraseña debe ser menor a 25 caracteres")]
         [Required(ErrorMessage = "Ingresar Contraseña!")]
         [DataType(DataType.Password)]
-        [Compare("Password")]
+        [System.ComponentModel.DataAnnotations.Compare("Password")]
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Nivel de autorización")]

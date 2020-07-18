@@ -110,5 +110,68 @@ namespace SistemaTeatroWebApp.Controllers
             return View(teatro);
         }
 
+
+        // GET: Teatros
+        [AuthorizeUser(IdAcceso: 0)]
+        public ActionResult IndexTeatro()
+        {
+            var teatrosDB = db.spGetTeatros().ToList();
+
+            List<Teatro> teatros = new List<Teatro>();
+            foreach (var item in teatrosDB)
+            {
+                teatros.Add(new Teatro
+                {
+                    Id = item.Id,
+                    Nombre = item.Nombre,
+                    Boleteria = item.Boleteria,
+                    Email = item.Email,
+                    SitioWeb = item.SitioWeb,
+                    Telefono = item.Telefono
+                });
+            }
+            return View(teatros);
+        }
+
+        // GET: Teatros/Details/5
+        [AuthorizeUser(IdAcceso: 0)]
+        public ActionResult DetailsTeatro(int? IdTeatro)
+        {
+            if (IdTeatro == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Teatros teatros = db.Teatros.Find(IdTeatro);
+            if (teatros == null)
+            {
+                return HttpNotFound();
+            }
+            return View(teatros);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult doesCedulaExist(long Cedula)
+        {
+            bool res = db.Usuarios.Any(x => x.CedulaPersona == Cedula);
+            if (res)
+                return Json(false, JsonRequestBehavior.AllowGet);
+            else
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult doesUsuarioExist(string Usuario)
+        {
+            bool res = db.Usuarios.Any(x => x.Usuario == Usuario);
+            if (res)
+                return Json(false, JsonRequestBehavior.AllowGet);
+            else
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 }

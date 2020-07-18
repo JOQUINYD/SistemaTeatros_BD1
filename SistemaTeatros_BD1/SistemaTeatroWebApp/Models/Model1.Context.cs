@@ -257,5 +257,37 @@ namespace SistemaTeatroWebApp.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetProduccionesByTeatro_Result>("spGetProduccionesByTeatro", idTeatroParameter);
         }
+    
+        public virtual ObjectResult<spGetBloqueByTeatro_Result> spGetBloqueByTeatro(Nullable<int> idTeatro)
+        {
+            var idTeatroParameter = idTeatro.HasValue ?
+                new ObjectParameter("IdTeatro", idTeatro) :
+                new ObjectParameter("IdTeatro", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetBloqueByTeatro_Result>("spGetBloqueByTeatro", idTeatroParameter);
+        }
+    
+        public virtual ObjectResult<spGetFilasByBloque_Result> spGetFilasByBloque(Nullable<int> idBloque)
+        {
+            var idBloqueParameter = idBloque.HasValue ?
+                new ObjectParameter("IdBloque", idBloque) :
+                new ObjectParameter("IdBloque", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetFilasByBloque_Result>("spGetFilasByBloque", idBloqueParameter);
+        }
+    
+        public virtual ObjectResult<spGetTeatroById_Result> spGetTeatroById(Nullable<int> idTeatro)
+        {
+            var idTeatroParameter = idTeatro.HasValue ?
+                new ObjectParameter("IdTeatro", idTeatro) :
+                new ObjectParameter("IdTeatro", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetTeatroById_Result>("spGetTeatroById", idTeatroParameter);
+        }
+    
+        public virtual ObjectResult<spGetTeatros_Result> spGetTeatros()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetTeatros_Result>("spGetTeatros");
+        }
     }
 }

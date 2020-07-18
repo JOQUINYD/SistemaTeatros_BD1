@@ -35,7 +35,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
         [Required(ErrorMessage = "Debe ingresar el número de teléfono")]
         public int  Telefono { get; set; }
 
-
+        public int? Id { get; set; }
 
     }
 }

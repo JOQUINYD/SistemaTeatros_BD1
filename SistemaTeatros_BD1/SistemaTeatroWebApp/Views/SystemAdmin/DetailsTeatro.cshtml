@@ -1,0 +1,112 @@
+﻿@model SistemaTeatroWebApp.Models.AppModels.Teatro
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutSystemAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h2>Teatro</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Boleteria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Boleteria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SitioWeb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SitioWeb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+
+    </dl>
+    <p>
+        @Html.ActionLink("Agregar Bloque", "CreateBloque", new { controller = "SystemAdmin", IdTeatro = Model.Id })
+    </p>
+
+    <hr />
+    <h3>Bloques</h3>
+    <hr />
+
+
+    <table class="table">
+        @foreach (var item in Model.Bloques)
+        {
+            <tr>
+                <th style="text-align:left">
+                    @Html.DisplayFor(modelItem => item.NombreBloque)
+                    
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table">
+                        <tr>
+                            <th style="text-align:left">
+                                @Html.DisplayName("Letra")
+                            </th>
+                            <th style="text-align:left">
+                                @Html.DisplayName("Número de Asientos")
+                            </th>
+                        </tr>
+                        @foreach (var fila in item.Filas)
+                        {
+                            <tr>
+                                <td style="text-align:left">
+                                    @Html.DisplayFor(modelItem => fila.Letra)
+                                </td>
+                                <td style="text-align:left">
+                                    @Html.DisplayFor(modelItem => fila.NumAsientos)
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>
+                                @Html.ActionLink("Agregar Fila", "CreateFila", new { controller = "SystemAdmin", IdBloque = item.Id })
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+<p>
+    @Html.ActionLink("Regresar a lista", "IndexTeatro")
+</p>

@@ -37,5 +37,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
 
         public int? Id { get; set; }
 
+        public List<Bloque> Bloques { get; set; }
+ 
     }
 }

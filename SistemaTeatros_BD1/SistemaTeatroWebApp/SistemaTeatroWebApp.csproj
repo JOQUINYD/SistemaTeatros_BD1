@@ -127,6 +127,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccesoController.cs" />
+    <Compile Include="Controllers\BloquesController.cs" />
+    <Compile Include="Controllers\FilasController.cs" />
     <Compile Include="Controllers\HashController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PresentacionesController.cs" />
@@ -143,6 +145,8 @@
     <Compile Include="Models\Accesos.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppModels\Bloque.cs" />
+    <Compile Include="Models\AppModels\Fila.cs" />
     <Compile Include="Models\AppModels\Presentacion.cs" />
     <Compile Include="Models\AppModels\Produccion.cs" />
     <Compile Include="Models\AppModels\Teatro.cs" />
@@ -325,6 +329,18 @@
     <Content Include="Views\TeatroAdmin\IndexProduccion.cshtml" />
     <Content Include="Views\TeatroAdmin\DetailsProduccion.cshtml" />
     <Content Include="Views\SystemAdmin\IndexTeatro.cshtml" />
+    <Content Include="Views\SystemAdmin\DetailsTeatro.cshtml" />
+    <Content Include="Views\Bloques\Create.cshtml" />
+    <Content Include="Views\Bloques\Delete.cshtml" />
+    <Content Include="Views\Bloques\Details.cshtml" />
+    <Content Include="Views\Bloques\Edit.cshtml" />
+    <Content Include="Views\Bloques\Index.cshtml" />
+    <Content Include="Views\Filas\Create.cshtml" />
+    <Content Include="Views\Filas\Delete.cshtml" />
+    <Content Include="Views\Filas\Details.cshtml" />
+    <Content Include="Views\Filas\Edit.cshtml" />
+    <Content Include="Views\Filas\Index.cshtml" />
+    <Content Include="Views\SystemAdmin\CreateBloque.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

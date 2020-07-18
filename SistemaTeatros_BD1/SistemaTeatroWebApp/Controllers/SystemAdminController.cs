@@ -104,7 +104,7 @@ namespace SistemaTeatroWebApp.Controllers
 
                 db.spAddTeatro(teatro.Nombre, teatro.Boleteria, teatro.Email, teatro.SitioWeb, teatro.Telefono);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexTeatro");
             }
 
             return View(teatro);
@@ -141,12 +141,84 @@ namespace SistemaTeatroWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Teatros teatros = db.Teatros.Find(IdTeatro);
-            if (teatros == null)
+
+            var teatroDB = db.spGetTeatroById(IdTeatro).FirstOrDefault();
+
+            if (teatroDB == null)
             {
                 return HttpNotFound();
             }
-            return View(teatros);
+
+            var bloquesBD = db.spGetBloqueByTeatro(IdTeatro);
+            List<Bloque> bloques = new List<Bloque>();
+            List<Fila> filas = null;
+            foreach (var bloque in bloquesBD)
+            {
+                filas = new List<Fila>();
+                var filasDB = db.spGetFilasByBloque(bloque.Id);
+                foreach (var fila in filasDB)
+                {
+                    filas.Add(new Fila
+                    {
+                        Letra = fila.Letra,
+                        NumAsientos = fila.NumAsientos,
+                        IdBloque = fila.IdBloque,
+                        Bloque = bloque.NombreBloque,
+                        Teatro = teatroDB.Nombre
+                    });
+                }
+
+                bloques.Add(new Bloque
+                {
+                    Id = bloque.Id,
+                    NombreBloque = bloque.NombreBloque,
+                    IdTeatro = bloque.IdTeatro,
+                    Teatro = teatroDB.Nombre,
+                    Filas = filas
+                });
+            }
+
+            Teatro teatro = new Teatro
+            {
+                Id = teatroDB.Id,
+                Nombre = teatroDB.Nombre,
+                Email = teatroDB.Email,
+                Boleteria = teatroDB.Boleteria,
+                SitioWeb = teatroDB.SitioWeb,
+                Telefono = teatroDB.Telefono,
+                Bloques = bloques
+            };
+
+            return View(teatro);
+        }
+
+        // GET: Bloques/Create
+        [AuthorizeUser(IdAcceso: 0)]
+        public ActionResult CreateBloque(int? IdTeatro, string NombreTeatro)
+        {
+            Bloque bloque = new Bloque
+            {
+                IdTeatro = IdTeatro,
+                Teatro = NombreTeatro
+            };
+            return View(bloque);
+        }
+
+        // POST: Bloques/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeUser(IdAcceso: 0)]
+        public ActionResult CreateBloque(Bloque bloque)
+        {
+            if (ModelState.IsValid)
+            {
+                db.spAddBloque(bloque.NombreBloque, bloque.IdTeatro);
+                return RedirectToAction("DetailsTeatro", new { IdTeatro = bloque.IdTeatro});
+            }
+
+            return View(bloque);
         }
 
         [HttpPost]

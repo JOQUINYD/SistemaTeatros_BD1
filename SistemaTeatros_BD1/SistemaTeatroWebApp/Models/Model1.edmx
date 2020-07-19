@@ -298,6 +298,11 @@
           <Parameter Name="NombreBloque" Type="varchar" Mode="In" />
           <Parameter Name="IdTeatro" Type="int" Mode="In" />
         </Function>
+        <Function Name="spAddFila" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdBloque" Type="int" Mode="In" />
+          <Parameter Name="Letra" Type="char" Mode="In" />
+          <Parameter Name="NumAsientos" Type="int" Mode="In" />
+        </Function>
         <Function Name="spAddPersonaAndUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="FechaNac" Type="date" Mode="In" />
@@ -902,6 +907,11 @@
             <Parameter Name="NombreBloque" Mode="In" Type="String" />
             <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spAddFila">
+            <Parameter Name="IdBloque" Mode="In" Type="Int32" />
+            <Parameter Name="Letra" Mode="In" Type="String" />
+            <Parameter Name="NumAsientos" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spGetMatchingUser_Result">
           <Property Type="String" Name="Usuario" Nullable="false" MaxLength="50" />
@@ -1221,6 +1231,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spAddBloque" FunctionName="SistemaTeatros_BD1Model.Store.spAddBloque" />
+          <FunctionImportMapping FunctionImportName="spAddFila" FunctionName="SistemaTeatros_BD1Model.Store.spAddFila" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

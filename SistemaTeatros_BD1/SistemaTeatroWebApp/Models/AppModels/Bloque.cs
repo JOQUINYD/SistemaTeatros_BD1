@@ -20,5 +20,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
         public string Teatro { get; set; }
 
         public List<Fila> Filas { get; set; }
+
+        public string LastLetra { get; set; }
     }
 }

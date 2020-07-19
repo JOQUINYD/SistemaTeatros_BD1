@@ -43,36 +43,8 @@ namespace SistemaTeatroWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                Personas persona = new Personas
-                {
-                    Cedula = usuarioCompleto.Cedula,
-                    Nombre = usuarioCompleto.Nombre,
-                    Sexo = usuarioCompleto.Sexo,
-                    Direccion = usuarioCompleto.Direccion,
-                    TelefonoCelular = usuarioCompleto.TelefonoCelular,
-                    TelefonoCasa = usuarioCompleto.TelefonoCasa,
-                    TelefonoOtro = usuarioCompleto.TelefonoOtro,
-                    Email = usuarioCompleto.Email,
-                    IdTeatro = usuarioCompleto.IdTeatro
-                };
-                if (usuarioCompleto.IdAcceso == 0)
-                {
-                    persona.IdTeatro = null;
-                }
-                // Cambiar a stored procedures
-                db.Personas.Add(persona);
-                db.SaveChanges();
-
-                Usuarios usuario = new Usuarios
-                {
-                    Usuario = usuarioCompleto.Usuario,
-                    Password = HashController.ComputeHash(usuarioCompleto.Password, null), // aqui se debe hacer el hash y salt
-                    IdAcceso = usuarioCompleto.IdAcceso,
-                    CedulaPersona = usuarioCompleto.Cedula
-                };
-
-                db.Usuarios.Add(usuario);
-                db.SaveChanges();
+                db.spAddPersonaAndUsuario(usuarioCompleto.Nombre, usuarioCompleto.FechaNac, usuarioCompleto.Cedula, usuarioCompleto.Direccion, usuarioCompleto.TelefonoCelular, usuarioCompleto.TelefonoCelular,
+                                            usuarioCompleto.TelefonoOtro, usuarioCompleto.Email, usuarioCompleto.IdTeatro, usuarioCompleto.Sexo, usuarioCompleto.Usuario, usuarioCompleto.Password, usuarioCompleto.IdAcceso);
 
                 return RedirectToAction("Index");
             }

@@ -43,36 +43,14 @@ namespace SistemaTeatroWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                Personas persona = new Personas
-                {
-                    Cedula = usuarioCompleto.Cedula,
-                    Nombre = usuarioCompleto.Nombre,
-                    Sexo = usuarioCompleto.Sexo,
-                    Direccion = usuarioCompleto.Direccion,
-                    TelefonoCelular = usuarioCompleto.TelefonoCelular,
-                    TelefonoCasa = usuarioCompleto.TelefonoCasa,
-                    TelefonoOtro = usuarioCompleto.TelefonoOtro,
-                    Email = usuarioCompleto.Email,
-                    IdTeatro = usuarioCompleto.IdTeatro
-                };
+
                 if (usuarioCompleto.IdAcceso == 0)
                 {
-                    persona.IdTeatro = null;
+                    usuarioCompleto.IdTeatro = null;
                 }
-                // Cambiar a stored procedures
-                db.Personas.Add(persona);
-                db.SaveChanges();
 
-                Usuarios usuario = new Usuarios
-                {
-                    Usuario = usuarioCompleto.Usuario,
-                    Password = HashController.ComputeHash(usuarioCompleto.Password, null), // aqui se debe hacer el hash y salt
-                    IdAcceso = usuarioCompleto.IdAcceso,
-                    CedulaPersona = usuarioCompleto.Cedula
-                };
-
-                db.Usuarios.Add(usuario);
-                db.SaveChanges();
+                db.spAddPersonaAndUsuario(usuarioCompleto.Nombre, usuarioCompleto.FechaNac, usuarioCompleto.Cedula, usuarioCompleto.Direccion, usuarioCompleto.TelefonoCelular, usuarioCompleto.TelefonoCelular,
+                                            usuarioCompleto.TelefonoOtro, usuarioCompleto.Email, usuarioCompleto.IdTeatro, usuarioCompleto.Sexo, usuarioCompleto.Usuario,usuarioCompleto.Password, usuarioCompleto.IdAcceso);
 
                 return RedirectToAction("Index");
             }
@@ -219,6 +197,54 @@ namespace SistemaTeatroWebApp.Controllers
             }
 
             return View(bloque);
+        }
+
+        // GET: Filas/Create
+        [AuthorizeUser(IdAcceso: 0)]
+        public ActionResult CreateFila(int? IdBloque, string NombreBloque, int? IdTeatro, string NombreTeatro)
+        {
+            var lastFila = db.Filas.Where(b => b.IdBloque == IdBloque).OrderBy(l => l.Letra).ToList();
+            char letra = 'A';
+
+            if(lastFila.Any())
+            {
+                letra = lastFila.Last().Letra.ToCharArray().First();
+                
+                if (letra == 'Z')
+                {
+                    return RedirectToAction("DetailsTeatro", new { IdTeatro = IdTeatro });
+                }
+                letra = (char)(((int)letra) + 1);
+            }
+            
+            Fila fila = new Fila
+            {
+                Letra = letra.ToString(),
+                IdBloque = IdBloque,
+                Bloque = NombreBloque,
+                IdTeatro = IdTeatro,
+                Teatro = NombreTeatro,
+                NumAsientos = 10
+            };
+
+            return View(fila);
+        }
+
+        // POST: Filas/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeUser(IdAcceso: 0)]
+        public ActionResult CreateFila(Fila fila)
+        {
+            if (ModelState.IsValid)
+            {
+                db.spAddFila(fila.IdBloque, fila.Letra, fila.NumAsientos);
+                return RedirectToAction("DetailsTeatro", new { IdTeatro = fila.IdTeatro });
+            }
+
+            return View(fila);
         }
 
         [HttpPost]

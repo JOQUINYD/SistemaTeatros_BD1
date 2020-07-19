@@ -14,7 +14,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
         public string Letra { get; set; }
 
         [Display(Name = "Número de Asientos")]
-        [MaxLength(100, ErrorMessage = "")]
+        [Range(1, 100, ErrorMessage = "Rango excedido")]
         [Required(ErrorMessage = "Determine un número de asientos")]
         public int NumAsientos { get; set; }
 
@@ -25,5 +25,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
 
         [Display(Name = "Teatro")]
         public string Teatro { get; set; }
+
+        public int? IdTeatro { get; set; }
     }
 }

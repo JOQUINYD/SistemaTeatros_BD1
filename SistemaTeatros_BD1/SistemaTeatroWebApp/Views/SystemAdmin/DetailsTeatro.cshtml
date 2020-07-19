@@ -94,7 +94,7 @@
                         }
                         <tr>
                             <td>
-                                @Html.ActionLink("Agregar Fila", "CreateFila", new { controller = "SystemAdmin", IdBloque = item.Id })
+                                @Html.ActionLink("Agregar Fila", "CreateFila", new { controller = "SystemAdmin", IdBloque = item.Id, NombreBloque = item.NombreBloque, IdTeatro = Model.Id, NombreTeatro = Model.Nombre })
                             </td>
                             <td>
 

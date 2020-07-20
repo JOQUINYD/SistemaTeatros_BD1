@@ -42,6 +42,36 @@ namespace SistemaTeatroWebApp.Models
         public virtual DbSet<Teatros> Teatros { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
     
+        public virtual int spAddBloque(string nombreBloque, Nullable<int> idTeatro)
+        {
+            var nombreBloqueParameter = nombreBloque != null ?
+                new ObjectParameter("NombreBloque", nombreBloque) :
+                new ObjectParameter("NombreBloque", typeof(string));
+    
+            var idTeatroParameter = idTeatro.HasValue ?
+                new ObjectParameter("IdTeatro", idTeatro) :
+                new ObjectParameter("IdTeatro", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddBloque", nombreBloqueParameter, idTeatroParameter);
+        }
+    
+        public virtual int spAddFila(Nullable<int> idBloque, string letra, Nullable<int> numAsientos)
+        {
+            var idBloqueParameter = idBloque.HasValue ?
+                new ObjectParameter("IdBloque", idBloque) :
+                new ObjectParameter("IdBloque", typeof(int));
+    
+            var letraParameter = letra != null ?
+                new ObjectParameter("Letra", letra) :
+                new ObjectParameter("Letra", typeof(string));
+    
+            var numAsientosParameter = numAsientos.HasValue ?
+                new ObjectParameter("NumAsientos", numAsientos) :
+                new ObjectParameter("NumAsientos", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddFila", idBloqueParameter, letraParameter, numAsientosParameter);
+        }
+    
         public virtual int spAddPersonaAndUsuario(string nombre, Nullable<System.DateTime> fechaNac, Nullable<long> cedula, string direccion, Nullable<long> telefonoCelular, Nullable<long> telefonoCasa, Nullable<long> telefonoOtro, string email, Nullable<int> idTeatro, string sexo, string usuario, string password, Nullable<int> idAcceso)
         {
             var nombreParameter = nombre != null ?
@@ -200,6 +230,24 @@ namespace SistemaTeatroWebApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spDefinirPrecioBloqueParaProduccion", id_BloqueParameter, id_ProduccionParameter, precioParameter);
         }
     
+        public virtual ObjectResult<spGetBloqueByTeatro_Result> spGetBloqueByTeatro(Nullable<int> idTeatro)
+        {
+            var idTeatroParameter = idTeatro.HasValue ?
+                new ObjectParameter("IdTeatro", idTeatro) :
+                new ObjectParameter("IdTeatro", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetBloqueByTeatro_Result>("spGetBloqueByTeatro", idTeatroParameter);
+        }
+    
+        public virtual ObjectResult<spGetFilasByBloque_Result> spGetFilasByBloque(Nullable<int> idBloque)
+        {
+            var idBloqueParameter = idBloque.HasValue ?
+                new ObjectParameter("IdBloque", idBloque) :
+                new ObjectParameter("IdBloque", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetFilasByBloque_Result>("spGetFilasByBloque", idBloqueParameter);
+        }
+    
         public virtual ObjectResult<Nullable<int>> spGetIdTeatroFromUsuario(string usuario)
         {
             var usuarioParameter = usuario != null ?
@@ -258,24 +306,6 @@ namespace SistemaTeatroWebApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetProduccionesByTeatro_Result>("spGetProduccionesByTeatro", idTeatroParameter);
         }
     
-        public virtual ObjectResult<spGetBloqueByTeatro_Result> spGetBloqueByTeatro(Nullable<int> idTeatro)
-        {
-            var idTeatroParameter = idTeatro.HasValue ?
-                new ObjectParameter("IdTeatro", idTeatro) :
-                new ObjectParameter("IdTeatro", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetBloqueByTeatro_Result>("spGetBloqueByTeatro", idTeatroParameter);
-        }
-    
-        public virtual ObjectResult<spGetFilasByBloque_Result> spGetFilasByBloque(Nullable<int> idBloque)
-        {
-            var idBloqueParameter = idBloque.HasValue ?
-                new ObjectParameter("IdBloque", idBloque) :
-                new ObjectParameter("IdBloque", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetFilasByBloque_Result>("spGetFilasByBloque", idBloqueParameter);
-        }
-    
         public virtual ObjectResult<spGetTeatroById_Result> spGetTeatroById(Nullable<int> idTeatro)
         {
             var idTeatroParameter = idTeatro.HasValue ?
@@ -288,36 +318,6 @@ namespace SistemaTeatroWebApp.Models
         public virtual ObjectResult<spGetTeatros_Result> spGetTeatros()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetTeatros_Result>("spGetTeatros");
-        }
-    
-        public virtual int spAddBloque(string nombreBloque, Nullable<int> idTeatro)
-        {
-            var nombreBloqueParameter = nombreBloque != null ?
-                new ObjectParameter("NombreBloque", nombreBloque) :
-                new ObjectParameter("NombreBloque", typeof(string));
-    
-            var idTeatroParameter = idTeatro.HasValue ?
-                new ObjectParameter("IdTeatro", idTeatro) :
-                new ObjectParameter("IdTeatro", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddBloque", nombreBloqueParameter, idTeatroParameter);
-        }
-    
-        public virtual int spAddFila(Nullable<int> idBloque, string letra, Nullable<int> numAsientos)
-        {
-            var idBloqueParameter = idBloque.HasValue ?
-                new ObjectParameter("IdBloque", idBloque) :
-                new ObjectParameter("IdBloque", typeof(int));
-    
-            var letraParameter = letra != null ?
-                new ObjectParameter("Letra", letra) :
-                new ObjectParameter("Letra", typeof(string));
-    
-            var numAsientosParameter = numAsientos.HasValue ?
-                new ObjectParameter("NumAsientos", numAsientos) :
-                new ObjectParameter("NumAsientos", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddFila", idBloqueParameter, letraParameter, numAsientosParameter);
         }
     }
 }

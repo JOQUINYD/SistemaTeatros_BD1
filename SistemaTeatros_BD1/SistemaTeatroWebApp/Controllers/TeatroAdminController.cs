@@ -3,6 +3,7 @@ using SistemaTeatroWebApp.Models;
 using SistemaTeatroWebApp.Models.AppModels;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -189,6 +190,52 @@ namespace SistemaTeatroWebApp.Controllers
             {
                 return HttpNotFound();
             }
+            return View(produccion);
+        }
+
+        [AuthorizeUser(IdAcceso: 1)]
+        public ActionResult UpdateStateProduccion(int? id, string nombreTeatro )
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var produccion = db.spGetProduccionById(id).FirstOrDefault();
+            Produccion prod = new Produccion
+            {
+                Id = produccion.Id,
+                NombreObra = produccion.NombreObra,
+                IdProduccionEstado = produccion.IdProduccionEstado, 
+                Teatro = nombreTeatro
+                
+                
+            };
+            if (prod == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.IdProduccionEstado = new SelectList(db.ProduccionEstados, "Id", "Estado", prod.IdProduccionEstado);
+
+            return View(prod);
+        }
+
+        // POST: Producciones/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeUser(IdAcceso: 1)]
+        public ActionResult UpdateStateProduccion(Produccion produccion)
+        {
+            Console.WriteLine(ModelState.IsValid);
+            Console.WriteLine(produccion.Id);
+            Console.WriteLine(produccion.IdProduccionEstado);
+            if (true)
+            {
+                db.spCambiarEstadoProduccion(produccion.IdProduccionEstado, produccion.Id);
+                return RedirectToAction("DetailsProduccion", new { IdProduccion = produccion.Id });
+            }
+            ViewBag.IdProduccionEstado = new SelectList(db.ProduccionEstados, "Id", "Estado", produccion.IdProduccionEstado);
             return View(produccion);
         }
 

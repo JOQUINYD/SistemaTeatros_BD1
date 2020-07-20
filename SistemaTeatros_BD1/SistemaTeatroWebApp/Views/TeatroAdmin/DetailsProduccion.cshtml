@@ -57,7 +57,11 @@
 
         <dd>
             @Html.DisplayFor(model => model.Estado)
+            @Html.ActionLink("(Cambiar)", "UpdateStateProduccion", new { controller = "TeatroAdmin", id = Model.Id, nombreTeatro = Model.Teatro})
+
         </dd>
+        
+
 
         <dt>
             @Html.DisplayNameFor(model => model.Teatro)

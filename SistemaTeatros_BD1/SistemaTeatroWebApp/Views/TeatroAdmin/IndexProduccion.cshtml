@@ -38,36 +38,37 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreObra)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teatro)
-            </td>
-            <td>
-                @Html.ActionLink("Definir Presentación", "CreatePresentacion", new { IdProduccion = item.Id, NombreProduccion = item.NombreObra, FechaInit = item.FechaInit, FechaFin = item.FechaFin })
-            </td>
-            <td>
-                @Html.ActionLink("Detalles", "DetailsProduccion", new { IdProduccion = item.Id })
-            </td>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.NombreObra)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FechaInit)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FechaFin)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Tipo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Descripcion)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Estado)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Teatro)
+    </td>
+    <td>
+        @Html.ActionLink("Definir Presentación", "CreatePresentacion", new { IdProduccion = item.Id, NombreProduccion = item.NombreObra, FechaInit = item.FechaInit, FechaFin = item.FechaFin })
+    </td>
+    <td>
+        @Html.ActionLink("Detalles", "DetailsProduccion", new { IdProduccion = item.Id })
+    </td>
 
-        </tr>
+
+</tr>
     }
 
 </table>

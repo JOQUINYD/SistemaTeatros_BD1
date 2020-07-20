@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SistemaTeatros_BD1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SistemaTeatros_BD1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__RefactorLog">
           <Key>
             <PropertyRef Name="OperationKey" />
@@ -444,7 +444,8 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SistemaTeatros_BD1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -830,6 +831,15 @@
             <End Role="Teatros" EntitySet="Teatros" />
             <End Role="Producciones" EntitySet="Producciones" />
           </AssociationSet>
+          <FunctionImport Name="spAddBloque">
+            <Parameter Name="NombreBloque" Mode="In" Type="String" />
+            <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAddFila">
+            <Parameter Name="IdBloque" Mode="In" Type="Int32" />
+            <Parameter Name="Letra" Mode="In" Type="String" />
+            <Parameter Name="NumAsientos" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="spAddPersonaAndUsuario">
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="FechaNac" Mode="In" Type="DateTime" />
@@ -874,45 +884,46 @@
             <Parameter Name="Id_Produccion" Mode="In" Type="Int32" />
             <Parameter Name="Precio" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <FunctionImport Name="spGetBloqueByTeatro" ReturnType="Collection(SistemaTeatros_BD1Model.spGetBloqueByTeatro_Result)">
+            <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetFilasByBloque" ReturnType="Collection(SistemaTeatros_BD1Model.spGetFilasByBloque_Result)">
+            <Parameter Name="IdBloque" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="spGetIdTeatroFromUsuario" ReturnType="Collection(Int32)">
-          <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spGetMatchingUser" ReturnType="Collection(SistemaTeatros_BD1Model.spGetMatchingUser_Result)">
-          <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spGetPresentacionesByProduccion" ReturnType="Collection(SistemaTeatros_BD1Model.spGetPresentacionesByProduccion_Result)">
-          <Parameter Name="IdProduccion" Mode="In" Type="Int32" />
+            <Parameter Name="IdProduccion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spGetPresentacionesRangoFechas" ReturnType="Collection(SistemaTeatros_BD1Model.spGetPresentacionesRangoFechas_Result)">
             <Parameter Name="Fecha_Inicio" Mode="In" Type="DateTime" />
             <Parameter Name="Fecha_Final" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spGetProduccionById" ReturnType="Collection(SistemaTeatros_BD1Model.spGetProduccionById_Result)">
-          <Parameter Name="IdProduccion" Mode="In" Type="Int32" />
+            <Parameter Name="IdProduccion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spGetProduccionesByTeatro" ReturnType="Collection(SistemaTeatros_BD1Model.spGetProduccionesByTeatro_Result)">
-          <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spGetBloqueByTeatro" ReturnType="Collection(SistemaTeatros_BD1Model.spGetBloqueByTeatro_Result)">
-          <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spGetFilasByBloque" ReturnType="Collection(SistemaTeatros_BD1Model.spGetFilasByBloque_Result)">
-          <Parameter Name="IdBloque" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spGetTeatroById" ReturnType="Collection(SistemaTeatros_BD1Model.spGetTeatroById_Result)">
-          <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spGetTeatros" ReturnType="Collection(SistemaTeatros_BD1Model.spGetTeatros_Result)" />
-          <FunctionImport Name="spAddBloque">
-            <Parameter Name="NombreBloque" Mode="In" Type="String" />
             <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spAddFila">
-            <Parameter Name="IdBloque" Mode="In" Type="Int32" />
-            <Parameter Name="Letra" Mode="In" Type="String" />
-            <Parameter Name="NumAsientos" Mode="In" Type="Int32" />
+          <FunctionImport Name="spGetTeatroById" ReturnType="Collection(SistemaTeatros_BD1Model.spGetTeatroById_Result)">
+            <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spGetTeatros" ReturnType="Collection(SistemaTeatros_BD1Model.spGetTeatros_Result)" />
         </EntityContainer>
+        <ComplexType Name="spGetBloqueByTeatro_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="NombreBloque" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="IdTeatro" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spGetFilasByBloque_Result">
+          <Property Type="String" Name="Letra" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="NumAsientos" Nullable="false" />
+          <Property Type="Int32" Name="IdBloque" Nullable="false" />
+        </ComplexType>
         <ComplexType Name="spGetMatchingUser_Result">
           <Property Type="String" Name="Usuario" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="150" />
@@ -938,6 +949,7 @@
           <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="300" />
+          <Property Type="Int32" Name="IdProduccionEstado" Nullable="false" />
         </ComplexType>
         <ComplexType Name="spGetProduccionesByTeatro_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -948,16 +960,6 @@
           <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="300" />
-        </ComplexType>
-        <ComplexType Name="spGetBloqueByTeatro_Result">
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="NombreBloque" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="IdTeatro" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="spGetFilasByBloque_Result">
-          <Property Type="String" Name="Letra" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="NumAsientos" Nullable="false" />
-          <Property Type="Int32" Name="IdBloque" Nullable="false" />
         </ComplexType>
         <ComplexType Name="spGetTeatroById_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -1125,12 +1127,32 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spAddBloque" FunctionName="SistemaTeatros_BD1Model.Store.spAddBloque" />
+          <FunctionImportMapping FunctionImportName="spAddFila" FunctionName="SistemaTeatros_BD1Model.Store.spAddFila" />
           <FunctionImportMapping FunctionImportName="spAddPersonaAndUsuario" FunctionName="SistemaTeatros_BD1Model.Store.spAddPersonaAndUsuario" />
           <FunctionImportMapping FunctionImportName="spAddPresentacion" FunctionName="SistemaTeatros_BD1Model.Store.spAddPresentacion" />
           <FunctionImportMapping FunctionImportName="spAddProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spAddProduccion" />
           <FunctionImportMapping FunctionImportName="spAddTeatro" FunctionName="SistemaTeatros_BD1Model.Store.spAddTeatro" />
           <FunctionImportMapping FunctionImportName="spCambiarEstadoProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spCambiarEstadoProduccion" />
           <FunctionImportMapping FunctionImportName="spDefinirPrecioBloqueParaProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spDefinirPrecioBloqueParaProduccion" />
+          <FunctionImportMapping FunctionImportName="spGetBloqueByTeatro" FunctionName="SistemaTeatros_BD1Model.Store.spGetBloqueByTeatro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetBloqueByTeatro_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NombreBloque" ColumnName="NombreBloque" />
+                <ScalarProperty Name="IdTeatro" ColumnName="IdTeatro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetFilasByBloque" FunctionName="SistemaTeatros_BD1Model.Store.spGetFilasByBloque">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetFilasByBloque_Result">
+                <ScalarProperty Name="Letra" ColumnName="Letra" />
+                <ScalarProperty Name="NumAsientos" ColumnName="NumAsientos" />
+                <ScalarProperty Name="IdBloque" ColumnName="IdBloque" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spGetIdTeatroFromUsuario" FunctionName="SistemaTeatros_BD1Model.Store.spGetIdTeatroFromUsuario" />
           <FunctionImportMapping FunctionImportName="spGetMatchingUser" FunctionName="SistemaTeatros_BD1Model.Store.spGetMatchingUser">
             <ResultMapping>
@@ -1171,6 +1193,7 @@
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdProduccionEstado" ColumnName="IdProduccionEstado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1185,24 +1208,6 @@
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spGetBloqueByTeatro" FunctionName="SistemaTeatros_BD1Model.Store.spGetBloqueByTeatro">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetBloqueByTeatro_Result">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="NombreBloque" ColumnName="NombreBloque" />
-                <ScalarProperty Name="IdTeatro" ColumnName="IdTeatro" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spGetFilasByBloque" FunctionName="SistemaTeatros_BD1Model.Store.spGetFilasByBloque">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetFilasByBloque_Result">
-                <ScalarProperty Name="Letra" ColumnName="Letra" />
-                <ScalarProperty Name="NumAsientos" ColumnName="NumAsientos" />
-                <ScalarProperty Name="IdBloque" ColumnName="IdBloque" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1230,8 +1235,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spAddBloque" FunctionName="SistemaTeatros_BD1Model.Store.spAddBloque" />
-          <FunctionImportMapping FunctionImportName="spAddFila" FunctionName="SistemaTeatros_BD1Model.Store.spAddFila" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

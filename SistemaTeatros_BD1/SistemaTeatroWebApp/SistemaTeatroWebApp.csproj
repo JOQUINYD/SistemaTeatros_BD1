@@ -342,6 +342,7 @@
     <Content Include="Views\Filas\Index.cshtml" />
     <Content Include="Views\SystemAdmin\CreateBloque.cshtml" />
     <Content Include="Views\SystemAdmin\CreateFila.cshtml" />
+    <Content Include="Views\TeatroAdmin\UpdateStateProduccion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

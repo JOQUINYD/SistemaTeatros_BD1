@@ -37,14 +37,14 @@ namespace SistemaTeatroWebApp.Filters
                             filterContext.Result = new RedirectResult("~/TeatroAdmin/Index");
                             break;
                         default:
-                            filterContext.Result = new RedirectResult("~/Home/Index"); // Direccion a Home de Cliente
+                            filterContext.Result = new RedirectResult("~/Home/FrontPage"); // Direccion a Home de Cliente
                             break;
                     }
                 }
             }
             catch (Exception ex)
             {
-                filterContext.Result = new RedirectResult("~/Home/Index"); // Direccion a Home de Cliente
+                filterContext.Result = new RedirectResult("~/Home/FrontPage"); // Direccion a Home de Cliente
             }
         }
 

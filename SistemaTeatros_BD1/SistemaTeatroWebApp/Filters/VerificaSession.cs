@@ -17,18 +17,18 @@ namespace SistemaTeatroWebApp.Filters
             {
                 base.OnActionExecuting(filterContext);
 
-                oUsuario = (Usuarios)HttpContext.Current.Session["User"];
-                if (oUsuario == null)
-                {
-                    if (filterContext.Controller is AccesoController == false)
-                    {
-                        filterContext.HttpContext.Response.Redirect("/Acceso/Login");
-                    }
-                }
+                //oUsuario = (Usuarios)HttpContext.Current.Session["User"];
+                //if (oUsuario == null)
+                //{
+                //    if (filterContext.Controller is AccesoController == false)
+                //    {
+                //        filterContext.HttpContext.Response.Redirect("/Home/Index");
+                //    }
+                //}
             }
             catch (Exception)
             {
-                filterContext.Result = new RedirectResult("~/Acceso/Login");
+                filterContext.Result = new RedirectResult("~/Home/FrontPage");
             }
         }
     }

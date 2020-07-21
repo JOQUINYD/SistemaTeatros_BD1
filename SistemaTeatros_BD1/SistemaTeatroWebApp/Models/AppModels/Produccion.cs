@@ -29,7 +29,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
         public string Tipo { get; set; }
 
         [Display(Name = "Teatro")]
-        public int IdTeatro { get; set; }
+        public int? IdTeatro { get; set; }
 
         [Display(Name = "Descripción")]
         [Required(ErrorMessage = "Ingrese una descripción")]
@@ -44,6 +44,8 @@ namespace SistemaTeatroWebApp.Models.AppModels
         public string Estado { get; set; }
 
         public List<Presentacion> presentaciones { get; set; }
+
+        public List<PreciosModel> precios { get; set; }
 
     }
 }

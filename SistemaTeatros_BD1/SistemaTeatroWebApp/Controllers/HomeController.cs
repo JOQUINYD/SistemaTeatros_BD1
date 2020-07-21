@@ -29,5 +29,11 @@ namespace SistemaTeatroWebApp.Controllers
 
             return View();
         }
+
+        public ActionResult FrontPage()
+        {
+
+            return View();
+        }
     }
 }

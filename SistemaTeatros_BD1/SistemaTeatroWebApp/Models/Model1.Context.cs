@@ -129,6 +129,23 @@ namespace SistemaTeatroWebApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddPersonaAndUsuario", nombreParameter, fechaNacParameter, cedulaParameter, direccionParameter, telefonoCelularParameter, telefonoCasaParameter, telefonoOtroParameter, emailParameter, idTeatroParameter, sexoParameter, usuarioParameter, passwordParameter, idAccesoParameter);
         }
     
+        public virtual int spAddPrecio(Nullable<int> idProduccion, Nullable<int> idBloque, Nullable<decimal> precio)
+        {
+            var idProduccionParameter = idProduccion.HasValue ?
+                new ObjectParameter("IdProduccion", idProduccion) :
+                new ObjectParameter("IdProduccion", typeof(int));
+    
+            var idBloqueParameter = idBloque.HasValue ?
+                new ObjectParameter("IdBloque", idBloque) :
+                new ObjectParameter("IdBloque", typeof(int));
+    
+            var precioParameter = precio.HasValue ?
+                new ObjectParameter("Precio", precio) :
+                new ObjectParameter("Precio", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddPrecio", idProduccionParameter, idBloqueParameter, precioParameter);
+        }
+    
         public virtual int spAddPresentacion(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, Nullable<int> idProduccion)
         {
             var fechaParameter = fecha.HasValue ?
@@ -266,6 +283,32 @@ namespace SistemaTeatroWebApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetMatchingUser_Result>("spGetMatchingUser", usuarioParameter);
         }
     
+        public virtual ObjectResult<spGetPreciosByProduccion_Result> spGetPreciosByProduccion(Nullable<int> idProduccion)
+        {
+            var idProduccionParameter = idProduccion.HasValue ?
+                new ObjectParameter("IdProduccion", idProduccion) :
+                new ObjectParameter("IdProduccion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetPreciosByProduccion_Result>("spGetPreciosByProduccion", idProduccionParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> spGetPresentacionesByFechaHora(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, Nullable<int> idTeatro)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            var idTeatroParameter = idTeatro.HasValue ?
+                new ObjectParameter("IdTeatro", idTeatro) :
+                new ObjectParameter("IdTeatro", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spGetPresentacionesByFechaHora", fechaParameter, horaParameter, idTeatroParameter);
+        }
+    
         public virtual ObjectResult<spGetPresentacionesByProduccion_Result> spGetPresentacionesByProduccion(Nullable<int> idProduccion)
         {
             var idProduccionParameter = idProduccion.HasValue ?
@@ -318,23 +361,6 @@ namespace SistemaTeatroWebApp.Models
         public virtual ObjectResult<spGetTeatros_Result> spGetTeatros()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetTeatros_Result>("spGetTeatros");
-        }
-    
-        public virtual ObjectResult<Nullable<int>> spGetPresentacionesByFechaHora(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, Nullable<int> idTeatro)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var horaParameter = hora.HasValue ?
-                new ObjectParameter("Hora", hora) :
-                new ObjectParameter("Hora", typeof(System.TimeSpan));
-    
-            var idTeatroParameter = idTeatro.HasValue ?
-                new ObjectParameter("IdTeatro", idTeatro) :
-                new ObjectParameter("IdTeatro", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spGetPresentacionesByFechaHora", fechaParameter, horaParameter, idTeatroParameter);
         }
     }
 }

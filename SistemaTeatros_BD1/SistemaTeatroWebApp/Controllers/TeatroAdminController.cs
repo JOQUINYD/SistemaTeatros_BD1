@@ -80,7 +80,7 @@ namespace SistemaTeatroWebApp.Controllers
             if (ModelState.IsValid)
             {
                 db.spAddProduccion(produccion.NombreObra, produccion.Descripcion, produccion.Tipo, produccion.FechaInit, produccion.FechaFin, produccion.IdTeatro);
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexProduccion");
             }
 
             ViewBag.IdProduccionEstado = new SelectList(db.ProduccionEstados.Where(e => e.Id == 0).ToList(), "Id", "Estado");
@@ -104,7 +104,6 @@ namespace SistemaTeatroWebApp.Controllers
                 Fecha = FechaInit,
                 Hora = DateTime.Now.TimeOfDay
             };
-            ViewBag.Error = "Hola perra";
             return View(presentacion);
         }
 
@@ -155,8 +154,8 @@ namespace SistemaTeatroWebApp.Controllers
                     FechaFin = item.FechaFin.Date,
                     Tipo = item.Tipo,
                     Estado = item.Estado,
-                    Teatro = item.Nombre
-
+                    Teatro = item.Nombre,
+                    IdTeatro = idTeatro
                 };
                 produccionList.Add(prod);
             }
@@ -185,6 +184,18 @@ namespace SistemaTeatroWebApp.Controllers
                 });
             }
 
+            var preciosDB = db.spGetPreciosByProduccion(IdProduccion);
+            List<PreciosModel> precios = new List<PreciosModel>();
+            foreach (var item in preciosDB)
+            {
+                PreciosModel p = new PreciosModel
+                {
+                    NombreBloque = item.NombreBloque,
+                    Precio = item.Precio
+                };
+                precios.Add(p);
+            }
+
             Produccion produccion = new Produccion
             {
                 Id = IdProduccion,
@@ -195,7 +206,9 @@ namespace SistemaTeatroWebApp.Controllers
                 Descripcion = pro.Descripcion,
                 Teatro = pro.Nombre,
                 Estado = pro.Estado,
-                presentaciones = presentaciones
+                presentaciones = presentaciones,
+                precios = precios,
+                IdTeatro = pro.IdTeatro
             };
 
             if (pro == null)
@@ -218,9 +231,7 @@ namespace SistemaTeatroWebApp.Controllers
                 Id = produccion.Id,
                 NombreObra = produccion.NombreObra,
                 IdProduccionEstado = produccion.IdProduccionEstado, 
-                Teatro = nombreTeatro
-                
-                
+                Teatro = nombreTeatro                
             };
             if (prod == null)
             {
@@ -249,6 +260,36 @@ namespace SistemaTeatroWebApp.Controllers
             }
             ViewBag.IdProduccionEstado = new SelectList(db.ProduccionEstados, "Id", "Estado", produccion.IdProduccionEstado);
             return View(produccion);
+        }
+
+        // GET: Precios/Create
+        public ActionResult CreatePrecio(int? IdProduccion, string NombreProduccion, int? IdTeatro)
+        {
+            ViewBag.IdBloque = new SelectList(db.Bloques.Where(t => t.IdTeatro == IdTeatro), "Id", "NombreBloque");
+
+            PreciosModel precioM = new PreciosModel
+            {
+                IdProduccion = IdProduccion,
+                NombreProduccion = NombreProduccion
+            };
+            return View(precioM);
+        }
+
+        // POST: Precios/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePrecio(PreciosModel precioM)
+        {
+            if (ModelState.IsValid)
+            {
+                db.spAddPrecio(precioM.IdProduccion, precioM.IdBloque, precioM.Precio);
+                return RedirectToAction("DetailsProduccion", new { IdProduccion = precioM.IdProduccion});
+            }
+
+            ViewBag.IdBloque = new SelectList(db.Bloques, "Id", "NombreBloque", precioM.IdBloque);
+            return View(precioM);
         }
 
         [HttpPost]

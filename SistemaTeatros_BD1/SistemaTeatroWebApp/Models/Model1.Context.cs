@@ -319,5 +319,22 @@ namespace SistemaTeatroWebApp.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetTeatros_Result>("spGetTeatros");
         }
+    
+        public virtual ObjectResult<Nullable<int>> spGetPresentacionesByFechaHora(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, Nullable<int> idTeatro)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            var idTeatroParameter = idTeatro.HasValue ?
+                new ObjectParameter("IdTeatro", idTeatro) :
+                new ObjectParameter("IdTeatro", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spGetPresentacionesByFechaHora", fechaParameter, horaParameter, idTeatroParameter);
+        }
     }
 }

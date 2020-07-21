@@ -99,11 +99,12 @@ namespace SistemaTeatroWebApp.Controllers
             {
                 IdProduccion = IdProduccion,
                 Produccion = NombreProduccion,
-                FechaInit = FechaInit,
-                FechaFin = FechaFin,
+                FechaInit = FechaInit.Date,
+                FechaFin = FechaFin.Date,
                 Fecha = FechaInit,
                 Hora = DateTime.Now.TimeOfDay
             };
+            ViewBag.Error = "Hola perra";
             return View(presentacion);
         }
 
@@ -117,10 +118,21 @@ namespace SistemaTeatroWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.spAddPresentacion(presentacion.Fecha, presentacion.Hora, presentacion.IdProduccion);
-                return RedirectToAction("IndexProduccion");
+                if(presentacion.Fecha >= presentacion.FechaInit && presentacion.Fecha <= presentacion.FechaFin)
+                {
+                    var oUsuario = (Usuarios)System.Web.HttpContext.Current.Session["User"];
+                    int? idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
+                    if (!db.spGetPresentacionesByFechaHora(presentacion.Fecha, presentacion.Hora, idTeatro).Any())
+                    {
+                        db.spAddPresentacion(presentacion.Fecha, presentacion.Hora, presentacion.IdProduccion);
+                        return RedirectToAction("IndexProduccion");
+                    }
+                    ViewBag.Error = "Ya existe alguna presentacion con la misma hora";
+                    return View(presentacion);
+                }
+                ViewBag.Error = "Fecha Fuera del rango de la produccion";
+                return View(presentacion);
             }
-
             return View(presentacion);
         }
 
@@ -239,6 +251,17 @@ namespace SistemaTeatroWebApp.Controllers
             return View(produccion);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult isDateInRange(DateTime Fecha, DateTime FechaInit, DateTime FechaFin)
+        {
+            bool res = Fecha >= FechaInit && Fecha <= FechaFin;
+            if (res)
+                return Json(false, JsonRequestBehavior.AllowGet);
+            else
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+        }
 
     }
 

@@ -69,8 +69,8 @@
     <Build Include="dbo\Tables\Personas.sql" />
     <Build Include="dbo\Tables\Usuarios.sql" />
     <Build Include="dbo\Tables\Precios.sql" />
-    <Build Include="dbo\Tables\BoletoCompras.sql" />
-    <Build Include="dbo\Tables\BoletoComprasFilas.sql" />
+    <Build Include="dbo\Tables\Boletos.sql" />
+    <Build Include="dbo\Tables\Facturas.sql" />
     <Build Include="dbo\Tables\ProduccionEstados.sql" />
   </ItemGroup>
   <ItemGroup>

@@ -48,9 +48,6 @@
             @Html.DisplayNameFor(model => model.Descripcion)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Estado)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Teatro)
         </th>
         <th></th>
@@ -58,16 +55,31 @@
 
     @foreach (var item in Model)
     {
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.NombreObra)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFin)
-            </td>
+
+            @if (item.IdProduccionEstado != 1)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaInit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaFin)
+                </td>
+            }
+            else
+            {
+                <td>
+                    Por definir
+                </td>
+                <td>
+                    Por definir
+                </td>
+            }
+
             <td>
                 @Html.DisplayFor(modelItem => item.Tipo)
             </td>
@@ -75,14 +87,41 @@
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Teatro)
             </td>
-            <td>
-                @Html.ActionLink("Presentaciones", "DetailsProduccion")
-            </td>
+            @switch (item.IdProduccionEstado)
+            {
+                case 1:
+                    <td>
+                        Mayor informacion proximamente
+                    </td>
+                    break;
+                case 2:
+                    <td>
+                        Las presentaciones y venta estaran disponibles proximamente
+                    </td>
+                    break;
+                case 3:
+                    <td>
+                        @Html.ActionLink("Detalles", "DetailsProduccion", new { IdProduccion = item.Id })
+                    </td>
+                    break;
+                case 4:
+                    <td>
+                        Presentaciones canceladas. Gracias por su comprensión
+                    </td>
+                    break;
+                case 5:
+                    <td>
+                        Presentaciones concluidas. Gracias por escogernos
+                    </td>
+                    break;
+                default:
+                    <td>
+                        Gracias
+                    </td>
+                    break;
+            }
 
         </tr>
     }

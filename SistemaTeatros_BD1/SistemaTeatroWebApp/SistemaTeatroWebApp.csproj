@@ -223,10 +223,22 @@
     <Compile Include="Models\spGetProduccionesByTeatro_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\spGetProduccionesCartelera_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spGetProduccionesInFechas_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\spGetTeatroById_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\spGetTeatros_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
@@ -356,10 +368,10 @@
     <Content Include="Views\Precios\Edit.cshtml" />
     <Content Include="Views\Precios\Index.cshtml" />
     <Content Include="Views\TeatroAdmin\CreatePrecio.cshtml" />
+    <Content Include="Views\Cliente\Cartelera.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Cliente\" />
     <Folder Include="Views\Hash\" />
   </ItemGroup>
   <ItemGroup>

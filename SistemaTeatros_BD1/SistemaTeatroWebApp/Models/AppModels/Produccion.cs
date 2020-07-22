@@ -47,8 +47,10 @@ namespace SistemaTeatroWebApp.Models.AppModels
 
         public List<PreciosModel> precios { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime? FechaBusquedaInicio { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime? FechaBusquedaFinal { get; set; }
     }
 }

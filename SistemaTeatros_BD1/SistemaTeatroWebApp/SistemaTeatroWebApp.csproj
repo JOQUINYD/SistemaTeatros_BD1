@@ -369,6 +369,7 @@
     <Content Include="Views\Precios\Index.cshtml" />
     <Content Include="Views\TeatroAdmin\CreatePrecio.cshtml" />
     <Content Include="Views\Cliente\Cartelera.cshtml" />
+    <Content Include="Views\Cliente\DetailsProduccion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

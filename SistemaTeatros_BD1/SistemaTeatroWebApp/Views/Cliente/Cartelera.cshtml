@@ -28,7 +28,7 @@
         <input type="submit" value="Buscar">
     }
 </p>
-<hr />>
+<hr />
 
 <table class="table">
     <tr>
@@ -103,7 +103,7 @@
                     break;
                 case 3:
                     <td>
-                        @Html.ActionLink("Detalles", "DetailsProduccion", new { IdProduccion = item.Id })
+                        @Html.ActionLink("Ver Presentaciones", "DetailsProduccion", new { IdProduccion = item.Id, FechaInicio = item.FechaBusquedaInicio, FechaFinal = item.FechaBusquedaFinal })
                     </td>
                     break;
                 case 4:

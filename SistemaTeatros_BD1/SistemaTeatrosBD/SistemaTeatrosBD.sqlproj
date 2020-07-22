@@ -58,6 +58,7 @@
     <Folder Include="Properties" />
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Teatros.sql" />
@@ -72,6 +73,29 @@
     <Build Include="dbo\Tables\Boletos.sql" />
     <Build Include="dbo\Tables\Facturas.sql" />
     <Build Include="dbo\Tables\ProduccionEstados.sql" />
+    <Build Include="dbo\Stored Procedures\spGetTeatros.sql" />
+    <Build Include="dbo\Stored Procedures\spGetTeatroById.sql" />
+    <Build Include="dbo\Stored Procedures\spGetProduccionesInFechas.sql" />
+    <Build Include="dbo\Stored Procedures\spGetProduccionesCartelera.sql" />
+    <Build Include="dbo\Stored Procedures\spGetProduccionesByTeatro.sql" />
+    <Build Include="dbo\Stored Procedures\spGetProduccionById.sql" />
+    <Build Include="dbo\Stored Procedures\spGetPresentacionesRangoFechas.sql" />
+    <Build Include="dbo\Stored Procedures\spGetPresentacionesByProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\spGetPresentacionesByFechaHora.sql" />
+    <Build Include="dbo\Stored Procedures\spGetPreciosByProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\spGetMatchingUser.sql" />
+    <Build Include="dbo\Stored Procedures\spGetIdTeatroFromUsuario.sql" />
+    <Build Include="dbo\Stored Procedures\spGetFilasByBloque.sql" />
+    <Build Include="dbo\Stored Procedures\spGetBloqueByTeatro.sql" />
+    <Build Include="dbo\Stored Procedures\spDefinirPrecioBloqueParaProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\spCambiarEstadoProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\spAddTeatro.sql" />
+    <Build Include="dbo\Stored Procedures\spAddProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\spAddPresentacion.sql" />
+    <Build Include="dbo\Stored Procedures\spAddPrecio.sql" />
+    <Build Include="dbo\Stored Procedures\spAddPersonaAndUsuario.sql" />
+    <Build Include="dbo\Stored Procedures\spAddFila.sql" />
+    <Build Include="dbo\Stored Procedures\spAddBloque.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SistemaTeatrosBD.refactorlog" />

@@ -1,0 +1,127 @@
+﻿@model SistemaTeatroWebApp.Models.AppModels.Produccion
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutTeatroAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Producciones</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreObra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreObra)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaInit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaInit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Teatro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Teatro)
+        </dd>
+    </dl>
+
+    <hr />
+    <h4>Precios por bloque</h4>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Bloque")
+            </th>
+            <th>
+                @Html.DisplayName("Precio")
+            </th>
+        </tr>
+
+        @foreach (var item in Model.precios)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreBloque)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+            </tr>
+        }
+    </table>
+
+    <hr />
+    <h4>Presentaciones</h4>
+    @if (Model.FechaBusquedaInicio != null && Model.FechaBusquedaFinal != null)
+    {
+        <hr />
+        <p> Fechas: @Html.DisplayFor(model => model.FechaBusquedaInicio) - @Html.DisplayFor(model => model.FechaBusquedaInicio)</p>
+        <hr />
+    }
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Fecha")
+            </th>
+            <th>
+                @Html.DisplayName("Hora")
+            </th>
+        </tr>
+
+        @foreach (var item in Model.presentaciones)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora)
+                </td>
+                <td>
+                    @Html.ActionLink("Comprar boletos", "Cartelera")
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Regresar a cartelera", "Cartelera")
+</p>

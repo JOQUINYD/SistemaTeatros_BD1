@@ -1,0 +1,4 @@
+﻿CREATE PROCEDURE spGetTeatros
+AS
+	SELECT * 
+	FROM Teatros

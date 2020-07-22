@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SistemaTeatroWebApp.Models;
@@ -50,7 +51,9 @@ namespace SistemaTeatroWebApp.Controllers
                         Estado = item.Estado,
                         Teatro = item.Nombre,
                         IdTeatro = item.IdTeatro,
-                        IdProduccionEstado = item.IdProduccionEstado
+                        IdProduccionEstado = item.IdProduccionEstado,
+                        FechaBusquedaInicio = FechaInicio,
+                        FechaBusquedaFinal = FechaFinal
                     };
                     produccionList.Add(prod);
                 }
@@ -84,6 +87,75 @@ namespace SistemaTeatroWebApp.Controllers
                 }
             }
             return produccionList;
+        }
+
+        public ActionResult DetailsProduccion(int? IdProduccion, DateTime? FechaInicio, DateTime? FechaFinal)
+        {
+            if (IdProduccion == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var pro = db.spGetProduccionById(IdProduccion).FirstOrDefault();
+            var presentacionesDB = db.spGetPresentacionesByProduccion(IdProduccion);
+
+            List<Presentacion> presentaciones = new List<Presentacion>();
+            foreach (var item in presentacionesDB)
+            {
+                if(FechaInicio != null && FechaFinal != null)
+                {
+                    if(item.Fecha >= FechaInicio && item.Fecha <= FechaFinal)
+                    {
+                        presentaciones.Add(new Presentacion
+                        {
+                            Fecha = item.Fecha,
+                            Hora = item.Hora
+                        });
+                    }
+                }
+                else
+                {
+                    presentaciones.Add(new Presentacion
+                    {
+                        Fecha = item.Fecha,
+                        Hora = item.Hora
+                    });
+                }
+            }
+
+            var preciosDB = db.spGetPreciosByProduccion(IdProduccion);
+            List<PreciosModel> precios = new List<PreciosModel>();
+            foreach (var item in preciosDB)
+            {
+                PreciosModel p = new PreciosModel
+                {
+                    NombreBloque = item.NombreBloque,
+                    Precio = item.Precio
+                };
+                precios.Add(p);
+            }
+
+            Produccion produccion = new Produccion
+            {
+                Id = IdProduccion,
+                NombreObra = pro.NombreObra,
+                FechaInit = pro.FechaInit,
+                FechaFin = pro.FechaFin,
+                Tipo = pro.Tipo,
+                Descripcion = pro.Descripcion,
+                Teatro = pro.Nombre,
+                Estado = pro.Estado,
+                presentaciones = presentaciones,
+                precios = precios,
+                IdTeatro = pro.IdTeatro,
+                FechaBusquedaInicio = FechaInicio,
+                FechaBusquedaFinal = FechaFinal
+            };
+
+            if (pro == null)
+            {
+                return HttpNotFound();
+            }
+            return View(produccion);
         }
     }
 }

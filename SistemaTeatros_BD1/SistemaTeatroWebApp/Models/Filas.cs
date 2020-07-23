@@ -17,7 +17,7 @@ namespace SistemaTeatroWebApp.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Filas()
         {
-            this.BoletoComprasFilas = new HashSet<BoletoComprasFilas>();
+            this.Boletos = new HashSet<Boletos>();
         }
     
         public string Letra { get; set; }
@@ -26,6 +26,6 @@ namespace SistemaTeatroWebApp.Models
     
         public virtual Bloques Bloques { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoletoComprasFilas> BoletoComprasFilas { get; set; }
+        public virtual ICollection<Boletos> Boletos { get; set; }
     }
 }

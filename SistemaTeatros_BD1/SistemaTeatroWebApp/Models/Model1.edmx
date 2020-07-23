@@ -26,23 +26,29 @@
           <Property Name="NombreBloque" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IdTeatro" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="BoletoCompras">
+        <EntityType Name="Boletos">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NombreCliente" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IdPresentacion" Type="int" Nullable="false" />
+          <Property Name="LetraFila" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="IdBloqueFila" Type="int" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IdFactura" Type="int" Nullable="false" />
+          <Property Name="NumAsiento" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="BoletoComprasFilas">
+        <EntityType Name="Facturas">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LetraFila" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="IdBoletoCompra" Type="int" Nullable="false" />
-          <Property Name="NumeroAsiento" Type="int" Nullable="false" />
-          <Property Name="IdBloqueFila" Type="int" Nullable="false" />
+          <Property Name="NombreCliente" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="320" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Telefono" Type="int" Nullable="false" />
+          <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="NumeroAprobacion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Filas">
           <Key>
@@ -148,41 +154,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BoletoCompras_ToPresentaciones">
-          <End Role="Presentaciones" Type="Self.Presentaciones" Multiplicity="1" />
-          <End Role="BoletoCompras" Type="Self.BoletoCompras" Multiplicity="*" />
+        <Association Name="FK_Boleto_ToFactura">
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
+          <End Role="Boletos" Type="Self.Boletos" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Presentaciones">
+            <Principal Role="Facturas">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="BoletoCompras">
-              <PropertyRef Name="IdPresentacion" />
+            <Dependent Role="Boletos">
+              <PropertyRef Name="IdFactura" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BoletoComprasFilas_ToBoletoCompras">
+        <Association Name="FK_Boleto_ToFilas">
           <End Role="Filas" Type="Self.Filas" Multiplicity="1" />
-          <End Role="BoletoComprasFilas" Type="Self.BoletoComprasFilas" Multiplicity="*" />
+          <End Role="Boletos" Type="Self.Boletos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Filas">
               <PropertyRef Name="Letra" />
               <PropertyRef Name="IdBloque" />
             </Principal>
-            <Dependent Role="BoletoComprasFilas">
+            <Dependent Role="Boletos">
               <PropertyRef Name="LetraFila" />
               <PropertyRef Name="IdBloqueFila" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BoletoComprasFilas_ToFilas">
-          <End Role="BoletoCompras" Type="Self.BoletoCompras" Multiplicity="1" />
-          <End Role="BoletoComprasFilas" Type="Self.BoletoComprasFilas" Multiplicity="*" />
+        <Association Name="FK_Boleto_ToPresentaciones">
+          <End Role="Presentaciones" Type="Self.Presentaciones" Multiplicity="1" />
+          <End Role="Boletos" Type="Self.Boletos" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="BoletoCompras">
+            <Principal Role="Presentaciones">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="BoletoComprasFilas">
-              <PropertyRef Name="IdBoletoCompra" />
+            <Dependent Role="Boletos">
+              <PropertyRef Name="IdPresentacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -383,6 +389,11 @@
           <Parameter Name="Id_Produccion" Type="int" Mode="In" />
           <Parameter Name="Precio" Type="decimal" Mode="In" />
         </Function>
+        <Function Name="spGetAsientosVaciosFila" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPresentacion" Type="int" Mode="In" />
+          <Parameter Name="IdBloque" Type="int" Mode="In" />
+          <Parameter Name="Letra" Type="char" Mode="In" />
+        </Function>
         <Function Name="spGetBloqueByTeatro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdTeatro" Type="int" Mode="In" />
         </Function>
@@ -391,6 +402,9 @@
         </Function>
         <Function Name="spGetIdTeatroFromUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spGetInfoBloqueById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdBloque" Type="int" Mode="In" />
         </Function>
         <Function Name="spGetMatchingUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Usuario" Type="varchar" Mode="In" />
@@ -429,8 +443,8 @@
           <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Accesos" EntityType="Self.Accesos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bloques" EntityType="Self.Bloques" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BoletoCompras" EntityType="Self.BoletoCompras" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BoletoComprasFilas" EntityType="Self.BoletoComprasFilas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Boletos" EntityType="Self.Boletos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Filas" EntityType="Self.Filas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personas" EntityType="Self.Personas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Precios" EntityType="Self.Precios" Schema="dbo" store:Type="Tables" />
@@ -444,17 +458,17 @@
             <End Role="Teatros" EntitySet="Teatros" />
             <End Role="Bloques" EntitySet="Bloques" />
           </AssociationSet>
-          <AssociationSet Name="FK_BoletoCompras_ToPresentaciones" Association="Self.FK_BoletoCompras_ToPresentaciones">
-            <End Role="Presentaciones" EntitySet="Presentaciones" />
-            <End Role="BoletoCompras" EntitySet="BoletoCompras" />
+          <AssociationSet Name="FK_Boleto_ToFactura" Association="Self.FK_Boleto_ToFactura">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="Boletos" EntitySet="Boletos" />
           </AssociationSet>
-          <AssociationSet Name="FK_BoletoComprasFilas_ToBoletoCompras" Association="Self.FK_BoletoComprasFilas_ToBoletoCompras">
+          <AssociationSet Name="FK_Boleto_ToFilas" Association="Self.FK_Boleto_ToFilas">
             <End Role="Filas" EntitySet="Filas" />
-            <End Role="BoletoComprasFilas" EntitySet="BoletoComprasFilas" />
+            <End Role="Boletos" EntitySet="Boletos" />
           </AssociationSet>
-          <AssociationSet Name="FK_BoletoComprasFilas_ToFilas" Association="Self.FK_BoletoComprasFilas_ToFilas">
-            <End Role="BoletoCompras" EntitySet="BoletoCompras" />
-            <End Role="BoletoComprasFilas" EntitySet="BoletoComprasFilas" />
+          <AssociationSet Name="FK_Boleto_ToPresentaciones" Association="Self.FK_Boleto_ToPresentaciones">
+            <End Role="Presentaciones" EntitySet="Presentaciones" />
+            <End Role="Boletos" EntitySet="Boletos" />
           </AssociationSet>
           <AssociationSet Name="FK_Filas_Bloques" Association="Self.FK_Filas_Bloques">
             <End Role="Bloques" EntitySet="Bloques" />
@@ -523,27 +537,33 @@
           <NavigationProperty Name="Filas" Relationship="Self.FK_Filas_Bloques" FromRole="Bloques" ToRole="Filas" />
           <NavigationProperty Name="Precios" Relationship="Self.FK_Precios_Bloques" FromRole="Bloques" ToRole="Precios" />
         </EntityType>
-        <EntityType Name="BoletoCompras">
+        <EntityType Name="Boletos">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NombreCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IdPresentacion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Presentaciones" Relationship="Self.FK_BoletoCompras_ToPresentaciones" FromRole="BoletoCompras" ToRole="Presentaciones" />
-          <NavigationProperty Name="BoletoComprasFilas" Relationship="Self.FK_BoletoComprasFilas_ToFilas" FromRole="BoletoCompras" ToRole="BoletoComprasFilas" />
+          <Property Name="LetraFila" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IdBloqueFila" Type="Int32" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IdFactura" Type="Int32" Nullable="false" />
+          <Property Name="NumAsiento" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Facturas" Relationship="Self.FK_Boleto_ToFactura" FromRole="Boletos" ToRole="Facturas" />
+          <NavigationProperty Name="Filas" Relationship="Self.FK_Boleto_ToFilas" FromRole="Boletos" ToRole="Filas" />
+          <NavigationProperty Name="Presentaciones" Relationship="Self.FK_Boleto_ToPresentaciones" FromRole="Boletos" ToRole="Presentaciones" />
         </EntityType>
-        <EntityType Name="BoletoComprasFilas">
+        <EntityType Name="Facturas">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LetraFila" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="IdBoletoCompra" Type="Int32" Nullable="false" />
-          <Property Name="NumeroAsiento" Type="Int32" Nullable="false" />
-          <Property Name="IdBloqueFila" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BoletoCompras" Relationship="Self.FK_BoletoComprasFilas_ToFilas" FromRole="BoletoComprasFilas" ToRole="BoletoCompras" />
-          <NavigationProperty Name="Filas" Relationship="Self.FK_BoletoComprasFilas_ToBoletoCompras" FromRole="BoletoComprasFilas" ToRole="Filas" />
+          <Property Name="NombreCliente" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="320" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Telefono" Type="Int32" Nullable="false" />
+          <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="NumeroAprobacion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Boletos" Relationship="Self.FK_Boleto_ToFactura" FromRole="Facturas" ToRole="Boletos" />
         </EntityType>
         <EntityType Name="Filas">
           <Key>
@@ -554,7 +574,7 @@
           <Property Name="NumAsientos" Type="Int32" Nullable="false" />
           <Property Name="IdBloque" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Bloques" Relationship="Self.FK_Filas_Bloques" FromRole="Filas" ToRole="Bloques" />
-          <NavigationProperty Name="BoletoComprasFilas" Relationship="Self.FK_BoletoComprasFilas_ToBoletoCompras" FromRole="Filas" ToRole="BoletoComprasFilas" />
+          <NavigationProperty Name="Boletos" Relationship="Self.FK_Boleto_ToFilas" FromRole="Filas" ToRole="Boletos" />
         </EntityType>
         <EntityType Name="Personas">
           <Key>
@@ -592,7 +612,7 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
           <Property Name="IdProduccion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BoletoCompras" Relationship="Self.FK_BoletoCompras_ToPresentaciones" FromRole="Presentaciones" ToRole="BoletoCompras" />
+          <NavigationProperty Name="Boletos" Relationship="Self.FK_Boleto_ToPresentaciones" FromRole="Presentaciones" ToRole="Boletos" />
           <NavigationProperty Name="Producciones" Relationship="Self.FK_Presentaciones_Producciones" FromRole="Presentaciones" ToRole="Producciones" />
         </EntityType>
         <EntityType Name="Producciones">
@@ -703,41 +723,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BoletoCompras_ToPresentaciones">
-          <End Role="Presentaciones" Type="Self.Presentaciones" Multiplicity="1" />
-          <End Role="BoletoCompras" Type="Self.BoletoCompras" Multiplicity="*" />
+        <Association Name="FK_Boleto_ToFactura">
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
+          <End Role="Boletos" Type="Self.Boletos" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Presentaciones">
+            <Principal Role="Facturas">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="BoletoCompras">
-              <PropertyRef Name="IdPresentacion" />
+            <Dependent Role="Boletos">
+              <PropertyRef Name="IdFactura" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BoletoComprasFilas_ToFilas">
-          <End Role="BoletoCompras" Type="Self.BoletoCompras" Multiplicity="1" />
-          <End Role="BoletoComprasFilas" Type="Self.BoletoComprasFilas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BoletoCompras">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="BoletoComprasFilas">
-              <PropertyRef Name="IdBoletoCompra" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoletoComprasFilas_ToBoletoCompras">
+        <Association Name="FK_Boleto_ToFilas">
           <End Role="Filas" Type="Self.Filas" Multiplicity="1" />
-          <End Role="BoletoComprasFilas" Type="Self.BoletoComprasFilas" Multiplicity="*" />
+          <End Role="Boletos" Type="Self.Boletos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Filas">
               <PropertyRef Name="Letra" />
               <PropertyRef Name="IdBloque" />
             </Principal>
-            <Dependent Role="BoletoComprasFilas">
+            <Dependent Role="Boletos">
               <PropertyRef Name="LetraFila" />
               <PropertyRef Name="IdBloqueFila" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Boleto_ToPresentaciones">
+          <End Role="Presentaciones" Type="Self.Presentaciones" Multiplicity="1" />
+          <End Role="Boletos" Type="Self.Boletos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Presentaciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Boletos">
+              <PropertyRef Name="IdPresentacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -817,8 +837,8 @@
           <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
           <EntitySet Name="Accesos" EntityType="Self.Accesos" />
           <EntitySet Name="Bloques" EntityType="Self.Bloques" />
-          <EntitySet Name="BoletoCompras" EntityType="Self.BoletoCompras" />
-          <EntitySet Name="BoletoComprasFilas" EntityType="Self.BoletoComprasFilas" />
+          <EntitySet Name="Boletos" EntityType="Self.Boletos" />
+          <EntitySet Name="Facturas" EntityType="Self.Facturas" />
           <EntitySet Name="Filas" EntityType="Self.Filas" />
           <EntitySet Name="Personas" EntityType="Self.Personas" />
           <EntitySet Name="Precios" EntityType="Self.Precios" />
@@ -844,17 +864,17 @@
             <End Role="Bloques" EntitySet="Bloques" />
             <End Role="Precios" EntitySet="Precios" />
           </AssociationSet>
-          <AssociationSet Name="FK_BoletoCompras_ToPresentaciones" Association="Self.FK_BoletoCompras_ToPresentaciones">
-            <End Role="Presentaciones" EntitySet="Presentaciones" />
-            <End Role="BoletoCompras" EntitySet="BoletoCompras" />
+          <AssociationSet Name="FK_Boleto_ToFactura" Association="Self.FK_Boleto_ToFactura">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="Boletos" EntitySet="Boletos" />
           </AssociationSet>
-          <AssociationSet Name="FK_BoletoComprasFilas_ToFilas" Association="Self.FK_BoletoComprasFilas_ToFilas">
-            <End Role="BoletoCompras" EntitySet="BoletoCompras" />
-            <End Role="BoletoComprasFilas" EntitySet="BoletoComprasFilas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoletoComprasFilas_ToBoletoCompras" Association="Self.FK_BoletoComprasFilas_ToBoletoCompras">
+          <AssociationSet Name="FK_Boleto_ToFilas" Association="Self.FK_Boleto_ToFilas">
             <End Role="Filas" EntitySet="Filas" />
-            <End Role="BoletoComprasFilas" EntitySet="BoletoComprasFilas" />
+            <End Role="Boletos" EntitySet="Boletos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Boleto_ToPresentaciones" Association="Self.FK_Boleto_ToPresentaciones">
+            <End Role="Presentaciones" EntitySet="Presentaciones" />
+            <End Role="Boletos" EntitySet="Boletos" />
           </AssociationSet>
           <AssociationSet Name="FK_Personas_Teatros" Association="Self.FK_Personas_Teatros">
             <End Role="Teatros" EntitySet="Teatros" />
@@ -968,6 +988,11 @@
             <Parameter Name="Id_Produccion" Mode="In" Type="Int32" />
             <Parameter Name="Precio" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <FunctionImport Name="spGetAsientosVaciosFila" ReturnType="Collection(Int32)">
+            <Parameter Name="IdPresentacion" Mode="In" Type="Int32" />
+            <Parameter Name="IdBloque" Mode="In" Type="Int32" />
+            <Parameter Name="Letra" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="spGetBloqueByTeatro" ReturnType="Collection(SistemaTeatros_BD1Model.spGetBloqueByTeatro_Result)">
             <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -976,6 +1001,9 @@
           </FunctionImport>
           <FunctionImport Name="spGetIdTeatroFromUsuario" ReturnType="Collection(Int32)">
             <Parameter Name="Usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetInfoBloqueById" ReturnType="Collection(SistemaTeatros_BD1Model.spGetInfoBloqueById_Result)">
+            <Parameter Name="IdBloque" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spGetMatchingUser" ReturnType="Collection(SistemaTeatros_BD1Model.spGetMatchingUser_Result)">
             <Parameter Name="Usuario" Mode="In" Type="String" />
@@ -1032,6 +1060,12 @@
           <Property Type="Int32" Name="NumAsientos" Nullable="false" />
           <Property Type="Int32" Name="IdBloque" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="spGetInfoBloqueById_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="IdTeatro" Nullable="false" />
+          <Property Type="String" Name="NombreBloque" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NombreTeatro" Nullable="false" MaxLength="50" />
+        </ComplexType>
         <ComplexType Name="spGetMatchingUser_Result">
           <Property Type="String" Name="Usuario" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="150" />
@@ -1045,6 +1079,7 @@
         <ComplexType Name="spGetPresentacionesByProduccion_Result">
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
           <Property Type="Time" Name="Hora" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
         </ComplexType>
         <ComplexType Name="spGetPresentacionesRangoFechas_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -1144,23 +1179,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BoletoCompras">
-            <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.BoletoCompras">
-              <MappingFragment StoreEntitySet="BoletoCompras">
+          <EntitySetMapping Name="Boletos">
+            <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.Boletos">
+              <MappingFragment StoreEntitySet="Boletos">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
                 <ScalarProperty Name="IdPresentacion" ColumnName="IdPresentacion" />
+                <ScalarProperty Name="LetraFila" ColumnName="LetraFila" />
+                <ScalarProperty Name="IdBloqueFila" ColumnName="IdBloqueFila" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
+                <ScalarProperty Name="NumAsiento" ColumnName="NumAsiento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BoletoComprasFilas">
-            <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.BoletoComprasFilas">
-              <MappingFragment StoreEntitySet="BoletoComprasFilas">
+          <EntitySetMapping Name="Facturas">
+            <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.Facturas">
+              <MappingFragment StoreEntitySet="Facturas">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="LetraFila" ColumnName="LetraFila" />
-                <ScalarProperty Name="IdBoletoCompra" ColumnName="IdBoletoCompra" />
-                <ScalarProperty Name="NumeroAsiento" ColumnName="NumeroAsiento" />
-                <ScalarProperty Name="IdBloqueFila" ColumnName="IdBloqueFila" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="NumeroAprobacion" ColumnName="NumeroAprobacion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1297,6 +1338,7 @@
           <FunctionImportMapping FunctionImportName="spAddTeatro" FunctionName="SistemaTeatros_BD1Model.Store.spAddTeatro" />
           <FunctionImportMapping FunctionImportName="spCambiarEstadoProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spCambiarEstadoProduccion" />
           <FunctionImportMapping FunctionImportName="spDefinirPrecioBloqueParaProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spDefinirPrecioBloqueParaProduccion" />
+          <FunctionImportMapping FunctionImportName="spGetAsientosVaciosFila" FunctionName="SistemaTeatros_BD1Model.Store.spGetAsientosVaciosFila" />
           <FunctionImportMapping FunctionImportName="spGetBloqueByTeatro" FunctionName="SistemaTeatros_BD1Model.Store.spGetBloqueByTeatro">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetBloqueByTeatro_Result">
@@ -1316,6 +1358,16 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spGetIdTeatroFromUsuario" FunctionName="SistemaTeatros_BD1Model.Store.spGetIdTeatroFromUsuario" />
+          <FunctionImportMapping FunctionImportName="spGetInfoBloqueById" FunctionName="SistemaTeatros_BD1Model.Store.spGetInfoBloqueById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetInfoBloqueById_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdTeatro" ColumnName="IdTeatro" />
+                <ScalarProperty Name="NombreBloque" ColumnName="NombreBloque" />
+                <ScalarProperty Name="NombreTeatro" ColumnName="NombreTeatro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spGetMatchingUser" FunctionName="SistemaTeatros_BD1Model.Store.spGetMatchingUser">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetMatchingUser_Result">
@@ -1340,6 +1392,7 @@
               <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetPresentacionesByProduccion_Result">
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

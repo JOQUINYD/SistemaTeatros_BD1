@@ -33,5 +33,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
         public DateTime FechaFin { get; set; }
 
         public int? IdProduccion { get; set; }
+        
+        public int IdPresentacion { get; set; }
     }
 }

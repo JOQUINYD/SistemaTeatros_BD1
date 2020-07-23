@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using SistemaTeatroWebApp.Models;
 using SistemaTeatroWebApp.Models.AppModels;
 
@@ -107,6 +108,7 @@ namespace SistemaTeatroWebApp.Controllers
                     {
                         presentaciones.Add(new Presentacion
                         {
+                            IdPresentacion = item.Id,
                             Fecha = item.Fecha,
                             Hora = item.Hora
                         });
@@ -116,6 +118,7 @@ namespace SistemaTeatroWebApp.Controllers
                 {
                     presentaciones.Add(new Presentacion
                     {
+                        IdPresentacion = item.Id,
                         Fecha = item.Fecha,
                         Hora = item.Hora
                     });
@@ -156,6 +159,50 @@ namespace SistemaTeatroWebApp.Controllers
                 return HttpNotFound();
             }
             return View(produccion);
+        }
+
+        public ActionResult AsientosDisponibles(int? IdPresentacion, string NombreObra, DateTime? FechaI, DateTime? FechaF, int? IdTeatro, string NombreTeatro, int? IdProduccion)
+        {
+            Presentaciones pre = db.Presentaciones.Where(p => p.Id == IdPresentacion).FirstOrDefault();
+
+            PageAsientosDisponibles pad = new PageAsientosDisponibles
+            {
+                IdTeatro = IdTeatro,
+                NombreTeatro = NombreTeatro,
+                IdPresentacion = IdPresentacion,
+                NombreObra = NombreObra,
+                Fecha = pre.Fecha,
+                Hora = pre.Hora,
+                FechaBusquedaInicio = FechaI,
+                FechaBusquedaFinal = FechaF,
+                IdProduccion = IdProduccion
+            };
+
+            ViewBag.IdBloque = new SelectList(db.Bloques.Where(b => b.IdTeatro == IdTeatro), "Id", "NombreBloque");
+            return View(pad);
+        }
+
+        [HttpPost]
+        public ActionResult AsientosDisponibles(PageAsientosDisponibles pad)
+        {
+            pad.asientos = new List<AsientosDisponibles>();
+
+            var bloque = db.spGetInfoBloqueById(pad.IdBloque).FirstOrDefault();
+            pad.NombreBloque = bloque.NombreBloque;
+
+            var filas = db.spGetFilasByBloque(pad.IdBloque);
+            foreach (var item in filas)
+            {
+                string asientosDisp = db.spGetAsientosVaciosFila(pad.IdPresentacion, pad.IdBloque, item.Letra).ToString();
+                pad.asientos.Add(new AsientosDisponibles
+                {
+                    Letra = item.Letra,
+                    asientos =asientosDisp
+                });
+            }
+            
+            ViewBag.IdBloque = new SelectList(db.Bloques.Where(b => b.IdTeatro == pad.IdTeatro), "Id", "NombreBloque");
+            return View(pad);
         }
     }
 }

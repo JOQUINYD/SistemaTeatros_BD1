@@ -15,5 +15,6 @@ namespace SistemaTeatroWebApp.Models
     {
         public System.DateTime Fecha { get; set; }
         public System.TimeSpan Hora { get; set; }
+        public int Id { get; set; }
     }
 }

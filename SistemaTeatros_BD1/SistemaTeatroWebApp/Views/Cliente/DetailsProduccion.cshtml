@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_LayoutTeatroAdmin.cshtml";
 }
 
 <h2>Details</h2>
@@ -116,7 +115,7 @@
                     @Html.DisplayFor(modelItem => item.Hora)
                 </td>
                 <td>
-                    @Html.ActionLink("Comprar boletos", "Cartelera")
+                    @Html.ActionLink("Asientos disponibles", "AsientosDisponibles", new { IdPresentacion = item.IdPresentacion, NombreObra = Model.NombreObra, FechaI = Model.FechaBusquedaInicio, FechaF = Model.FechaBusquedaFinal, IdTeatro = Model.IdTeatro, NombreTeatro = Model.Teatro, IdProduccion = Model.Id})
                 </td>
             </tr>
         }

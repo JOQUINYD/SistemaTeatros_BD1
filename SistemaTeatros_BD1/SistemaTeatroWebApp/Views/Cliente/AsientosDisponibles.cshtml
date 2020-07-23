@@ -1,0 +1,111 @@
+﻿@model SistemaTeatroWebApp.Models.AppModels.PageAsientosDisponibles
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Filas</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IdPresentacion)
+        @Html.HiddenFor(model => model.IdTeatro)
+        @Html.HiddenFor(model => model.FechaBusquedaInicio)
+        @Html.HiddenFor(model => model.FechaBusquedaFinal)
+        @Html.HiddenFor(model => model.IdProduccion)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NombreTeatro, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.NombreTeatro, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NombreObra, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.NombreObra, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hora, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Hora, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        @if (Model.IdBloque != null)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombreBloque, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.NombreBloque, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdBloque, "IdBloque", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdBloque", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdBloque, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+    <p> Fechas: @Html.DisplayFor(model => model.FechaBusquedaInicio) - @Html.DisplayFor(model => model.FechaBusquedaInicio)</p>
+}
+
+@if (Model.asientos != null)
+{
+    <hr />
+    <h4>Filas</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Letra")
+            </th>
+            <th>
+                @Html.DisplayName("Asientos")
+            </th>
+        </tr>
+
+        @foreach (var item in Model.asientos)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Letra)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.asientos)
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<div>
+    @Html.ActionLink("Regresar", "DetailsProduccion", new { IdProduccion = Model.IdProduccion, FechaInicio = Model.FechaBusquedaInicio, FechaFinal = Model.FechaBusquedaFinal })
+</div>

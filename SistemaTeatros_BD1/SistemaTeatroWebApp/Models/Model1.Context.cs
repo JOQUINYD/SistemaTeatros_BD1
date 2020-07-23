@@ -30,8 +30,8 @@ namespace SistemaTeatroWebApp.Models
         public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
         public virtual DbSet<Accesos> Accesos { get; set; }
         public virtual DbSet<Bloques> Bloques { get; set; }
-        public virtual DbSet<BoletoCompras> BoletoCompras { get; set; }
-        public virtual DbSet<BoletoComprasFilas> BoletoComprasFilas { get; set; }
+        public virtual DbSet<Boletos> Boletos { get; set; }
+        public virtual DbSet<Facturas> Facturas { get; set; }
         public virtual DbSet<Filas> Filas { get; set; }
         public virtual DbSet<Personas> Personas { get; set; }
         public virtual DbSet<Precios> Precios { get; set; }
@@ -350,6 +350,23 @@ namespace SistemaTeatroWebApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spDefinirPrecioBloqueParaProduccion", id_BloqueParameter, id_ProduccionParameter, precioParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> spGetAsientosVaciosFila(Nullable<int> idPresentacion, Nullable<int> idBloque, string letra)
+        {
+            var idPresentacionParameter = idPresentacion.HasValue ?
+                new ObjectParameter("IdPresentacion", idPresentacion) :
+                new ObjectParameter("IdPresentacion", typeof(int));
+    
+            var idBloqueParameter = idBloque.HasValue ?
+                new ObjectParameter("IdBloque", idBloque) :
+                new ObjectParameter("IdBloque", typeof(int));
+    
+            var letraParameter = letra != null ?
+                new ObjectParameter("Letra", letra) :
+                new ObjectParameter("Letra", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spGetAsientosVaciosFila", idPresentacionParameter, idBloqueParameter, letraParameter);
+        }
+    
         public virtual ObjectResult<spGetBloqueByTeatro_Result> spGetBloqueByTeatro(Nullable<int> idTeatro)
         {
             var idTeatroParameter = idTeatro.HasValue ?
@@ -375,6 +392,15 @@ namespace SistemaTeatroWebApp.Models
                 new ObjectParameter("Usuario", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spGetIdTeatroFromUsuario", usuarioParameter);
+        }
+    
+        public virtual ObjectResult<spGetInfoBloqueById_Result> spGetInfoBloqueById(Nullable<int> idBloque)
+        {
+            var idBloqueParameter = idBloque.HasValue ?
+                new ObjectParameter("IdBloque", idBloque) :
+                new ObjectParameter("IdBloque", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetInfoBloqueById_Result>("spGetInfoBloqueById", idBloqueParameter);
         }
     
         public virtual ObjectResult<spGetMatchingUser_Result> spGetMatchingUser(string usuario)

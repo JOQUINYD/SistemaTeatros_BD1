@@ -193,7 +193,9 @@ namespace SistemaTeatroWebApp.Controllers
             var filas = db.spGetFilasByBloque(pad.IdBloque);
             foreach (var item in filas)
             {
-                string asientosDisp = db.spGetAsientosVaciosFila(pad.IdPresentacion, pad.IdBloque, item.Letra).ToString();
+
+                string asientosDisp = string.Join(" - ", db.spGetAsientosVaciosFila(pad.IdPresentacion, pad.IdBloque, item.Letra));
+
                 pad.asientos.Add(new AsientosDisponibles
                 {
                     Letra = item.Letra,

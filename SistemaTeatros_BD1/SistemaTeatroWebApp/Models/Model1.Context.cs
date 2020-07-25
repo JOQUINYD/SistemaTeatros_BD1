@@ -38,6 +38,7 @@ namespace SistemaTeatroWebApp.Models
         public virtual DbSet<Presentaciones> Presentaciones { get; set; }
         public virtual DbSet<Producciones> Producciones { get; set; }
         public virtual DbSet<ProduccionEstados> ProduccionEstados { get; set; }
+        public virtual DbSet<Reportes> Reportes { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Teatros> Teatros { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
@@ -333,6 +334,35 @@ namespace SistemaTeatroWebApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spCambiarEstadoProduccion", id_EstadoParameter, id_ProduccionParameter);
         }
     
+        public virtual int spCompraBoletosYFactura(string nombre_Cliente, string email, Nullable<System.DateTime> fecha, Nullable<int> telefono, Nullable<System.TimeSpan> hora, Nullable<int> numero_Aprobacion)
+        {
+            var nombre_ClienteParameter = nombre_Cliente != null ?
+                new ObjectParameter("Nombre_Cliente", nombre_Cliente) :
+                new ObjectParameter("Nombre_Cliente", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var telefonoParameter = telefono.HasValue ?
+                new ObjectParameter("Telefono", telefono) :
+                new ObjectParameter("Telefono", typeof(int));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            var numero_AprobacionParameter = numero_Aprobacion.HasValue ?
+                new ObjectParameter("Numero_Aprobacion", numero_Aprobacion) :
+                new ObjectParameter("Numero_Aprobacion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spCompraBoletosYFactura", nombre_ClienteParameter, emailParameter, fechaParameter, telefonoParameter, horaParameter, numero_AprobacionParameter);
+        }
+    
         public virtual int spDefinirPrecioBloqueParaProduccion(Nullable<int> id_Bloque, Nullable<int> id_Produccion, Nullable<decimal> precio)
         {
             var id_BloqueParameter = id_Bloque.HasValue ?
@@ -494,6 +524,11 @@ namespace SistemaTeatroWebApp.Models
                 new ObjectParameter("Fecha_Final", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetProduccionesInFechas_Result>("spGetProduccionesInFechas", fecha_InicioParameter, fecha_FinalParameter);
+        }
+    
+        public virtual int spGetReporteDiario()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spGetReporteDiario");
         }
     
         public virtual ObjectResult<spGetTeatroById_Result> spGetTeatroById(Nullable<int> idTeatro)

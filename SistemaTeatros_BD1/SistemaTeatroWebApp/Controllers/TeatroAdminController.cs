@@ -29,7 +29,7 @@ namespace SistemaTeatroWebApp.Controllers
         [AuthorizeUser(IdAcceso: 1)]
         public ActionResult CreateUsuario()
         {
-            ViewBag.IdAcceso = new SelectList(db.Accesos.Where(i => i.Id != 0).ToList(), "Id", "Tipo");
+            ViewBag.IdAcceso = new SelectList(db.Accesos.Where(i => i.Id == 2).ToList(), "Id", "Tipo");
             ViewBag.IdTeatro = new SelectList(db.Teatros, "Id", "Nombre");
             return View();
         }
@@ -44,8 +44,10 @@ namespace SistemaTeatroWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                string password = HashController.ComputeHash(usuarioCompleto.Password, null);
+
                 db.spAddPersonaAndUsuario(usuarioCompleto.Nombre, usuarioCompleto.FechaNac, usuarioCompleto.Cedula, usuarioCompleto.Direccion, usuarioCompleto.TelefonoCelular, usuarioCompleto.TelefonoCelular,
-                                            usuarioCompleto.TelefonoOtro, usuarioCompleto.Email, usuarioCompleto.IdTeatro, usuarioCompleto.Sexo, usuarioCompleto.Usuario, usuarioCompleto.Password, usuarioCompleto.IdAcceso);
+                                            usuarioCompleto.TelefonoOtro, usuarioCompleto.Email, usuarioCompleto.IdTeatro, usuarioCompleto.Sexo, usuarioCompleto.Usuario, password, usuarioCompleto.IdAcceso);
 
                 return RedirectToAction("Index");
             }
@@ -253,7 +255,7 @@ namespace SistemaTeatroWebApp.Controllers
             Console.WriteLine(ModelState.IsValid);
             Console.WriteLine(produccion.Id);
             Console.WriteLine(produccion.IdProduccionEstado);
-            if (true)
+            if (ModelState.IsValid)
             {
                 db.spCambiarEstadoProduccion(produccion.IdProduccionEstado, produccion.Id);
                 return RedirectToAction("DetailsProduccion", new { IdProduccion = produccion.Id });
@@ -263,6 +265,7 @@ namespace SistemaTeatroWebApp.Controllers
         }
 
         // GET: Precios/Create
+        [AuthorizeUser(IdAcceso: 1)]
         public ActionResult CreatePrecio(int? IdProduccion, string NombreProduccion, int? IdTeatro)
         {
             ViewBag.IdBloque = new SelectList(db.Bloques.Where(t => t.IdTeatro == IdTeatro), "Id", "NombreBloque");
@@ -280,6 +283,7 @@ namespace SistemaTeatroWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(IdAcceso: 1)]
         public ActionResult CreatePrecio(PreciosModel precioM)
         {
             if (ModelState.IsValid)

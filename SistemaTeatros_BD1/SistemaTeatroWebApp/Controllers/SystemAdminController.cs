@@ -28,7 +28,7 @@ namespace SistemaTeatroWebApp.Controllers
         [AuthorizeUser(IdAcceso: 0)]
         public ActionResult CreateUsuario()
         {
-            ViewBag.IdAcceso = new SelectList(db.Accesos, "Id", "Tipo");
+            ViewBag.IdAcceso = new SelectList(db.Accesos.Where(a => a.Id == 1), "Id", "Tipo");
             ViewBag.IdTeatro = new SelectList(db.Teatros, "Id", "Nombre");
             return View();
         }
@@ -49,8 +49,10 @@ namespace SistemaTeatroWebApp.Controllers
                     usuarioCompleto.IdTeatro = null;
                 }
 
+                string password = HashController.ComputeHash(usuarioCompleto.Password, null);
+
                 db.spAddPersonaAndUsuario(usuarioCompleto.Nombre, usuarioCompleto.FechaNac, usuarioCompleto.Cedula, usuarioCompleto.Direccion, usuarioCompleto.TelefonoCelular, usuarioCompleto.TelefonoCelular,
-                                            usuarioCompleto.TelefonoOtro, usuarioCompleto.Email, usuarioCompleto.IdTeatro, usuarioCompleto.Sexo, usuarioCompleto.Usuario,usuarioCompleto.Password, usuarioCompleto.IdAcceso);
+                                            usuarioCompleto.TelefonoOtro, usuarioCompleto.Email, usuarioCompleto.IdTeatro, usuarioCompleto.Sexo, usuarioCompleto.Usuario, password, usuarioCompleto.IdAcceso);
 
                 return RedirectToAction("Index");
             }

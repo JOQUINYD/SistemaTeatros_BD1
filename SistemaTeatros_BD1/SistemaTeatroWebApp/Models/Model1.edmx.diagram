@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ad20d1c2ca6348a48f967add22d0bb52" Name="Diagram1">
+      <Diagram DiagramId="515434d760b7424ca57257a0e261ad7f" Name="Diagram1">
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.C__RefactorLog" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Accesos" Width="1.5" PointX="3" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Bloques" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
@@ -16,6 +16,7 @@
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Presentaciones" Width="1.5" PointX="8.25" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Producciones" Width="1.5" PointX="6" PointY="11.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.ProduccionEstados" Width="1.5" PointX="3.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Reportes" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Teatros" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Usuarios" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />

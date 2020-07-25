@@ -30,6 +30,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
 
         [Display(Name = "Fecha de nacimiento")]
         [Required(ErrorMessage = "Ingresar fecha de nacimiento")]
+        [DataType(DataType.Date)]
         public DateTime FechaNac { get; set; }
 
         [Required(ErrorMessage = "Selecione un sexo")]

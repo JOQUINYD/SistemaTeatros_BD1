@@ -112,6 +112,15 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Estado" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Reportes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="CostoPromedio" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -384,6 +393,14 @@
           <Parameter Name="Id_Estado" Type="int" Mode="In" />
           <Parameter Name="Id_Produccion" Type="int" Mode="In" />
         </Function>
+        <Function Name="spCompraBoletosYFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre_Cliente" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="nvarchar" Mode="In" />
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+          <Parameter Name="Telefono" Type="int" Mode="In" />
+          <Parameter Name="Hora" Type="time" Mode="In" />
+          <Parameter Name="Numero_Aprobacion" Type="int" Mode="In" />
+        </Function>
         <Function Name="spDefinirPrecioBloqueParaProduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id_Bloque" Type="int" Mode="In" />
           <Parameter Name="Id_Produccion" Type="int" Mode="In" />
@@ -435,6 +452,7 @@
           <Parameter Name="Fecha_Inicio" Type="date" Mode="In" />
           <Parameter Name="Fecha_Final" Type="date" Mode="In" />
         </Function>
+        <Function Name="spGetReporteDiario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spGetTeatroById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdTeatro" Type="int" Mode="In" />
         </Function>
@@ -451,6 +469,7 @@
           <EntitySet Name="Presentaciones" EntityType="Self.Presentaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Producciones" EntityType="Self.Producciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProduccionEstados" EntityType="Self.ProduccionEstados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reportes" EntityType="Self.Reportes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teatros" EntityType="Self.Teatros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
@@ -639,6 +658,15 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Producciones" Relationship="Self.FK_Producciones_ProduccionEstados" FromRole="ProduccionEstados" ToRole="Producciones" />
+        </EntityType>
+        <EntityType Name="Reportes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="CostoPromedio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -845,6 +873,7 @@
           <EntitySet Name="Presentaciones" EntityType="Self.Presentaciones" />
           <EntitySet Name="Producciones" EntityType="Self.Producciones" />
           <EntitySet Name="ProduccionEstados" EntityType="Self.ProduccionEstados" />
+          <EntitySet Name="Reportes" EntityType="Self.Reportes" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Teatros" EntityType="Self.Teatros" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
@@ -983,6 +1012,14 @@
             <Parameter Name="Id_Estado" Mode="In" Type="Int32" />
             <Parameter Name="Id_Produccion" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spCompraBoletosYFactura">
+            <Parameter Name="Nombre_Cliente" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Telefono" Mode="In" Type="Int32" />
+            <Parameter Name="Hora" Mode="In" Type="Time" />
+            <Parameter Name="Numero_Aprobacion" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="spDefinirPrecioBloqueParaProduccion">
             <Parameter Name="Id_Bloque" Mode="In" Type="Int32" />
             <Parameter Name="Id_Produccion" Mode="In" Type="Int32" />
@@ -1034,6 +1071,7 @@
             <Parameter Name="Fecha_Inicio" Mode="In" Type="DateTime" />
             <Parameter Name="Fecha_Final" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="spGetReporteDiario" />
           <FunctionImport Name="spGetTeatroById" ReturnType="Collection(SistemaTeatros_BD1Model.spGetTeatroById_Result)">
             <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1272,6 +1310,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Reportes">
+            <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.Reportes">
+              <MappingFragment StoreEntitySet="Reportes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="CostoPromedio" ColumnName="CostoPromedio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="SistemaTeatros_BD1Model.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -1337,6 +1385,7 @@
           <FunctionImportMapping FunctionImportName="spAddProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spAddProduccion" />
           <FunctionImportMapping FunctionImportName="spAddTeatro" FunctionName="SistemaTeatros_BD1Model.Store.spAddTeatro" />
           <FunctionImportMapping FunctionImportName="spCambiarEstadoProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spCambiarEstadoProduccion" />
+          <FunctionImportMapping FunctionImportName="spCompraBoletosYFactura" FunctionName="SistemaTeatros_BD1Model.Store.spCompraBoletosYFactura" />
           <FunctionImportMapping FunctionImportName="spDefinirPrecioBloqueParaProduccion" FunctionName="SistemaTeatros_BD1Model.Store.spDefinirPrecioBloqueParaProduccion" />
           <FunctionImportMapping FunctionImportName="spGetAsientosVaciosFila" FunctionName="SistemaTeatros_BD1Model.Store.spGetAsientosVaciosFila" />
           <FunctionImportMapping FunctionImportName="spGetBloqueByTeatro" FunctionName="SistemaTeatros_BD1Model.Store.spGetBloqueByTeatro">
@@ -1468,6 +1517,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetReporteDiario" FunctionName="SistemaTeatros_BD1Model.Store.spGetReporteDiario" />
           <FunctionImportMapping FunctionImportName="spGetTeatroById" FunctionName="SistemaTeatros_BD1Model.Store.spGetTeatroById">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetTeatroById_Result">

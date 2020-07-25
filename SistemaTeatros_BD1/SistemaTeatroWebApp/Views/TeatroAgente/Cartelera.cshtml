@@ -1,0 +1,132 @@
+﻿@model IEnumerable<SistemaTeatroWebApp.Models.AppModels.Produccion>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutTeatroAgente.cshtml";
+}
+
+<h2>Producciones</h2>
+<hr />
+<p>
+    @using (Html.BeginForm("Cartelera", "Cliente", FormMethod.Get))
+    {
+        <style>
+            label {
+                text-align: left;
+                width: 150px;
+                display: block;
+                float: left;
+                clear: right;
+                font-size: 18;
+            }
+        </style>
+
+        <b>Buscar personas</b><br /><br />
+        <label for="FechaInicio"> Fecha Inicial: </label>
+        <input type="date" id="FechaInicio" name="FechaInicio"><br>
+        <label for="FechaFinal"> Fecha Final: </label>
+        <input type="date" id="FechaFinal" name="FechaFinal"><br>
+        <input type="submit" value="Buscar">
+    }
+</p>
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreObra)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaInit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Teatro)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreObra)
+            </td>
+
+            @if (item.IdProduccionEstado != 1)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaInit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaFin)
+                </td>
+            }
+            else
+            {
+                <td>
+                    Por definir
+                </td>
+                <td>
+                    Por definir
+                </td>
+            }
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teatro)
+            </td>
+            @switch (item.IdProduccionEstado)
+            {
+                case 1:
+                    <td>
+                        Mayor informacion proximamente
+                    </td>
+                    break;
+                case 2:
+                    <td>
+                        Las presentaciones y venta estaran disponibles proximamente
+                    </td>
+                    break;
+                case 3:
+                    <td>
+                        @Html.ActionLink("Ver Presentaciones", "DetailsProduccion", new { IdProduccion = item.Id, FechaInicio = item.FechaBusquedaInicio, FechaFinal = item.FechaBusquedaFinal })
+                    </td>
+                    break;
+                case 4:
+                    <td>
+                        Presentaciones canceladas. Gracias por su comprensión
+                    </td>
+                    break;
+                case 5:
+                    <td>
+                        Presentaciones concluidas. Gracias por escogernos
+                    </td>
+                    break;
+                default:
+                    <td>
+                        Gracias
+                    </td>
+                    break;
+            }
+
+        </tr>
+    }
+
+</table>
+
+

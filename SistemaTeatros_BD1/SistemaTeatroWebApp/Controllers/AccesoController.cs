@@ -54,8 +54,10 @@ namespace SistemaTeatroWebApp.Controllers
                                 return RedirectToAction("Index", "SystemAdmin");
                             case 1:
                                 return RedirectToAction("Index", "TeatroAdmin");
+                            case 2:
+                                return RedirectToAction("Index", "TeatroAgente");
                             default:
-                                return RedirectToAction("Index", "TeatroAdmin"); // Direccionar a Index Cliente 
+                                return RedirectToAction("FrontPage", "Home"); // Direccionar a Index Cliente 
                         }
                     }
                     else

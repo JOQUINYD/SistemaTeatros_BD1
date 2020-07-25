@@ -429,6 +429,9 @@
         <Function Name="spGetPreciosByProduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProduccion" Type="int" Mode="In" />
         </Function>
+        <Function Name="spGetPresentacionById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPresentacion" Type="int" Mode="In" />
+        </Function>
         <Function Name="spGetPresentacionesByFechaHora" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Hora" Type="time" Mode="In" />
@@ -1048,6 +1051,9 @@
           <FunctionImport Name="spGetPreciosByProduccion" ReturnType="Collection(SistemaTeatros_BD1Model.spGetPreciosByProduccion_Result)">
             <Parameter Name="IdProduccion" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spGetPresentacionById" ReturnType="Collection(SistemaTeatros_BD1Model.spGetPresentacionById_Result)">
+            <Parameter Name="IdPresentacion" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="spGetPresentacionesByFechaHora" ReturnType="Collection(Int32)">
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Hora" Mode="In" Type="Time" />
@@ -1113,6 +1119,14 @@
         <ComplexType Name="spGetPreciosByProduccion_Result">
           <Property Type="Decimal" Name="Precio" Nullable="false" Precision="19" Scale="4" />
           <Property Type="String" Name="NombreBloque" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetPresentacionById_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="Time" Name="Hora" Nullable="false" />
+          <Property Type="String" Name="NombreObra" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NombreTeatro" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="IdTeatro" Nullable="false" />
         </ComplexType>
         <ComplexType Name="spGetPresentacionesByProduccion_Result">
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
@@ -1432,6 +1446,18 @@
               <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetPreciosByProduccion_Result">
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="NombreBloque" ColumnName="NombreBloque" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetPresentacionById" FunctionName="SistemaTeatros_BD1Model.Store.spGetPresentacionById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetPresentacionById_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="NombreObra" ColumnName="NombreObra" />
+                <ScalarProperty Name="NombreTeatro" ColumnName="NombreTeatro" />
+                <ScalarProperty Name="IdTeatro" ColumnName="IdTeatro" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -451,6 +451,15 @@ namespace SistemaTeatroWebApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetPreciosByProduccion_Result>("spGetPreciosByProduccion", idProduccionParameter);
         }
     
+        public virtual ObjectResult<spGetPresentacionById_Result> spGetPresentacionById(Nullable<int> idPresentacion)
+        {
+            var idPresentacionParameter = idPresentacion.HasValue ?
+                new ObjectParameter("IdPresentacion", idPresentacion) :
+                new ObjectParameter("IdPresentacion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetPresentacionById_Result>("spGetPresentacionById", idPresentacionParameter);
+        }
+    
         public virtual ObjectResult<Nullable<int>> spGetPresentacionesByFechaHora(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, Nullable<int> idTeatro)
         {
             var fechaParameter = fecha.HasValue ?

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -206,5 +207,102 @@ namespace SistemaTeatroWebApp.Controllers
             ViewBag.IdBloque = new SelectList(db.Bloques.Where(b => b.IdTeatro == pad.IdTeatro), "Id", "NombreBloque");
             return View(pad);
         }
+
+        public ActionResult EscogerBloque(int? IdPresentacion)
+        {
+            var presentacionInfo = db.spGetPresentacionById(IdPresentacion).FirstOrDefault();
+            CompraBoleto cp = new CompraBoleto
+            {
+                IdPresentacion = IdPresentacion,
+                NombreObra = presentacionInfo.NombreObra,
+                NombreTeatro = presentacionInfo.NombreTeatro,
+                IdTeatro = presentacionInfo.IdTeatro,
+                Fecha = presentacionInfo.Fecha,
+                Hora = presentacionInfo.Hora
+            };
+
+            ViewBag.IdBloque = new SelectList(db.Bloques.Where(t => t.IdTeatro == cp.IdTeatro), "Id", "NombreBloque");
+            return View(cp);
+        }
+
+        [HttpPost]
+        public ActionResult EscogerBloque(CompraBoleto cp)
+        {
+            Console.WriteLine(cp.IdPresentacion);
+            Console.WriteLine(cp.IdPresentacion);
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("EscogerFila", new { IdPresentacion = cp.IdPresentacion, IdBloque = cp.IdBloque });
+            }
+
+            var presentacionInfo = db.spGetPresentacionById(cp.IdPresentacion).FirstOrDefault();
+            cp = new CompraBoleto
+            {
+                IdPresentacion = presentacionInfo.Id,
+                NombreObra = presentacionInfo.NombreObra,
+                NombreTeatro = presentacionInfo.NombreTeatro,
+                IdTeatro = presentacionInfo.IdTeatro,
+                Fecha = presentacionInfo.Fecha,
+                Hora = presentacionInfo.Hora
+            };
+            ViewBag.IdBloque = new SelectList(db.Bloques.Where(t => t.IdTeatro == cp.IdTeatro), "Id", "NombreBloque");
+            return View(cp);
+        }
+
+        public ActionResult EscogerFila(int? IdPresentacion, int? IdBloque)
+        {
+            var presentacionInfo = db.spGetPresentacionById(IdPresentacion).FirstOrDefault();
+            var bloqueInfo = db.spGetInfoBloqueById(IdBloque).FirstOrDefault();
+            CompraBoleto cp = new CompraBoleto
+            {
+                IdPresentacion = IdPresentacion,
+                NombreObra = presentacionInfo.NombreObra,
+                NombreTeatro = presentacionInfo.NombreTeatro,
+                IdTeatro = presentacionInfo.IdTeatro,
+                Fecha = presentacionInfo.Fecha,
+                Hora = presentacionInfo.Hora,
+                IdBloque = IdBloque,
+                NombreBloque = bloqueInfo.NombreBloque
+            };
+
+            ViewBag.Letras = new SelectList(db.Filas.Where(f => f.IdBloque == IdBloque), "Letra", "Letra");
+            return View(cp);
+        }
+
+        [HttpPost]
+        public ActionResult EscogerFila(CompraBoleto cp)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("ComprarBoletos", new { IdPresentacion = cp.IdPresentacion, IdBloque = cp.IdBloque, Letra = cp.Letra });
+            }
+            return View();
+        }
+
+        public ActionResult ComprarBoletos(int? IdPresentacion, int? IdBloque, string Letra)
+        {
+            var presentacionInfo = db.spGetPresentacionById(IdPresentacion).FirstOrDefault();
+            var bloqueInfo = db.spGetInfoBloqueById(IdBloque).FirstOrDefault();
+            CompraBoleto cp = new CompraBoleto
+            {
+                IdPresentacion = IdPresentacion,
+                NombreObra = presentacionInfo.NombreObra,
+                NombreTeatro = presentacionInfo.NombreTeatro,
+                IdTeatro = presentacionInfo.IdTeatro,
+                IdBloque = IdBloque,
+                NombreBloque = bloqueInfo.NombreBloque,
+                Letra = Letra,
+                Fecha = presentacionInfo.Fecha,
+                Hora = presentacionInfo.Hora
+            };
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ComprarBoletos(int d)
+        {
+            return View();
+        }
+
     }
 }

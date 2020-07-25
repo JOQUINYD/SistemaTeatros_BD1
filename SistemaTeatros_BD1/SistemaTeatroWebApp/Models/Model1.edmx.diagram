@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="515434d760b7424ca57257a0e261ad7f" Name="Diagram1">
+      <Diagram DiagramId="2d64c7ae9eb641dca8db67b1c8aee208" Name="Diagram1">
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.C__RefactorLog" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Accesos" Width="1.5" PointX="3" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaTeatros_BD1Model.Bloques" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />

@@ -31,5 +31,9 @@ namespace SistemaTeatroWebApp.Models.AppModels
         
         [DataType(DataType.Time)]
         public TimeSpan Hora { get; set; }
+
+        public List<AsientosDisponibles> asientos { get; set; }
+
+        public Factura factura { get; set; }
     }
 }

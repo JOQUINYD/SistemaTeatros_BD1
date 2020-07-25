@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
+using Microsoft.Data.SqlClient;
 using SistemaTeatroWebApp.Models;
 using SistemaTeatroWebApp.Models.AppModels;
 
@@ -262,10 +264,24 @@ namespace SistemaTeatroWebApp.Controllers
                 Fecha = presentacionInfo.Fecha,
                 Hora = presentacionInfo.Hora,
                 IdBloque = IdBloque,
-                NombreBloque = bloqueInfo.NombreBloque
+                NombreBloque = bloqueInfo.NombreBloque,
+                asientos = new List<AsientosDisponibles>()
             };
 
-            ViewBag.Letras = new SelectList(db.Filas.Where(f => f.IdBloque == IdBloque), "Letra", "Letra");
+            var filas = db.spGetFilasByBloque(cp.IdBloque);
+            foreach (var item in filas)
+            {
+
+                string asientosDisp = string.Join(" - ", db.spGetAsientosVaciosFila(cp.IdPresentacion, cp.IdBloque, item.Letra));
+
+                cp.asientos.Add(new AsientosDisponibles
+                {
+                    Letra = item.Letra,
+                    asientos = asientosDisp
+                });
+            }
+
+            ViewBag.Letra = new SelectList(db.Filas.Where(f => f.IdBloque == IdBloque), "Letra", "Letra");
             return View(cp);
         }
 
@@ -293,16 +309,72 @@ namespace SistemaTeatroWebApp.Controllers
                 NombreBloque = bloqueInfo.NombreBloque,
                 Letra = Letra,
                 Fecha = presentacionInfo.Fecha,
-                Hora = presentacionInfo.Hora
+                Hora = presentacionInfo.Hora,
+                asientos = new List<AsientosDisponibles>(),
+                factura = new Factura()
             };
-            return View();
+
+
+            string asientosDisp = string.Join(" - ", db.spGetAsientosVaciosFila(cp.IdPresentacion, cp.IdBloque, cp.Letra));
+
+            cp.asientos.Add(new AsientosDisponibles
+            {
+                Letra = cp.Letra,
+                asientos = asientosDisp
+            });
+      
+            return View(cp);
         }
 
         [HttpPost]
-        public ActionResult ComprarBoletos(int d)
+        public ActionResult ComprarBoletos(CompraBoleto cp)
         {
-            return View();
+            // int[] Dist, string Nombre, int id, 
+
+            var builder = new SqlConnectionStringBuilder();
+            builder.DataSource = @"DESKTOP-ED7N4A2";
+            builder.InitialCatalog = "SistemaTeatros_BD1";
+            builder.IntegratedSecurity = true;
+
+            DateTime currentDate = DateTime.Now;
+            int[] Dist = { 1, 3, 4 };
+
+            var connectionString = builder.ToString();
+
+            using (SqlConnection sql = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("spCompraBoletosYFactura", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Nombre_Cliente", cp.factura.NombreCliente));
+                    cmd.Parameters.Add(new SqlParameter("@Email", cp.factura.Email));
+                    cmd.Parameters.Add(new SqlParameter("@Fecha", currentDate));
+                    cmd.Parameters.Add(new SqlParameter("@Telefono", cp.factura.Telefono));
+                    cmd.Parameters.Add(new SqlParameter("@Hora", currentDate.TimeOfDay));
+                    cmd.Parameters.Add(new SqlParameter("@Numero_Aprobacion", 75));
+                    cmd.Parameters.Add(new SqlParameter("@Boletos", getBoletosTable(cp.IdPresentacion, cp.IdBloque, cp.Letra, Dist)));
+                    sql.Open();
+                    cmd.ExecuteNonQuery();
+                    sql.Close();
+                }                
+            }
+            return RedirectToAction("Cartelera");
         }
 
+        public DataTable getBoletosTable(int? IdPresentacion, int? IdBloque, string Letra, int[] dist)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("IdPresentacion");
+            dt.Columns.Add("LetraFila");
+            dt.Columns.Add("IdBloqueFila");
+            dt.Columns.Add("NumAsiento");
+
+            foreach (var asiento in dist)
+            {
+                dt.Rows.Add(IdPresentacion, Letra, IdBloque, asiento);
+            }
+
+            return dt;
+        }
     }
 }

@@ -55,7 +55,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Letra, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Letras", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("Letra", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Letra, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -67,6 +67,33 @@
         </div>
     </div>
 }
+
+<hr />
+<h4>Filas</h4>
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Letra")
+        </th>
+        <th>
+            @Html.DisplayName("Asientos")
+        </th>
+    </tr>
+
+    @foreach (var item in Model.asientos)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Letra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.asientos)
+            </td>
+        </tr>
+    }
+</table>
 
 <div>
     @Html.ActionLink("Regresar", "EscogerBloque", new { IdPresentacion = Model.IdPresentacion})

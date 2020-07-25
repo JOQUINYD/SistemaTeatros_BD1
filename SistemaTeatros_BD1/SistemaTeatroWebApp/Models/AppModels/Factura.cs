@@ -15,7 +15,8 @@ namespace SistemaTeatroWebApp.Models.AppModels
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        public CreditCardAttribute creditCard { get; set; }
+        [DataType(DataType.CreditCard)]
+        public string creditCard { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/yyyy}")]

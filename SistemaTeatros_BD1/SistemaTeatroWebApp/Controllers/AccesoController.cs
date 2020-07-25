@@ -73,5 +73,20 @@ namespace SistemaTeatroWebApp.Controllers
                 return View();
             }
         }
+
+
+        public ActionResult Logout()
+        {
+            try
+            {
+                Session["User"] = null;
+                return RedirectToAction("FrontPage", "Home");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("FrontPage", "Home");
+                throw;
+            }
+        }
     }
 }

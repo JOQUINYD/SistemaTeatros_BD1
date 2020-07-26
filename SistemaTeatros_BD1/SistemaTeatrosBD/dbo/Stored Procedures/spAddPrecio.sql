@@ -1,4 +1,4 @@
-﻿Create Procedure spAddPrecio
+﻿Create Procedure [dbo].[spAddPrecio]
 	@IdProduccion int,
 	@IdBloque int,
 	@Precio decimal(19,4)

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spGetIdTeatroFromUsuario
+﻿CREATE PROCEDURE [dbo].[spGetIdTeatroFromUsuario]
 	@Usuario varchar(50)
 AS
 	SELECT p.IdTeatro

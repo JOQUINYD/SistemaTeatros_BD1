@@ -59,6 +59,8 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\User Defined Types\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Teatros.sql" />
@@ -97,6 +99,24 @@
     <Build Include="dbo\Stored Procedures\spAddFila.sql" />
     <Build Include="dbo\Stored Procedures\spAddBloque.sql" />
     <Build Include="dbo\Tables\Reportes.sql" />
+    <Build Include="dbo\Tables\sysdiagrams.sql" />
+    <Build Include="dbo\Tables\__RefactorLog.sql" />
+    <Build Include="dbo\Functions\fn_diagramobjects.sql" />
+    <Build Include="dbo\Stored Procedures\spGetReporteDiario.sql" />
+    <Build Include="dbo\Stored Procedures\spGetPresentacionById.sql" />
+    <Build Include="dbo\Stored Procedures\spGetPrecioByPresBloque.sql" />
+    <Build Include="dbo\Stored Procedures\spGetInfoBloqueById.sql" />
+    <Build Include="dbo\Stored Procedures\spGetAsientosVaciosFila.sql" />
+    <Build Include="dbo\Stored Procedures\spGetAccesoById.sql" />
+    <Build Include="dbo\Stored Procedures\spCompraBoletosYFactura.sql" />
+    <Build Include="dbo\Stored Procedures\sp_upgraddiagrams.sql" />
+    <Build Include="dbo\Stored Procedures\sp_renamediagram.sql" />
+    <Build Include="dbo\Stored Procedures\sp_helpdiagrams.sql" />
+    <Build Include="dbo\Stored Procedures\sp_helpdiagramdefinition.sql" />
+    <Build Include="dbo\Stored Procedures\sp_dropdiagram.sql" />
+    <Build Include="dbo\Stored Procedures\sp_creatediagram.sql" />
+    <Build Include="dbo\Stored Procedures\sp_alterdiagram.sql" />
+    <Build Include="dbo\User Defined Types\DatosBoletos.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SistemaTeatrosBD.refactorlog" />

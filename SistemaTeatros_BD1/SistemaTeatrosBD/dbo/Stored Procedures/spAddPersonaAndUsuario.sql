@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spAddPersonaAndUsuario
+﻿CREATE PROCEDURE [dbo].[spAddPersonaAndUsuario]
 	@Nombre varchar(50),
 	@FechaNac date,
 	@Cedula bigint,

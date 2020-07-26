@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spGetPresentacionesRangoFechas
+﻿CREATE PROCEDURE [dbo].[spGetPresentacionesRangoFechas]
 	@Fecha_Inicio DATE,
 	@Fecha_Final DATE
 

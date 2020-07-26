@@ -1,4 +1,4 @@
-﻿Create Procedure spAddFila
+﻿Create Procedure [dbo].[spAddFila]
 	@IdBloque int,
 	@Letra char(1),
 	@NumAsientos int

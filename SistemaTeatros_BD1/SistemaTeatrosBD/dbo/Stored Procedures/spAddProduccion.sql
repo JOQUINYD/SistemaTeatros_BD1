@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spAddProduccion
+﻿CREATE PROCEDURE [dbo].[spAddProduccion]
 	@Nombre varchar(50),
 	@Descripcion varchar(300),
 	@Tipo varchar(50),

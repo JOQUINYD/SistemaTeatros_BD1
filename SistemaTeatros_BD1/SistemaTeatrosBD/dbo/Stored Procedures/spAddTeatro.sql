@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spAddTeatro
+﻿CREATE PROCEDURE [dbo].[spAddTeatro]
 	@Nombre varchar(50),
 	@Boleteria int,
 	@Email nvarchar(320),

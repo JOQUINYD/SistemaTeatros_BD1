@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spCambiarEstadoProduccion
+﻿CREATE PROCEDURE [dbo].[spCambiarEstadoProduccion]
 	@Id_Estado int ,
 	@Id_Produccion int 
 

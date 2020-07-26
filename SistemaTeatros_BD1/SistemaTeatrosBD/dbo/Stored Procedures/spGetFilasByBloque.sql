@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spGetFilasByBloque
+﻿CREATE PROCEDURE [dbo].[spGetFilasByBloque]
 	@IdBloque int
 AS
 	SELECT *

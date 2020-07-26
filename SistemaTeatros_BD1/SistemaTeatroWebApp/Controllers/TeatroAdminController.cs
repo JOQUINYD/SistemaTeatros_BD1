@@ -287,8 +287,18 @@ namespace SistemaTeatroWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.spAddPrecio(precioM.IdProduccion, precioM.IdBloque, precioM.Precio);
-                return RedirectToAction("DetailsProduccion", new { IdProduccion = precioM.IdProduccion});
+                try
+                {
+                    db.spAddPrecio(precioM.IdProduccion, precioM.IdBloque, precioM.Precio);
+                    return RedirectToAction("DetailsProduccion", new { IdProduccion = precioM.IdProduccion });
+                }
+                catch (Exception)
+                {
+                    ViewBag.IdBloque = new SelectList(db.Bloques, "Id", "NombreBloque", precioM.IdBloque);
+                    return View(precioM);
+                    throw;
+                }
+                
             }
 
             ViewBag.IdBloque = new SelectList(db.Bloques, "Id", "NombreBloque", precioM.IdBloque);

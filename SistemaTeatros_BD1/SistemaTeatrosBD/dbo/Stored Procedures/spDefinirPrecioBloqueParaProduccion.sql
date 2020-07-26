@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spDefinirPrecioBloqueParaProduccion
+﻿CREATE PROCEDURE [dbo].[spDefinirPrecioBloqueParaProduccion]
 	@Id_Bloque int ,
 	@Id_Produccion int,
 	@Precio decimal(19,4)

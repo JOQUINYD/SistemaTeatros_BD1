@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spGetTeatroById
+﻿CREATE PROCEDURE [dbo].[spGetTeatroById]
 	@IdTeatro int
 AS
 	SELECT * 

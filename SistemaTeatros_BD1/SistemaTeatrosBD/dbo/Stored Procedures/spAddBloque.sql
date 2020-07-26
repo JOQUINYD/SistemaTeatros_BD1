@@ -1,4 +1,4 @@
-﻿Create Procedure spAddBloque
+﻿Create Procedure [dbo].[spAddBloque]
 	@NombreBloque varchar(50),
 	@IdTeatro int
 AS

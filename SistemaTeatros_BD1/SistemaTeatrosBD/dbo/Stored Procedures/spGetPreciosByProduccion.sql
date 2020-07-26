@@ -1,4 +1,4 @@
-﻿Create Procedure spGetPreciosByProduccion
+﻿Create Procedure [dbo].[spGetPreciosByProduccion]
 	@IdProduccion int
 AS
 	Select p.Precio, b.NombreBloque

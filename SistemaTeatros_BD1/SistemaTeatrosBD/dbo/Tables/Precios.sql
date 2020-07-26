@@ -5,5 +5,6 @@
     [IdProduccion] INT NOT NULL, 
     [IdBloque] INT NOT NULL, 
     CONSTRAINT [FK_Precios_Producciones] FOREIGN KEY ([IdProduccion]) REFERENCES [Producciones]([Id]), 
-    CONSTRAINT [FK_Precios_Bloques] FOREIGN KEY ([IdBloque]) REFERENCES [Bloques]([Id])
+    CONSTRAINT [FK_Precios_Bloques] FOREIGN KEY ([IdBloque]) REFERENCES [Bloques]([Id]), 
+    CONSTRAINT [AK_Precios] UNIQUE (IdProduccion, IdBloque)
 )

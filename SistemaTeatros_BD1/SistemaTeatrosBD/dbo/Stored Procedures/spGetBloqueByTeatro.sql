@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spGetBloqueByTeatro
+﻿CREATE PROCEDURE [dbo].[spGetBloqueByTeatro]
 	@IdTeatro int
 AS
 	SELECT *

@@ -1,4 +1,4 @@
-﻿Create Procedure spGetPresentacionesByFechaHora
+﻿Create Procedure [dbo].[spGetPresentacionesByFechaHora]
 	@Fecha date,
 	@Hora time(7),
 	@IdTeatro int

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE spAddPresentacion
+﻿CREATE PROCEDURE [dbo].[spAddPresentacion]
 	@Fecha date,
 	@Hora time(7),
 	@IdProduccion int 

@@ -8,6 +8,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
 {
     public class AsientosDisponibles
     {
+        [Display(Name = "Fila")]
         public string Letra { get; set; }
 
         public string asientos { get; set; }

@@ -300,6 +300,7 @@ namespace SistemaTeatroWebApp.Controllers
         {
             var presentacionInfo = db.spGetPresentacionById(IdPresentacion).FirstOrDefault();
             var bloqueInfo = db.spGetInfoBloqueById(IdBloque).FirstOrDefault();
+            var precioBloque = db.spGetPrecioByPresBloque(IdPresentacion, IdBloque).FirstOrDefault();
             CompraBoleto cp = new CompraBoleto
             {
                 IdPresentacion = IdPresentacion,
@@ -313,7 +314,8 @@ namespace SistemaTeatroWebApp.Controllers
                 Hora = presentacionInfo.Hora,
                 asientos = new List<AsientosDisponibles>(),
                 factura = new Factura(),
-                cantidadAsientos = cantAsientos
+                cantidadAsientos = cantAsientos,
+                precioTotal = (decimal)precioBloque * cantAsientos
             };
 
 

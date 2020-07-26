@@ -553,5 +553,18 @@ namespace SistemaTeatroWebApp.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetTeatros_Result>("spGetTeatros");
         }
+    
+        public virtual ObjectResult<Nullable<decimal>> spGetPrecioByPresBloque(Nullable<int> idPresentacion, Nullable<int> idBloque)
+        {
+            var idPresentacionParameter = idPresentacion.HasValue ?
+                new ObjectParameter("IdPresentacion", idPresentacion) :
+                new ObjectParameter("IdPresentacion", typeof(int));
+    
+            var idBloqueParameter = idBloque.HasValue ?
+                new ObjectParameter("IdBloque", idBloque) :
+                new ObjectParameter("IdBloque", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("spGetPrecioByPresBloque", idPresentacionParameter, idBloqueParameter);
+        }
     }
 }

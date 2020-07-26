@@ -220,7 +220,8 @@ namespace SistemaTeatroWebApp.Controllers
                 NombreTeatro = presentacionInfo.NombreTeatro,
                 IdTeatro = presentacionInfo.IdTeatro,
                 Fecha = presentacionInfo.Fecha,
-                Hora = presentacionInfo.Hora
+                Hora = presentacionInfo.Hora,
+                cantidadAsientos = 1
             };
 
             ViewBag.IdBloque = new SelectList(db.Bloques.Where(t => t.IdTeatro == cp.IdTeatro), "Id", "NombreBloque");
@@ -290,12 +291,12 @@ namespace SistemaTeatroWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("ComprarBoletos", new { IdPresentacion = cp.IdPresentacion, IdBloque = cp.IdBloque, Letra = cp.Letra });
+                return RedirectToAction("ComprarBoletos", new { IdPresentacion = cp.IdPresentacion, IdBloque = cp.IdBloque, Letra = cp.Letra, cantAsientos = cp.cantidadAsientos });
             }
             return View();
         }
 
-        public ActionResult ComprarBoletos(int? IdPresentacion, int? IdBloque, string Letra)
+        public ActionResult ComprarBoletos(int? IdPresentacion, int? IdBloque, string Letra, int cantAsientos)
         {
             var presentacionInfo = db.spGetPresentacionById(IdPresentacion).FirstOrDefault();
             var bloqueInfo = db.spGetInfoBloqueById(IdBloque).FirstOrDefault();
@@ -311,7 +312,8 @@ namespace SistemaTeatroWebApp.Controllers
                 Fecha = presentacionInfo.Fecha,
                 Hora = presentacionInfo.Hora,
                 asientos = new List<AsientosDisponibles>(),
-                factura = new Factura()
+                factura = new Factura(),
+                cantidadAsientos = cantAsientos
             };
 
 
@@ -327,7 +329,7 @@ namespace SistemaTeatroWebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult ComprarBoletos(CompraBoleto cp)
+        public ActionResult ComprarBoletos(CompraBoleto cp, int[] Dist)
         {
             // int[] Dist, string Nombre, int id, 
 
@@ -337,7 +339,6 @@ namespace SistemaTeatroWebApp.Controllers
             builder.IntegratedSecurity = true;
 
             DateTime currentDate = DateTime.Now;
-            int[] Dist = { 1, 3, 4 };
 
             var connectionString = builder.ToString();
 

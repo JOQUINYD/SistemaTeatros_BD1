@@ -35,5 +35,9 @@ namespace SistemaTeatroWebApp.Models.AppModels
         public List<AsientosDisponibles> asientos { get; set; }
 
         public Factura factura { get; set; }
+
+        [Display(Name = "Cantidad de Asientos")]
+        [Range(1, 8, ErrorMessage = "Mínimo 1 asiento - Máximo 8 asientos")]
+        public int cantidadAsientos { get; set; }
     }
 }

@@ -64,9 +64,8 @@ namespace SistemaTeatroWebApp.Controllers
             ViewBag.IdProduccionEstado = new SelectList(db.ProduccionEstados.Where(e => e.Id == 0).ToList(), "Id", "Estado");
             //var oUsuario = (Usuarios)Session["User"];
             var oUsuario = (Usuarios) System.Web.HttpContext.Current.Session["User"];
-            var idTeatro = (from d in db.Personas
-                            where d.Cedula == oUsuario.CedulaPersona
-                            select d.IdTeatro).FirstOrDefault();
+            var idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
+
             ViewBag.IdTeatro = new SelectList(db.Teatros.Where(t => t.Id == idTeatro), "Id", "Nombre");
             return View();
         }

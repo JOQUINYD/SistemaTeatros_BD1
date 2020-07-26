@@ -333,51 +333,29 @@ namespace SistemaTeatroWebApp.Controllers
         [HttpPost]
         public ActionResult ComprarBoletos(CompraBoleto cp, int[] Dist)
         {
-            // int[] Dist, string Nombre, int id, 
+            cp.factura = PaymentController.processPayment(cp.factura, (int)cp.precioTotal);
 
-            var builder = new SqlConnectionStringBuilder();
-            builder.DataSource = @"DESKTOP-ED7N4A2";
-            builder.InitialCatalog = "SistemaTeatros_BD1";
-            builder.IntegratedSecurity = true;
-
-            DateTime currentDate = DateTime.Now;
-
-            var connectionString = builder.ToString();
-
-            using (SqlConnection sql = new SqlConnection(connectionString))
+            if (cp.factura.aprobado)
             {
-                using (SqlCommand cmd = new SqlCommand("spCompraBoletosYFactura", sql))
+                try
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@Nombre_Cliente", cp.factura.NombreCliente));
-                    cmd.Parameters.Add(new SqlParameter("@Email", cp.factura.Email));
-                    cmd.Parameters.Add(new SqlParameter("@Fecha", currentDate));
-                    cmd.Parameters.Add(new SqlParameter("@Telefono", cp.factura.Telefono));
-                    cmd.Parameters.Add(new SqlParameter("@Hora", currentDate.TimeOfDay));
-                    cmd.Parameters.Add(new SqlParameter("@Numero_Aprobacion", 75));
-                    cmd.Parameters.Add(new SqlParameter("@Boletos", getBoletosTable(cp.IdPresentacion, cp.IdBloque, cp.Letra, Dist)));
-                    sql.Open();
-                    cmd.ExecuteNonQuery();
-                    sql.Close();
-                }                
+                    PaymentController.storePayment(cp, Dist);
+                    ViewBag.PaymentResult = "Compra realizada con exito. Se le enviara un correo con la factura. Gracias";
+                    return View(cp);
+                }
+                catch (Exception)
+                {
+                    ViewBag.PaymentResult = "No se pudo realizar la compra. Lo sentimos";
+                    return View(cp);
+                    throw;
+                }
             }
-            return RedirectToAction("Cartelera");
-        }
-
-        public DataTable getBoletosTable(int? IdPresentacion, int? IdBloque, string Letra, int[] dist)
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("IdPresentacion");
-            dt.Columns.Add("LetraFila");
-            dt.Columns.Add("IdBloqueFila");
-            dt.Columns.Add("NumAsiento");
-
-            foreach (var asiento in dist)
+            else
             {
-                dt.Rows.Add(IdPresentacion, Letra, IdBloque, asiento);
+                ViewBag.PaymentResult = "Metodo de pago no aceptado. Compra no realizada. Lo sentimos";
+                return View(cp);
             }
-
-            return dt;
         }
+
     }
 }

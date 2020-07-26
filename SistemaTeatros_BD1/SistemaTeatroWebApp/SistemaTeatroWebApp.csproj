@@ -225,6 +225,7 @@
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\HashController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\SystemAdminController.cs" />
     <Compile Include="Controllers\TeatroAdminController.cs" />
     <Compile Include="Controllers\TeatroAgenteController.cs" />
@@ -456,6 +457,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Hash\" />
+    <Folder Include="Views\Payment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

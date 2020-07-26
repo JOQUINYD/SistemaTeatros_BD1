@@ -17,6 +17,8 @@
         @Html.HiddenFor(model => model.IdPresentacion)
         @Html.HiddenFor(model => model.IdBloque)
         @Html.HiddenFor(model => model.Letra)
+        @Html.HiddenFor(model => model.cantidadAsientos)
+        @Html.HiddenFor(model => model.asientos)
 
         <div class="form-group">
             @Html.LabelFor(model => model.NombreTeatro, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -87,23 +89,16 @@
             }
         </table>
 
-        @for (int i = 0; i < Model.cantidadAsientos; i++) {
+        @for (int i = 0; i < Model.cantidadAsientos; i++)
+        {
             string asientoLabel = "Asiento ";
             <div class="form-group">
-            @Html.Label(asientoLabel, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label(asientoLabel, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <input type="number" name="Dist[]" class="field-long" required />    
+                    <input type="number" name="Dist[]" class="field-long" required />
                 </div>
             </div>
         }
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.asientos, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Asientos", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.asientos, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
 
         <hr />
         <h4>Informacion de pago</h4>
@@ -142,6 +137,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.factura.ExpirationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.factura.ExpirationDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.factura.ExpirationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.factura.CVC, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.factura.CVC, new { htmlAttributes = new { @class = "form-control" } })
@@ -161,3 +164,14 @@
 <div>
     @Html.ActionLink("Regresar", "EscogerBloque", new { IdPresentacion = Model.IdPresentacion })
 </div>
+
+
+@if (ViewBag.PaymentResult != null)
+{
+    <script type="text/javascript">
+    window.onload = function () {
+        alert("@ViewBag.PaymentResult");
+        window.location.href = "/Cliente/Cartelera"
+    }
+    </script>
+}

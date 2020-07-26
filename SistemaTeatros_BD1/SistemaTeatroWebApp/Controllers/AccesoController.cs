@@ -22,12 +22,7 @@ namespace SistemaTeatroWebApp.Controllers
         {
             try
             {
-                var oUser = db.Usuarios.Where(u => u.Usuario == User).FirstOrDefault();
-
-                //var oUser = (from d in db.Usuarios
-                //             where d.Usuario == User.Trim()
-                //             && d.Password == Pass.Trim()
-                //             select d).FirstOrDefault();
+                var oUser = db.spGetMatchingUser(User).FirstOrDefault();
 
                 if (oUser == null)
                 {
@@ -36,15 +31,14 @@ namespace SistemaTeatroWebApp.Controllers
                 }
                 else
                 {
-                    Usuarios uUser = new Usuarios
+                    VwUsuarios uUser = new VwUsuarios
                     {
                         Usuario = oUser.Usuario,
-                        Password = oUser.Password,
                         IdAcceso = oUser.IdAcceso,
                         CedulaPersona = oUser.CedulaPersona
                     };
 
-                    if (HashController.ConfirmPassword(Pass, uUser.Password))
+                    if (HashController.ConfirmPassword(Pass, oUser.Password))
                     {
                         Session["User"] = uUser;
 

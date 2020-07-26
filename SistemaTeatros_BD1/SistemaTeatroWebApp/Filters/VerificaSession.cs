@@ -10,7 +10,7 @@ namespace SistemaTeatroWebApp.Filters
 {
     public class VerificaSession : ActionFilterAttribute
     {
-        private Usuarios oUsuario;
+        private VwUsuarios oUsuario;
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             try

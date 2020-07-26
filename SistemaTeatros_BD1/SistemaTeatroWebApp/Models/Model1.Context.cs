@@ -42,6 +42,7 @@ namespace SistemaTeatroWebApp.Models
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Teatros> Teatros { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<VwUsuarios> VwUsuarios { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -380,6 +381,15 @@ namespace SistemaTeatroWebApp.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spDefinirPrecioBloqueParaProduccion", id_BloqueParameter, id_ProduccionParameter, precioParameter);
         }
     
+        public virtual ObjectResult<spGetAccesoById_Result> spGetAccesoById(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAccesoById_Result>("spGetAccesoById", idParameter);
+        }
+    
         public virtual ObjectResult<Nullable<int>> spGetAsientosVaciosFila(Nullable<int> idPresentacion, Nullable<int> idBloque, string letra)
         {
             var idPresentacionParameter = idPresentacion.HasValue ?
@@ -440,6 +450,19 @@ namespace SistemaTeatroWebApp.Models
                 new ObjectParameter("Usuario", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetMatchingUser_Result>("spGetMatchingUser", usuarioParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> spGetPrecioByPresBloque(Nullable<int> idPresentacion, Nullable<int> idBloque)
+        {
+            var idPresentacionParameter = idPresentacion.HasValue ?
+                new ObjectParameter("IdPresentacion", idPresentacion) :
+                new ObjectParameter("IdPresentacion", typeof(int));
+    
+            var idBloqueParameter = idBloque.HasValue ?
+                new ObjectParameter("IdBloque", idBloque) :
+                new ObjectParameter("IdBloque", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("spGetPrecioByPresBloque", idPresentacionParameter, idBloqueParameter);
         }
     
         public virtual ObjectResult<spGetPreciosByProduccion_Result> spGetPreciosByProduccion(Nullable<int> idProduccion)
@@ -552,28 +575,6 @@ namespace SistemaTeatroWebApp.Models
         public virtual ObjectResult<spGetTeatros_Result> spGetTeatros()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetTeatros_Result>("spGetTeatros");
-        }
-    
-        public virtual ObjectResult<Nullable<decimal>> spGetPrecioByPresBloque(Nullable<int> idPresentacion, Nullable<int> idBloque)
-        {
-            var idPresentacionParameter = idPresentacion.HasValue ?
-                new ObjectParameter("IdPresentacion", idPresentacion) :
-                new ObjectParameter("IdPresentacion", typeof(int));
-    
-            var idBloqueParameter = idBloque.HasValue ?
-                new ObjectParameter("IdBloque", idBloque) :
-                new ObjectParameter("IdBloque", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("spGetPrecioByPresBloque", idPresentacionParameter, idBloqueParameter);
-        }
-    
-        public virtual ObjectResult<spGetAccesoById_Result> spGetAccesoById(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAccesoById_Result>("spGetAccesoById", idParameter);
         }
     }
 }

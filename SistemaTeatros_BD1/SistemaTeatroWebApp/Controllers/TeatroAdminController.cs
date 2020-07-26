@@ -30,7 +30,11 @@ namespace SistemaTeatroWebApp.Controllers
         public ActionResult CreateUsuario()
         {
             ViewBag.IdAcceso = new SelectList(db.Accesos.Where(i => i.Id == 2).ToList(), "Id", "Tipo");
-            ViewBag.IdTeatro = new SelectList(db.Teatros, "Id", "Nombre");
+
+            var oUsuario = (VwUsuarios)System.Web.HttpContext.Current.Session["User"];
+            var idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
+
+            ViewBag.IdTeatro = new SelectList(db.Teatros.Where(t => t.Id == idTeatro), "Id", "Nombre");
             return View();
         }
 
@@ -53,7 +57,11 @@ namespace SistemaTeatroWebApp.Controllers
             }
 
             ViewBag.IdAcceso = new SelectList(db.Accesos, "Id", "Tipo");
-            ViewBag.IdTeatro = new SelectList(db.Teatros, "Id", "Nombre");
+
+            var oUsuario = (VwUsuarios)System.Web.HttpContext.Current.Session["User"];
+            var idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
+
+            ViewBag.IdTeatro = new SelectList(db.Teatros.Where(t => t.Id == idTeatro), "Id", "Nombre");
             return View(usuarioCompleto);
         }
 
@@ -63,7 +71,7 @@ namespace SistemaTeatroWebApp.Controllers
         {
             ViewBag.IdProduccionEstado = new SelectList(db.ProduccionEstados.Where(e => e.Id == 0).ToList(), "Id", "Estado");
             //var oUsuario = (Usuarios)Session["User"];
-            var oUsuario = (Usuarios) System.Web.HttpContext.Current.Session["User"];
+            var oUsuario = (VwUsuarios) System.Web.HttpContext.Current.Session["User"];
             var idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
 
             ViewBag.IdTeatro = new SelectList(db.Teatros.Where(t => t.Id == idTeatro), "Id", "Nombre");
@@ -85,8 +93,10 @@ namespace SistemaTeatroWebApp.Controllers
             }
 
             ViewBag.IdProduccionEstado = new SelectList(db.ProduccionEstados.Where(e => e.Id == 0).ToList(), "Id", "Estado");
-            var oUsuario = (Usuarios)Session["User"];
-            ViewBag.IdTeatro = new SelectList(db.Teatros.Where(t => t.Id == oUsuario.Personas.IdTeatro), "Id", "Nombre");
+            var oUsuario = (VwUsuarios)Session["User"];
+            var idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
+
+            ViewBag.IdTeatro = new SelectList(db.Teatros.Where(t => t.Id == idTeatro), "Id", "Nombre");
             return View(produccion);
         }
 
@@ -120,7 +130,7 @@ namespace SistemaTeatroWebApp.Controllers
             {
                 if(presentacion.Fecha >= presentacion.FechaInit && presentacion.Fecha <= presentacion.FechaFin)
                 {
-                    var oUsuario = (Usuarios)System.Web.HttpContext.Current.Session["User"];
+                    var oUsuario = (VwUsuarios)System.Web.HttpContext.Current.Session["User"];
                     int? idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
                     if (!db.spGetPresentacionesByFechaHora(presentacion.Fecha, presentacion.Hora, idTeatro).Any())
                     {
@@ -139,7 +149,7 @@ namespace SistemaTeatroWebApp.Controllers
         [AuthorizeUser(IdAcceso: 1)]
         public ActionResult IndexProduccion()
         {
-            var oUsuario = (Usuarios)System.Web.HttpContext.Current.Session["User"];
+            var oUsuario = (VwUsuarios)System.Web.HttpContext.Current.Session["User"];
             int? idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
 
             var producciones = db.spGetProduccionesByTeatro(idTeatro);

@@ -10,7 +10,7 @@ namespace SistemaTeatroWebApp.Filters
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class AuthorizeUser : AuthorizeAttribute
     {
-        private Usuarios oUsuario;
+        private VwUsuarios oUsuario;
         private SistemaTeatros_BD1Entities db = new SistemaTeatros_BD1Entities();
         private int IdAcceso;
 
@@ -24,7 +24,7 @@ namespace SistemaTeatroWebApp.Filters
 
             try
             {
-                oUsuario = (Usuarios)HttpContext.Current.Session["User"];
+                oUsuario = (VwUsuarios)HttpContext.Current.Session["User"];
 
                 if(oUsuario.IdAcceso != this.IdAcceso)
                 {

@@ -292,6 +292,8 @@ namespace SistemaTeatroWebApp.Controllers
             }
 
             ViewBag.Letra = new SelectList(db.Filas.Where(f => f.IdBloque == IdBloque), "Letra", "Letra");
+            string[] pagos = { "Efectivo", "Tarjeta de credito" };
+            ViewBag.paymentMethod = new SelectList(pagos);
             return View(cp);
         }
 
@@ -301,7 +303,14 @@ namespace SistemaTeatroWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("ComprarBoletos", new { IdPresentacion = cp.IdPresentacion, IdBloque = cp.IdBloque, Letra = cp.Letra, cantAsientos = cp.cantidadAsientos });
+                if(cp.paymentMethod == "Tarjeta de credito")
+                {
+                    return RedirectToAction("ComprarBoletos", new { IdPresentacion = cp.IdPresentacion, IdBloque = cp.IdBloque, Letra = cp.Letra, cantAsientos = cp.cantidadAsientos });
+                }
+                else
+                {
+                    return RedirectToAction("ComprarBoletosEfectivo", new { IdPresentacion = cp.IdPresentacion, IdBloque = cp.IdBloque, Letra = cp.Letra, cantAsientos = cp.cantidadAsientos });
+                }
             }
             return View();
         }
@@ -366,6 +375,61 @@ namespace SistemaTeatroWebApp.Controllers
             {
                 ViewBag.PaymentResult = "Metodo de pago no aceptado. Compra no realizada. Lo sentimos";
                 return View(cp);
+            }
+        }
+
+        [AuthorizeUser(IdAcceso: 2)]
+        public ActionResult ComprarBoletosEfectivo(int? IdPresentacion, int? IdBloque, string Letra, int cantAsientos)
+        {
+            var presentacionInfo = db.spGetPresentacionById(IdPresentacion).FirstOrDefault();
+            var bloqueInfo = db.spGetInfoBloqueById(IdBloque).FirstOrDefault();
+            var precioBloque = db.spGetPrecioByPresBloque(IdPresentacion, IdBloque).FirstOrDefault();
+            CompraBoleto cp = new CompraBoleto
+            {
+                IdPresentacion = IdPresentacion,
+                NombreObra = presentacionInfo.NombreObra,
+                NombreTeatro = presentacionInfo.NombreTeatro,
+                IdTeatro = presentacionInfo.IdTeatro,
+                IdBloque = IdBloque,
+                NombreBloque = bloqueInfo.NombreBloque,
+                Letra = Letra,
+                Fecha = presentacionInfo.Fecha,
+                Hora = presentacionInfo.Hora,
+                asientos = new List<AsientosDisponibles>(),
+                factura = new Factura(),
+                cantidadAsientos = cantAsientos,
+                precioTotal = (decimal)precioBloque * cantAsientos
+            };
+
+
+            string asientosDisp = string.Join(" - ", db.spGetAsientosVaciosFila(cp.IdPresentacion, cp.IdBloque, cp.Letra));
+
+            cp.asientos.Add(new AsientosDisponibles
+            {
+                Letra = cp.Letra,
+                asientos = asientosDisp
+            });
+
+            return View(cp);
+        }
+
+        [HttpPost]
+        [AuthorizeUser(IdAcceso: 2)]
+        public ActionResult ComprarBoletosEfectivo(CompraBoleto cp, int[] Dist)
+        {
+            cp.factura = PaymentController.processPaymentEfectivo(cp.factura);
+
+            try
+            {
+                PaymentController.storePayment(cp, Dist);
+                ViewBag.PaymentResult = "Compra realizada con exito. Se le enviara un correo con la factura. Gracias";
+                return View(cp);
+            }
+            catch (Exception)
+            {
+                ViewBag.PaymentResult = "No se pudo realizar la compra. Lo sentimos";
+                return View(cp);
+                throw;
             }
         }
     }

@@ -45,5 +45,8 @@ namespace SistemaTeatroWebApp.Models.AppModels
 
         [Display(Name = "Precio Total")]
         public decimal precioTotal { get; set; }
+
+        [Display(Name = "Método de pago")]
+        public string paymentMethod { get; set; }
     }
 }

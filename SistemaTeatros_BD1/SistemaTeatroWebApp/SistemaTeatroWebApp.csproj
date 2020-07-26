@@ -453,6 +453,7 @@
     <Content Include="Views\TeatroAgente\EscogerBloque.cshtml" />
     <Content Include="Views\TeatroAgente\EscogerFila.cshtml" />
     <Content Include="Views\TeatroAgente\ComprarBoletos.cshtml" />
+    <Content Include="Views\TeatroAgente\ComprarBoletosEfectivo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

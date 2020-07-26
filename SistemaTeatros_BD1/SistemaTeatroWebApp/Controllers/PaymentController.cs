@@ -35,6 +35,15 @@ namespace SistemaTeatroWebApp.Controllers
             }
         }
 
+        public static Factura processPaymentEfectivo(Factura factura)
+        {
+            Random random = new Random();
+            factura.FechaHoraAprobacion = DateTime.Now;
+            factura.aprobado = true;
+            factura.numeroDeComprobacion = random.Next(100000, 999999);
+            return factura;
+        }
+
         public static void storePayment(CompraBoleto cp, int[] Dist)
         {
             var builder = new SqlConnectionStringBuilder();
@@ -54,7 +63,7 @@ namespace SistemaTeatroWebApp.Controllers
                     cmd.Parameters.Add(new SqlParameter("@Fecha", cp.factura.FechaHoraAprobacion));
                     cmd.Parameters.Add(new SqlParameter("@Telefono", cp.factura.Telefono));
                     cmd.Parameters.Add(new SqlParameter("@Hora", cp.factura.FechaHoraAprobacion.TimeOfDay));
-                    cmd.Parameters.Add(new SqlParameter("@Numero_Aprobacion", 75));
+                    cmd.Parameters.Add(new SqlParameter("@Numero_Aprobacion", cp.factura.numeroDeComprobacion));
                     cmd.Parameters.Add(new SqlParameter("@Boletos", getBoletosTable(cp.IdPresentacion, cp.IdBloque, cp.Letra, Dist)));
                     sql.Open();
                     cmd.ExecuteNonQuery();

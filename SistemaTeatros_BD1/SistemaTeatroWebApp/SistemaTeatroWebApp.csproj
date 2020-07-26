@@ -295,6 +295,9 @@
     <Compile Include="Models\Reportes.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\spGetAccesoById_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\spGetBloqueByTeatro_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

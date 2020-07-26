@@ -566,5 +566,14 @@ namespace SistemaTeatroWebApp.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("spGetPrecioByPresBloque", idPresentacionParameter, idBloqueParameter);
         }
+    
+        public virtual ObjectResult<spGetAccesoById_Result> spGetAccesoById(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAccesoById_Result>("spGetAccesoById", idParameter);
+        }
     }
 }

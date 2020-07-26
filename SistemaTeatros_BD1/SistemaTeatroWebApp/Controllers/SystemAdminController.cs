@@ -28,8 +28,8 @@ namespace SistemaTeatroWebApp.Controllers
         [AuthorizeUser(IdAcceso: 0)]
         public ActionResult CreateUsuario()
         {
-            ViewBag.IdAcceso = new SelectList(db.Accesos.Where(a => a.Id == 1), "Id", "Tipo");
-            ViewBag.IdTeatro = new SelectList(db.Teatros, "Id", "Nombre");
+            ViewBag.IdAcceso = new SelectList(db.spGetAccesoById(1), "Id", "Tipo");
+            ViewBag.IdTeatro = new SelectList(db.spGetTeatros(), "Id", "Nombre");
             return View();
         }
 
@@ -57,8 +57,8 @@ namespace SistemaTeatroWebApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdAcceso = new SelectList(db.Accesos, "Id", "Tipo");
-            ViewBag.IdTeatro = new SelectList(db.Teatros, "Id", "Nombre");
+            ViewBag.IdAcceso = new SelectList(db.spGetAccesoById(1), "Id", "Tipo");
+            ViewBag.IdTeatro = new SelectList(db.spGetTeatros(), "Id", "Nombre");
             return View(usuarioCompleto);
         }
 
@@ -205,7 +205,7 @@ namespace SistemaTeatroWebApp.Controllers
         [AuthorizeUser(IdAcceso: 0)]
         public ActionResult CreateFila(int? IdBloque, string NombreBloque, int? IdTeatro, string NombreTeatro)
         {
-            var lastFila = db.Filas.Where(b => b.IdBloque == IdBloque).OrderBy(l => l.Letra).ToList();
+            var lastFila = db.spGetFilasByBloque(IdBloque).ToList();
             char letra = 'A';
 
             if(lastFila.Any())

@@ -118,6 +118,9 @@
                 <td>
                     @Html.ActionLink("Asientos disponibles", "AsientosDisponibles", new { IdPresentacion = item.IdPresentacion, NombreObra = Model.NombreObra, FechaI = Model.FechaBusquedaInicio, FechaF = Model.FechaBusquedaFinal, IdTeatro = Model.IdTeatro, NombreTeatro = Model.Teatro, IdProduccion = Model.Id })
                 </td>
+                <td>
+                    @Html.ActionLink("Comprar Boletos", "EscogerBloque", new { IdPresentacion = item.IdPresentacion })
+                </td>
             </tr>
         }
     </table>

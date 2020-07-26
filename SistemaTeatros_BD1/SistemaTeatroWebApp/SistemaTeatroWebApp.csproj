@@ -449,6 +449,9 @@
     <Content Include="Views\Cliente\EscogerBloque.cshtml" />
     <Content Include="Views\Cliente\EscogerFila.cshtml" />
     <Content Include="Views\Cliente\ComprarBoletos.cshtml" />
+    <Content Include="Views\TeatroAgente\EscogerBloque.cshtml" />
+    <Content Include="Views\TeatroAgente\EscogerFila.cshtml" />
+    <Content Include="Views\TeatroAgente\ComprarBoletos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

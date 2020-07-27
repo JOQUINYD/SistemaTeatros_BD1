@@ -186,7 +186,7 @@ namespace SistemaTeatroWebApp.Controllers
                 IdProduccion = IdProduccion
             };
 
-            ViewBag.IdBloque = new SelectList(db.Bloques.Where(b => b.IdTeatro == IdTeatro), "Id", "NombreBloque");
+            ViewBag.IdBloque = new SelectList(db.spGetBloquesByTeatroConPrecio(pad.IdTeatro, pad.IdPresentacion), "Id", "NombreBloque");
             return View(pad);
         }
 
@@ -212,7 +212,7 @@ namespace SistemaTeatroWebApp.Controllers
                 });
             }
 
-            ViewBag.IdBloque = new SelectList(db.Bloques.Where(b => b.IdTeatro == pad.IdTeatro), "Id", "NombreBloque");
+            ViewBag.IdBloque = new SelectList(db.spGetBloquesByTeatroConPrecio(pad.IdTeatro, pad.IdPresentacion), "Id", "NombreBloque");
             return View(pad);
         }
 
@@ -231,7 +231,7 @@ namespace SistemaTeatroWebApp.Controllers
                 cantidadAsientos = 1
             };
 
-            ViewBag.IdBloque = new SelectList(db.Bloques.Where(t => t.IdTeatro == cp.IdTeatro), "Id", "NombreBloque");
+            ViewBag.IdBloque = new SelectList(db.spGetBloquesByTeatroConPrecio(cp.IdTeatro, cp.IdPresentacion), "Id", "NombreBloque");
             return View(cp);
         }
 
@@ -256,7 +256,7 @@ namespace SistemaTeatroWebApp.Controllers
                 Fecha = presentacionInfo.Fecha,
                 Hora = presentacionInfo.Hora
             };
-            ViewBag.IdBloque = new SelectList(db.Bloques.Where(t => t.IdTeatro == cp.IdTeatro), "Id", "NombreBloque");
+            ViewBag.IdBloque = new SelectList(db.spGetBloquesByTeatroConPrecio(cp.IdTeatro, cp.IdPresentacion), "Id", "NombreBloque");
             return View(cp);
         }
 
@@ -361,6 +361,11 @@ namespace SistemaTeatroWebApp.Controllers
                 try
                 {
                     PaymentController.storePayment(cp, Dist);
+
+                    Email email = new Email();
+
+                    email.SendEmail("pruebatecjj@gmail.com", "2019380125", "pruebatecjj@gmail.com", "Factura #" + cp.factura.numeroDeComprobacion, PaymentController.getFacturaEmailBody(cp, Dist));
+
                     ViewBag.PaymentResult = "Compra realizada con exito. Se le enviara un correo con la factura. Gracias";
                     return View(cp);
                 }
@@ -422,6 +427,11 @@ namespace SistemaTeatroWebApp.Controllers
             try
             {
                 PaymentController.storePayment(cp, Dist);
+
+                Email email = new Email();
+
+                email.SendEmail("pruebatecjj@gmail.com", "2019380125", "pruebatecjj@gmail.com", "Factura #" + cp.factura.numeroDeComprobacion, PaymentController.getFacturaEmailBody(cp, Dist));
+
                 ViewBag.PaymentResult = "Compra realizada con exito. Se le enviara un correo con la factura. Gracias";
                 return View(cp);
             }

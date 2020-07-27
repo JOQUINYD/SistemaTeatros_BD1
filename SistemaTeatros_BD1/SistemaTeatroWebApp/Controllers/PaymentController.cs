@@ -88,5 +88,25 @@ namespace SistemaTeatroWebApp.Controllers
             return dt;
         }
 
+
+        public static string getFacturaEmailBody(CompraBoleto cp, int[] Dist)
+        {
+            string body = "----------------- " + cp.NombreTeatro + " -----------------@";
+            body += "Produccion: " + cp.NombreObra + "@";
+            body += "Fecha: " + cp.Fecha + "@";
+            body += "Hora: " + cp.Hora.ToString() + "@";
+            body += "Bloque: " + cp.NombreBloque + "@";
+            body += "Fila: " + cp.Letra + "@";
+            body += "Asientos: " + string.Join(" - ", Dist) + "@";
+            body += "----------------- Información de pago -----------------@";
+            body += "Precio Total: " + cp.precioTotal.ToString() + "@";
+            body += "Cliente: " + cp.factura.NombreCliente + "@";
+            body += "Código de Factura: " + cp.factura.numeroDeComprobacion + "@@";
+            body += "----------------- Gracias por su compra -----------------";
+
+            body = body.Replace("@", System.Environment.NewLine);
+
+            return body;
+        }
     }
 }

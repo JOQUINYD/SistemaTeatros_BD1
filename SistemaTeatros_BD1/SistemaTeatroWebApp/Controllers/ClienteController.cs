@@ -42,7 +42,7 @@ namespace SistemaTeatroWebApp.Controllers
             DateTime fechaActual = DateTime.Today;
             foreach (var item in producciones)
             {
-                if(!((item.IdProduccionEstado == 5 || item.IdProduccionEstado == 4) && fechaActual > item.FechaFin.AddSeconds(1)))
+                if(!((item.IdProduccionEstado == 5 || item.IdProduccionEstado == 4) && fechaActual > item.FechaFin.AddMonths(1)))
                 {
                     Produccion prod = new Produccion
                     {
@@ -166,7 +166,7 @@ namespace SistemaTeatroWebApp.Controllers
 
         public ActionResult AsientosDisponibles(int? IdPresentacion, string NombreObra, DateTime? FechaI, DateTime? FechaF, int? IdTeatro, string NombreTeatro, int? IdProduccion)
         {
-            Presentaciones pre = db.Presentaciones.Where(p => p.Id == IdPresentacion).FirstOrDefault();
+            var pre = db.spGetPresentacionById(IdPresentacion).FirstOrDefault();
 
             PageAsientosDisponibles pad = new PageAsientosDisponibles
             {

@@ -27,5 +27,7 @@ namespace SistemaTeatroWebApp.Models.AppModels
 
         [Display(Name = "Producción")]
         public string NombreProduccion { get; set; }
+
+        public int? IdTeatro { get; set; }
     }
 }

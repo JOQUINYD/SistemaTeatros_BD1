@@ -28,7 +28,7 @@ namespace SistemaTeatroWebApp.Controllers
         [AuthorizeUser(IdAcceso: 0)]
         public ActionResult CreateUsuario()
         {
-            ViewBag.IdAcceso = new SelectList(db.spGetAccesoById(1), "Id", "Tipo");
+            ViewBag.IdAcceso = new SelectList(db.Accesos, "Id", "Tipo");
             ViewBag.IdTeatro = new SelectList(db.spGetTeatros(), "Id", "Nombre");
             return View();
         }
@@ -265,7 +265,7 @@ namespace SistemaTeatroWebApp.Controllers
         [AllowAnonymous]
         public JsonResult doesUsuarioExist(string Usuario)
         {
-            bool res = db.Usuarios.Any(x => x.Usuario == Usuario);
+            bool res = db.spGetMatchingUser(Usuario).Any();
             if (res)
                 return Json(false, JsonRequestBehavior.AllowGet);
             else

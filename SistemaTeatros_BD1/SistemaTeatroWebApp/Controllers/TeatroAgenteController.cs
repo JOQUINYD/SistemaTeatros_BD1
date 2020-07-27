@@ -43,26 +43,33 @@ namespace SistemaTeatroWebApp.Controllers
             var producciones = db.spGetProduccionesInFechas(FechaInicio, FechaFinal);
             List<Produccion> produccionList = new List<Produccion>();
             DateTime fechaActual = DateTime.Today;
+
+            var oUsuario = (VwUsuarios)System.Web.HttpContext.Current.Session["User"];
+            var idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
+
             foreach (var item in producciones)
             {
-                if (!((item.IdProduccionEstado == 5 || item.IdProduccionEstado == 4) && fechaActual > item.FechaFin.AddSeconds(1)))
+                if (!((item.IdProduccionEstado == 5 || item.IdProduccionEstado == 4) && fechaActual > item.FechaFin.AddMonths(1)))
                 {
-                    Produccion prod = new Produccion
+                    if (idTeatro == item.IdTeatro)
                     {
-                        Id = item.Id,
-                        Descripcion = item.Descripcion,
-                        NombreObra = item.NombreObra,
-                        FechaInit = item.FechaInit.Date,
-                        FechaFin = item.FechaFin.Date,
-                        Tipo = item.Tipo,
-                        Estado = item.Estado,
-                        Teatro = item.Nombre,
-                        IdTeatro = item.IdTeatro,
-                        IdProduccionEstado = item.IdProduccionEstado,
-                        FechaBusquedaInicio = FechaInicio,
-                        FechaBusquedaFinal = FechaFinal
-                    };
-                    produccionList.Add(prod);
+                        Produccion prod = new Produccion
+                        {
+                            Id = item.Id,
+                            Descripcion = item.Descripcion,
+                            NombreObra = item.NombreObra,
+                            FechaInit = item.FechaInit.Date,
+                            FechaFin = item.FechaFin.Date,
+                            Tipo = item.Tipo,
+                            Estado = item.Estado,
+                            Teatro = item.Nombre,
+                            IdTeatro = item.IdTeatro,
+                            IdProduccionEstado = item.IdProduccionEstado,
+                            FechaBusquedaInicio = FechaInicio,
+                            FechaBusquedaFinal = FechaFinal
+                        };
+                        produccionList.Add(prod);
+                    }
                 }
             }
             return produccionList;
@@ -73,24 +80,31 @@ namespace SistemaTeatroWebApp.Controllers
             var producciones = db.spGetProduccionesCartelera();
             List<Produccion> produccionList = new List<Produccion>();
             DateTime fechaActual = DateTime.Today;
+
+            var oUsuario = (VwUsuarios)System.Web.HttpContext.Current.Session["User"];
+            var idTeatro = (int?)db.spGetIdTeatroFromUsuario(oUsuario.Usuario).FirstOrDefault();
+
             foreach (var item in producciones)
             {
                 if (!((item.IdProduccionEstado == 5 || item.IdProduccionEstado == 4) && fechaActual > item.FechaFin.AddSeconds(1)))
                 {
-                    Produccion prod = new Produccion
+                    if (idTeatro == item.IdTeatro)
                     {
-                        Id = item.Id,
-                        Descripcion = item.Descripcion,
-                        NombreObra = item.NombreObra,
-                        FechaInit = item.FechaInit.Date,
-                        FechaFin = item.FechaFin.Date,
-                        Tipo = item.Tipo,
-                        Estado = item.Estado,
-                        Teatro = item.Nombre,
-                        IdTeatro = item.IdTeatro,
-                        IdProduccionEstado = item.IdProduccionEstado
-                    };
-                    produccionList.Add(prod);
+                        Produccion prod = new Produccion
+                        {
+                            Id = item.Id,
+                            Descripcion = item.Descripcion,
+                            NombreObra = item.NombreObra,
+                            FechaInit = item.FechaInit.Date,
+                            FechaFin = item.FechaFin.Date,
+                            Tipo = item.Tipo,
+                            Estado = item.Estado,
+                            Teatro = item.Nombre,
+                            IdTeatro = item.IdTeatro,
+                            IdProduccionEstado = item.IdProduccionEstado
+                        };
+                        produccionList.Add(prod);
+                    }
                 }
             }
             return produccionList;
@@ -171,7 +185,7 @@ namespace SistemaTeatroWebApp.Controllers
         [AuthorizeUser(IdAcceso: 2)]
         public ActionResult AsientosDisponibles(int? IdPresentacion, string NombreObra, DateTime? FechaI, DateTime? FechaF, int? IdTeatro, string NombreTeatro, int? IdProduccion)
         {
-            Presentaciones pre = db.Presentaciones.Where(p => p.Id == IdPresentacion).FirstOrDefault();
+            var pre = db.spGetPresentacionById(IdPresentacion).FirstOrDefault();
 
             PageAsientosDisponibles pad = new PageAsientosDisponibles
             {
@@ -291,7 +305,7 @@ namespace SistemaTeatroWebApp.Controllers
                 });
             }
 
-            ViewBag.Letra = new SelectList(db.Filas.Where(f => f.IdBloque == IdBloque), "Letra", "Letra");
+            ViewBag.Letra = new SelectList(db.spGetFilasByBloque(IdBloque), "Letra", "Letra");
             string[] pagos = { "Efectivo", "Tarjeta de credito" };
             ViewBag.paymentMethod = new SelectList(pagos);
             return View(cp);

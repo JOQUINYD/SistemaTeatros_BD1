@@ -474,6 +474,10 @@ warning 6002: The table/view 'SistemaTeatros_BD1.dbo.VwUsuarios' does not have a
           <Parameter Name="IdTeatro" Type="int" Mode="In" />
         </Function>
         <Function Name="spGetProduccionesCartelera" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spGetProduccionesEstadoById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetProduccionesEstados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spGetProduccionesInFechas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha_Inicio" Type="date" Mode="In" />
           <Parameter Name="Fecha_Final" Type="date" Mode="In" />
@@ -1133,6 +1137,10 @@ warning 6002: The table/view 'SistemaTeatros_BD1.dbo.VwUsuarios' does not have a
             <Parameter Name="IdTeatro" Mode="In" Type="Int32" />
             <Parameter Name="IdPresentacion" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spGetProduccionesEstadoById" ReturnType="Collection(SistemaTeatros_BD1Model.spGetProduccionesEstadoById_Result)">
+          <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetProduccionesEstados" ReturnType="Collection(SistemaTeatros_BD1Model.spGetProduccionesEstados_Result)" />
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -1259,6 +1267,14 @@ warning 6002: The table/view 'SistemaTeatros_BD1.dbo.VwUsuarios' does not have a
         <ComplexType Name="spGetBloquesByTeatroConPrecio_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="String" Name="NombreBloque" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetProduccionesEstadoById_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetProduccionesEstados_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1650,6 +1666,22 @@ warning 6002: The table/view 'SistemaTeatros_BD1.dbo.VwUsuarios' does not have a
               <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetBloquesByTeatroConPrecio_Result">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="NombreBloque" ColumnName="NombreBloque" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetProduccionesEstadoById" FunctionName="SistemaTeatros_BD1Model.Store.spGetProduccionesEstadoById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetProduccionesEstadoById_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetProduccionesEstados" FunctionName="SistemaTeatros_BD1Model.Store.spGetProduccionesEstados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaTeatros_BD1Model.spGetProduccionesEstados_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

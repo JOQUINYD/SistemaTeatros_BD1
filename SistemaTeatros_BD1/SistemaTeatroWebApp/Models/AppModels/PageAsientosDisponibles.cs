@@ -11,14 +11,17 @@ namespace SistemaTeatroWebApp.Models.AppModels
         [Display(Name = "Bloques")]
         public int? IdBloque { get; set; }
 
+        [Display(Name = "Bloque")]
         public string NombreBloque { get; set; }
 
         public int? IdTeatro { get; set; }
 
+        [Display(Name = "Teatro")]
         public string NombreTeatro { get; set; }
 
         public int? IdPresentacion { get; set; }
 
+        [Display(Name = "Obra")]
         public string NombreObra { get; set; }
 
         [DataType(DataType.Date)]
